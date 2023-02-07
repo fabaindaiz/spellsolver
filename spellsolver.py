@@ -3,27 +3,22 @@ from gameboard import Gameboard
 from solver import Solver
 
 
-points = {'a': 1, 'b': 4, 'c': 5, 'd': 3, 'e': 1, 'f': 5, 'g': 3, 'h': 4, 'i': 1, 'j': 7, 'k': 6, 'l': 3, 'm': 4,
-            'n': 2, 'o': 1, 'p': 4, 'q': 8, 'r': 2, 's': 2, 't': 2, 'u': 4, 'v': 5, 'w': 5, 'x': 7, 'y': 4, 'z': 8}
-
-
-def get_word_points(word):
+def get_word_points(path):
     word_points = 0
+    word_bonus = 0
+    word_mult = 1
 
-    for letter in word:
-        word_points += points[letter]
-
-    return word_points
-
-
-def path_in_mult(path, cord):
     for node in path:
-        if node.cord == cord:
-            return True
-    return False
+        word_mult *= node.word_mult
+        word_points += node.points
+    
+    if len(path) >= 6:
+        word_bonus += 10
+
+    return word_points * word_mult + word_bonus
 
 
-def get_posible_paths(solver, word, path, mult_cord):
+def get_posible_paths(solver, word, path):
     arr = []
 
     for neighbor in path[-1].neighbors:
@@ -35,33 +30,27 @@ def get_posible_paths(solver, word, path, mult_cord):
             exist, is_word = solver.exists(actual_word)
 
             if is_word:
-                points = get_word_points(actual_word)
-
-                if path_in_mult(actual_path[1:], mult_cord):
-                    points *= 2
-
+                points = get_word_points(actual_path[1:])
                 arr += [[points, actual_word, actual_path[1].cord]]
             
             if exist:
-                arr += get_posible_paths(solver, actual_word, actual_path, mult_cord)
+                arr += get_posible_paths(solver, actual_word, actual_path)
     
     return arr
 
 
 class Spellsolver:
 
-    def __init__(self, gameboard, solver, mult_cord):
+    def __init__(self, solver, gameboard):
         self.gameboard = gameboard
         self.solver = solver
-        self.mult_cord = mult_cord
     
     def get_words(self):
         arr = []
 
         for tile in self.gameboard.gameboard.values():
-            arr += get_posible_paths(self.solver, "", [tile], self.mult_cord)
+            arr += get_posible_paths(self.solver, "", [tile])
         
-        #print(arr)
         return arr
 
     def get_best_word(self, word_list):
@@ -73,16 +62,26 @@ class Spellsolver:
 if __name__ == "__main__":
     print("Init solver")
     solver = Solver()
-    solver.from_file("words_alpha.txt")
+    solver.from_file("wordlist_english.txt")
 
     while(True):
         game_string = input("Insert a gameboard: ")
-        cord_string = input("Insert 2x cord: ")
+        mult_string = input("Insert 2x cord: ")
+        DL_string = input("Insert DL cord: ")
+        TL_string = input("Insert TL cord: ")
+
+        gameboard = Gameboard(game_string.lower())
+        if mult_string != "":
+            mult_cord = (int(mult_string[0]), int(mult_string[1]))
+            gameboard.set_mult_word(mult_cord)
+        if DL_string != "":
+            DL_cord = (int(DL_string[0]), int(DL_string[1]))
+            gameboard.set_mult_letter(DL_cord, 2)
+        if TL_string != "":
+            TL_cord = (int(TL_string[0]), int(TL_string[1]))
+            gameboard.set_mult_letter(TL_cord, 3)
         
-        cord = (cord_string[0], cord_string[1])
-        gameboard = Gameboard(game_string)
-        
-        spellsolver = Spellsolver(gameboard, solver, cord)
+        spellsolver = Spellsolver(solver, gameboard)
         words = spellsolver.get_words()
         spellsolver.get_best_word(words)
 

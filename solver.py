@@ -4,7 +4,7 @@ class LNode:
     def __init__(self, letter):
         self.letter = letter
         self.end_of_word = False
-        self.childs = {}   
+        self.childs = {}
     
     def insert(self, word):
         if len(word) == 0:
@@ -16,7 +16,6 @@ class LNode:
         
         if next_letter not in self.childs:
             self.childs[next_letter] = LNode(next_letter)
-
         self.childs[next_letter].insert(next_word)
 
     def get_words(self, word):
@@ -72,5 +71,5 @@ class Solver:
 
 if __name__ == "__main__":
     solver = Solver()
-    solver.from_file("words_alpha.txt")
+    solver.from_file("wordlist_english.txt")
     solver.main_loop()
