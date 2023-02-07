@@ -18,25 +18,7 @@ def get_word_points(path):
     return word_points * word_mult + word_bonus
 
 
-def get_posible_paths(solver, word, path):
-    arr = []
 
-    for neighbor in path[-1].neighbors:
-        if neighbor not in path:
-
-            actual_word = word + neighbor.letter
-            actual_path = path + [neighbor]
-
-            exist, is_word = solver.exists(actual_word)
-
-            if is_word:
-                points = get_word_points(actual_path[1:])
-                arr += [[points, actual_word, actual_path[1].cord]]
-            
-            if exist:
-                arr += get_posible_paths(solver, actual_word, actual_path)
-    
-    return arr
 
 
 class Spellsolver:
@@ -44,19 +26,39 @@ class Spellsolver:
     def __init__(self, solver, gameboard):
         self.gameboard = gameboard
         self.solver = solver
-    
-    def get_words(self):
+
+    def get_posible_paths(self, word, path):
         arr = []
 
-        for tile in self.gameboard.gameboard.values():
-            arr += get_posible_paths(self.solver, "", [tile])
-        
-        return arr
+        for neighbor in path[-1].neighbors:
+            if neighbor not in path:
 
-    def get_best_word(self, word_list):
+                actual_word = word + neighbor.letter
+                actual_path = path + [neighbor]
+
+                exist, is_word = self.solver.exists(actual_word)
+
+                if is_word:
+                    points = get_word_points(actual_path[1:])
+                    arr += [[points, actual_word, actual_path[1].cord]]
+                
+                if exist:
+                    arr += self.get_posible_paths(actual_word, actual_path)
+    
+        return arr
+    
+    def get_words_list(self):
+        word_list = []
+
+        for tile in self.gameboard.gameboard.values():
+            word_list += self.get_posible_paths("", [tile])
+        
         word_list.sort(reverse=True, key=lambda x: x[0])
         
         print(word_list[0:20])
+        
+        return word_list
+        
 
 
 if __name__ == "__main__":
@@ -82,7 +84,4 @@ if __name__ == "__main__":
             gameboard.set_mult_letter(TL_cord, 3)
         
         spellsolver = Spellsolver(solver, gameboard)
-        words = spellsolver.get_words()
-        spellsolver.get_best_word(words)
-
-# ryewaliwxrytpiltxfiiwsiag
+        spellsolver.get_words_list()
