@@ -12,14 +12,14 @@
 
 
 # Sample answer
+- Normal mode
 ```bash
-Init solver
-Insert a gameboard: iowacijiesraaenredpeiatoe
-Insert 2x cord:
-Insert DL cord: 00
-Insert TL cord:
-Use swap?:1
-[[32, 'ceapened', 'cheapened', (4, 0)], [32, 'ceapened', 'cheapened', (4, 0)], [31, 'wiened', 'wizened', (2, 0)], [31, 'wiened', 'wizened', (2, 0)], [31, 'wiened', 'wizened', (2, 0)], [30, 'ceapens', 'cheapens', (4, 0)], [30, 'ceapens', 'cheapens', (4, 0)], [29, 'waened', 'wakened', (2, 0)], [29, 'waened', 'wakened', (2, 0)], [29, 'waened', 'wakened', (2, 0)], [29, 'topaes', 'topazes', (2, 4)], [29, 'topaes', 'topazes', (2, 4)], [29, 'topaes', 'topazes', (2, 4)], [29, 'topaes', 'topazes', (2, 4)], [29, 'topaes', 'topazes', (2, 4)], [29, 'topaes', 'topazes', (2, 4)], [28, 'weaens', 'weakens', (2, 0)], [28, 'ascened', 'ascended', (3, 0)], [28, 'weaens', 'weakens', (2, 0)], [28, 'ceapen', 'cheapen', (4, 0)]]
+
+```
+
+- Swap mode
+```bash
+
 ```
 
 
