@@ -3,15 +3,15 @@
 
 
 ### Use
-1. Escribe las letras del tablero en una sola linea en el orden izquierda -> derecha y luego arriba -> abajo
-2. Escribe las coordenadas de los multiplicadores correspondientes y dejar en blanco si no aplica (ej. 34 o 01)
-3. Para activar el modo swap (considerar un swap) se debe poner un 1, en otro caso no se activará
-4. El software retornará una lista ordenada con el puntaje, la palabra sin swap, la palabra con swap (si no es palabra swapeada ambas seran iguales) y la coordenada de la letra inicial
+1. Write the letters on the board in a single line following the order left -> right and then up -> down
+2. Write the coordinates of the corresponding multipliers and leave blank if not applicable (eg 34 or 01)
+3. To activate the swap mode (consider the use of a swap) you must put a 1, otherwise it will not be activated
+4. The software will return an ordered list with the score, the word without swap, the word with swap (if it is not a swapped word both will be the same) and the coordinate of the initial letter
 
-- Las coordenadas funcionan con dos digitos numericos no separados con valores de 0 a 4
+- The coordinates work with two non-separated numerical digits with values from 0 to 4
 
 
-# Ejemplo de respuesta
+# Sample answer
 ```bash
 Init solver
 Insert a gameboard: iowacijiesraaenredpeiatoe
