@@ -8,6 +8,7 @@ class GameTile:
     def __init__(self, letter, cord):
         self.letter = letter
         self.cord = cord
+        self.swap = False
 
         self.word_mult = 1
         self.letter_mult = 1
@@ -18,6 +19,7 @@ class GameTile:
     def node_copy(self, letter):
         node = GameTile(letter, self.cord)
 
+        node.swap = True
         node.word_mult = self.word_mult
         node.letter_mult = self.letter_mult
         #node.neighbors = self.neighbors

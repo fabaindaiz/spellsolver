@@ -14,12 +14,22 @@
 # Sample answer
 - Normal mode
 ```bash
-
+Insert a gameboard: rslesrotvegifovxqmbabaaif
+Insert 2x cord: 23
+Insert DL cord: 23
+Insert TL cord: 
+Use swap?: 
+[(48, 'vomits', (3, 1)), (48, 'vomits', (3, 1)), (48, 'vomits', (3, 1)), (48, 'vomits', (4, 2)), (48, 'vomits', (3, 1)), (48, 'vomits', (4, 2)), (48, 'vomits', (3, 1)), (48, 'vomits', (3, 1)), (48, 'vomits', (4, 2)), (48, 'vomits', (4, 2)), (44, 'motels', (2, 3)), (44, 'motels', (2, 3)), (44, 'motels', (2, 3)), (44, 'motels', (2, 3)), (44, 'motels', (2, 3)), (44, 'motels', (2, 3)), (44, 'motels', (2, 3)), (42, 'motors', (2, 3)), (42, 'motors', (2, 3)), (42, 'amigos', (1, 4))]
 ```
 
 - Swap mode
 ```bash
-
+Insert a gameboard: rslesrotvegifovxqmbabaaif
+Insert 2x cord: 23
+Insert DL cord: 23
+Insert TL cord: 
+Use swap?: 1
+[(66, 'zoftig', (3, 2), 'z'), (58, 'vomitous', (3, 1), 'u'), (58, 'vomitory', (3, 1), 'y'), (58, 'vomitous', (3, 1), 'u'), (58, 'vomitory', (3, 1), 'y'), (58, 'vomitous', (3, 1), 'u'), (58, 'vomitory', (3, 1), 'y'), (58, 'vomitory', (4, 2), 'y'), (58, 'comfits', (3, 2), 'c'), (58, 'vomitous', (4, 2), 'u'), (58, 'comfits', (3, 2), 'c'), (58, 'vomitous', (3, 1), 'u'), (58, 'vomitory', (4, 2), 'y'), (58, 'vomitory', (3, 1), 'y'), (58, 'vomitous', (4, 2), 'u'), (58, 'vomitous', (3, 1), 'u'), (58, 'vomitory', (3, 1), 'y'), (58, 'comfits', (3, 2), 'c'), (58, 'vomitous', (3, 1), 'u'), (58, 'vomitory', (3, 1), 'y')]
 ```
 
 
