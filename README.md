@@ -34,4 +34,5 @@ Use swap?: 1
 
 
 ### Credits
+- [gui.py](https://github.com/vscala/Spellcast-Word-Finder)
 - [wordlist_english.txt](https://github.com/jacksonrayhamilton/wordlist-english)
