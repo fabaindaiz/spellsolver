@@ -25,7 +25,7 @@ class SpellSolver:
                 
                 for path in posible_paths:
                     points = get_word_points(path[1:])
-                    paths.add((points, word, actual_path[1].cord, word[index], tuple(path[1:]))) # path[index+1].cord, tuple([(t.cord, t.letter) for t in path[1:]])
+                    paths.add((points, word, actual_path[1].cord, word[index], path[index+1].cord, tuple(path[1:]))) # tuple([(t.cord, t.letter) for t in path[1:]])
     
         return paths
 

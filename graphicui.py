@@ -16,22 +16,22 @@ class BoardMenu:
         self.menu = tk.Menu(app.root, tearoff = 0)
 
         def mult_word():
-            self.board.set_mult_word(entry.cord)
+            self.board.mult.set_mult_word(entry.cord)
 
         def mult_DL():
-            self.board.set_mult_DL(entry.cord)
+            self.board.mult.set_mult_DL(entry.cord)
 
         def mult_TL():
-            self.board.set_mult_TL(entry.cord)
+            self.board.mult.set_mult_TL(entry.cord)
 
         def remove_mult():
-            self.board.remove_mult()
+            self.board.mult.remove_mult()
 
         self.menu.add_command(label="2X", command=mult_word)
         self.menu.add_command(label="DL", command=mult_DL)
         self.menu.add_command(label="TL", command=mult_TL)
         self.menu.add_separator()
-        self.menu.add_command(label="Remove all", command=remove_mult)
+        self.menu.add_command(label="Remove bonus", command=remove_mult)
 
 
 class BoardEntry:
@@ -83,11 +83,11 @@ class BoardLabel:
 
         self.label = tk.Label(app.root)
         self.label["borderwidth"] = "1px"
-        self.label["font"] = Font(family='Times',size=12)
+        self.label["font"] = Font(family='Times',size=14)
         self.label["fg"] = "#333333"
         self.label["justify"] = "center"
         self.label["text"] = f""
-        self.label.place(x=320,y=10+num*20,width=250,height=25)
+        self.label.place(x=320,y=10+num*22,width=250,height=25)
     
     def set_text(self, text):
         self.label["text"] = str(text)
@@ -132,7 +132,58 @@ class LabelHover:
         for tile in self.path:
             self.board.inputs[tile.cord].configure(highlightbackground="black", highlightcolor="black", background="white", font=('Roboto', 16, tk.font.NORMAL), fg="black")
             self.board.tiles[tile.cord].set(self.board.gameboard.tiles[tile.cord].letter)
-            self.board.configure_mult()
+            self.board.mult.configure_mult()
+
+
+class MultHandler:
+
+    def __init__(self, board):
+        self.board = board
+
+        self.mult_cord = None
+        self.DL_cord = None
+        self.TL_cord = None
+    
+    def set_mult_word(self, cord):
+        if self.mult_cord != None:
+            self.board.inputs[self.mult_cord].configure(highlightbackground="black", highlightcolor="black", background="white", font=('Roboto', 16, tk.font.NORMAL), fg="black")
+
+        self.mult_cord = cord
+        self.board.inputs[self.mult_cord].configure(highlightbackground="deep pink", highlightcolor="deep pink", background="white", font=('Roboto', 16, tk.font.NORMAL), fg="black")
+
+    def set_mult_DL(self, cord):
+        if self.DL_cord != None:
+            self.board.inputs[self.DL_cord].configure(highlightbackground="black", highlightcolor="black", background="white", font=('Roboto', 16, tk.font.NORMAL), fg="black")
+        
+        self.DL_cord = cord
+        self.board.inputs[self.DL_cord].configure(highlightbackground="gold", highlightcolor="gold", background="white", font=('Roboto', 16, tk.font.NORMAL), fg="black")
+
+    def set_mult_TL(self, cord):
+        if self.TL_cord != None:
+            self.board.inputs[self.TL_cord].configure(highlightbackground="black", highlightcolor="black", background="white", font=('Roboto', 16, tk.font.NORMAL), fg="black")
+        
+        self.TL_cord = cord
+        self.board.inputs[self.TL_cord].configure(highlightbackground="gold", highlightcolor="gold", background="white", font=('Roboto', 16, tk.font.NORMAL), fg="black")
+
+    def configure_mult(self):
+        if self.mult_cord != None:
+            self.board.inputs[self.mult_cord].configure(highlightbackground="deep pink", highlightcolor="deep pink", background="white", font=('Roboto', 16, tk.font.NORMAL), fg="black")
+        if self.DL_cord != None:
+            self.board.inputs[self.DL_cord].configure(highlightbackground="gold", highlightcolor="gold", background="white", font=('Roboto', 16, tk.font.NORMAL), fg="black")
+        if self.TL_cord != None:
+            self.board.inputs[self.TL_cord].configure(highlightbackground="gold", highlightcolor="gold", background="white", font=('Roboto', 16, tk.font.NORMAL), fg="black")
+        
+    def remove_mult(self):
+        if self.mult_cord != None:
+            self.board.inputs[self.mult_cord].configure(highlightbackground="black", highlightcolor="black", background="white", font=('Roboto', 16, tk.font.NORMAL), fg="black")
+        if self.DL_cord != None:
+            self.board.inputs[self.DL_cord].configure(highlightbackground="black", highlightcolor="black", background="white", font=('Roboto', 16, tk.font.NORMAL), fg="black")
+        if self.TL_cord != None:
+            self.board.inputs[self.TL_cord].configure(highlightbackground="black", highlightcolor="black", background="white", font=('Roboto', 16, tk.font.NORMAL), fg="black")
+        
+        self.mult_cord = None
+        self.DL_cord = None
+        self.TL_cord = None
 
 
 class Board:
@@ -141,9 +192,7 @@ class Board:
         self.validate = validate
         self.app = app
 
-        self.mult_cord = None
-        self.DL_cord = None
-        self.TL_cord = None
+        self.mult = MultHandler(self)
 
         self.entry = []
         self.labels = []
@@ -160,47 +209,7 @@ class Board:
         
         self.buttons += [BoardButton(self, "Normal", 0, lambda: self.button_command(swap=""))]
         self.buttons += [BoardButton(self, "Swap", 1, lambda: self.button_command(swap="1"))]
-
-    def set_mult_word(self, cord):
-        if self.mult_cord != None:
-            self.inputs[self.mult_cord].configure(highlightbackground="black", highlightcolor="black", background="white", font=('Roboto', 16, tk.font.NORMAL), fg="black")
-
-        self.mult_cord = cord
-        self.inputs[self.mult_cord].configure(highlightbackground="pink", highlightcolor="pink", background="white", font=('Roboto', 16, tk.font.NORMAL), fg="black")
-
-    def set_mult_DL(self, cord):
-        if self.DL_cord != None:
-            self.inputs[self.DL_cord].configure(highlightbackground="black", highlightcolor="black", background="white", font=('Roboto', 16, tk.font.NORMAL), fg="black")
-        
-        self.DL_cord = cord
-        self.inputs[self.DL_cord].configure(highlightbackground="yellow", highlightcolor="yellow", background="white", font=('Roboto', 16, tk.font.NORMAL), fg="black")
-
-    def set_mult_TL(self, cord):
-        if self.TL_cord != None:
-            self.inputs[self.TL_cord].configure(highlightbackground="black", highlightcolor="black", background="white", font=('Roboto', 16, tk.font.NORMAL), fg="black")
-        
-        self.TL_cord = cord
-        self.inputs[self.TL_cord].configure(highlightbackground="yellow", highlightcolor="yellow", background="white", font=('Roboto', 16, tk.font.NORMAL), fg="black")
-
-    def configure_mult(self):
-        if self.mult_cord != None:
-            self.inputs[self.mult_cord].configure(highlightbackground="pink", highlightcolor="pink", background="white", font=('Roboto', 16, tk.font.NORMAL), fg="black")
-        if self.DL_cord != None:
-            self.inputs[self.DL_cord].configure(highlightbackground="yellow", highlightcolor="yellow", background="white", font=('Roboto', 16, tk.font.NORMAL), fg="black")
-        if self.TL_cord != None:
-            self.inputs[self.TL_cord].configure(highlightbackground="yellow", highlightcolor="yellow", background="white", font=('Roboto', 16, tk.font.NORMAL), fg="black")
-        
-    def remove_mult(self):
-        if self.mult_cord != None:
-            self.inputs[self.mult_cord].configure(highlightbackground="black", highlightcolor="black", background="white", font=('Roboto', 16, tk.font.NORMAL), fg="black")
-        if self.DL_cord != None:
-            self.inputs[self.DL_cord].configure(highlightbackground="black", highlightcolor="black", background="white", font=('Roboto', 16, tk.font.NORMAL), fg="black")
-        if self.TL_cord != None:
-            self.inputs[self.TL_cord].configure(highlightbackground="black", highlightcolor="black", background="white", font=('Roboto', 16, tk.font.NORMAL), fg="black")
-        
-        self.mult_cord = None
-        self.DL_cord = None
-        self.TL_cord = None
+    
 
     def button_command(self, swap):
         gameboard_string = "".join([t.get().lower() for t in self.tiles.values()])
@@ -210,12 +219,12 @@ class Board:
         self.gameboard = GameBoard()
         self.gameboard.init_nodes(gameboard_string)
 
-        if self.mult_cord != None:
-            self.gameboard.set_mult_word(self.mult_cord)
-        if self.DL_cord != None:
-            self.gameboard.set_mult_letter(self.DL_cord, 2)
-        if self.TL_cord != None:
-            self.gameboard.set_mult_letter(self.TL_cord, 3)
+        if self.mult.mult_cord != None:
+            self.gameboard.set_mult_word(self.mult.mult_cord)
+        if self.mult.DL_cord != None:
+            self.gameboard.set_mult_letter(self.mult.DL_cord, 2)
+        if self.mult.TL_cord != None:
+            self.gameboard.set_mult_letter(self.mult.TL_cord, 3)
 
         spellsolver = SpellSolver(self.validate, self.gameboard)
         word_list = spellsolver.get_word_list(swap)
@@ -223,7 +232,7 @@ class Board:
         for i, result in enumerate(word_list):
             if i >= len(self.labels):
                 break
-            self.labels[i].set_text(result[:-1])
+            self.labels[i].set_text(result[:2])
             LabelHover(self, self.labels[i], result[-1])
         
 
