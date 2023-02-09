@@ -1,121 +1,130 @@
+
 import tkinter as tk
-import tkinter.font as tkFont
-from spellcast import *
+from tkinter.font import Font
+from gameboard import GameBoard
+from validate import WordValidate
+from spellsolver import SpellSolver
+from utils import valid_word
+
 
 class App:
-	def __init__(self, root):
-		self.wb = WordBoard()
-		
-		root.title("Spellcast Word Finder")
-		width=600
-		height=256
-		screenwidth = root.winfo_screenwidth()
-		screenheight = root.winfo_screenheight()
-		alignstr = '%dx%d+%d+%d' % (width, height, (screenwidth - width) / 2, (screenheight - height) / 2)
-		root.geometry(alignstr)
-		root.resizable(width=False, height=False)
-		
-		self.vals = [[tk.StringVar(root, value='') for __ in range(5)] for _ in range(5)]
-		self.lineInput = []
-		self.labels = []
-		
-		def on_validate(p, i, j):
-			i, j = map(int, (i, j))
-			ind = (i * 5 + j + 1) % 25
-			if len(p) == 1:
-				self.lineInput[ind].focus_set()
-				self.lineInput[ind].select_range(0, 'end')
-			return True
-		
-		xoff, yoff = 25, 25
-		for i in range(5):
-			for j in range(5):
-				self.lineInput += [tk.Entry(root, textvariable=self.vals[i][j], validate="key", highlightthickness=2)]
-				self.lineInput[-1]["borderwidth"] = "1px"
-				self.lineInput[-1]["font"] = tkFont.Font(family='Times',size=10)
-				self.lineInput[-1]["fg"] = "#333333"
-				self.lineInput[-1]["justify"] = "center"
-				self.lineInput[-1]['validatecommand'] = (self.lineInput[-1].register(on_validate), '%P', i, j)
-				self.lineInput[-1].place(x=xoff+j*32,y=yoff+i*32,width=32,height=32)
-				self.lineInput[-1].configure(highlightbackground="black", highlightcolor="black", font=('Roboto', 16))
+    def __init__(self, root, validate):
+        self.validate = validate
 
-		for i in range(3):
-			self.labels += [tk.Label(root)]
-			self.labels[-1]["font"] = tkFont.Font(family='Times',size=10)
-			self.labels[-1]["fg"] = "#333333"
-			self.labels[-1]["justify"] = "center"
-			self.labels[-1]["text"] = f""
-			self.labels[-1].place(x=320,y=80+i*30,width=250,height=25)
+        self.tiles = {}
+        self.inputs = {}
+        
+        self.labels = []
+        
+        root.title("Spellsolver")
+        width = 600
+        height = 256
+        screenwidth = root.winfo_screenwidth()
+        screenheight = root.winfo_screenheight()
+        alignstr = '%dx%d+%d+%d' % (width, height, (screenwidth - width) / 2, (screenheight - height) / 2)
+        root.geometry(alignstr)
+        root.resizable(width=False, height=False)
 
-		self.button = tk.Button(root)
-		self.button["bg"] = "#e9e9ed"
-		self.button["font"] = tkFont.Font(family='Times',size=10)
-		self.button["fg"] = "#000000"
-		self.button["justify"] = "center"
-		self.button["text"] = "Generate Words"
-		self.button.place(x=xoff,y=yoff+160,width=160,height=25)
-		self.button["command"] = self.button_command
+        def on_validate(p, aux_cord):
+            aux_cord = int(aux_cord) % 25
+            cord = (aux_cord % 5, aux_cord // 5)
 
+            if len(p) == 1:
+                self.inputs[cord].focus_set()
+                self.inputs[cord].select_range(0, 'end')
+            return True
 
-	class lblHover:
-		def __init__(self, label, path, skipped, lineInput, vals, word):
-			self.label = label
-			self.path = path
-			self.skipped = skipped
-			self.skipset = set(skipped)
-			self.lineInput = lineInput
-			self.label.bind('<Enter>', lambda _ : self.hover())
-			self.label.bind('<Leave>', lambda _ : self.unhover())
-			self.vals = vals
-			self.temp = [[v.get().lower() for v in line] for line in self.vals]
-			self.word = word
+        xoff, yoff = 25, 25
+        aux_cord = 0
 
-		def hover(self):
-			for (i, j), c in zip(self.path[::-1], self.word):
-				self.lineInput[i*5+j].configure(highlightbackground="blue", highlightcolor="blue", background="blue", font=('Roboto', 20, tk.font.BOLD), fg="white")
-				if (i, j) in self.skipset:
-					self.vals[i][j].set(c)
+        for __ in range(25):
+            x = aux_cord % 5
+            y = aux_cord // 5
+            aux_cord += 1
 
-			for i, j in self.skipped:
-				self.lineInput[i*5+j].configure(highlightbackground="red", highlightcolor="red", background="red", font=('Roboto', 20, tk.font.BOLD), fg="white")
-		
-		def unhover(self):
-			for i, j in self.path + self.skipped:
-				self.lineInput[i*5+j].configure(highlightbackground="black", highlightcolor="black", background="white", font=('Roboto', 16, tk.font.NORMAL), fg="black")
-				self.vals[i][j].set(self.temp[i][j])
+            self.tiles[(x, y)] = tk.StringVar(root, value='')
 
+            entry = tk.Entry(root, textvariable=self.tiles[(x, y)], validate="key", highlightthickness=2)
+            entry["borderwidth"] = "1px"
+            entry["font"] = Font(family='Times',size=10)
+            entry["fg"] = "#333333"
+            entry["justify"] = "center"
+            entry['validatecommand'] = (entry.register(on_validate), '%P', aux_cord)
+            entry.place(x=xoff+x*32,y=yoff+y*32,width=32,height=32)
+            entry.configure(highlightbackground="black", highlightcolor="black", font=('Roboto', 16))
 
-	def button_command(self):
-		board = [[v.get().lower() for v in line] for line in self.vals]
-		self.wb.setBoard(board)
+            self.inputs[(x, y)] = entry
 
-		words = [
-			self.wb.bestWord(i) for i in range(3) # (best word, value, path, skipped)
-		]
+        for i in range(10):
+            label = tk.Label(root)
+            label["font"] = Font(family='Times',size=10)
+            label["fg"] = "#333333"
+            label["justify"] = "center"
+            label["text"] = f""
+            label.place(x=320,y=10+i*20,width=250,height=25)
 
-		wordLabelPrefix =[
-			"No swaps",
-			"One swap",
-			"Two swaps"
-		]
-		
-		for i, word in enumerate(words):
-			self.labels[i]["text"] = f"{wordLabelPrefix[i]}: {word[:2]}"
-			self.lblHover(self.labels[i], word[2], word[3], self.lineInput, self.vals, word[0])
+            self.labels += [label]
+        
+        self.button = tk.Button(root)
+        self.button["bg"] = "#e9e9ed"
+        self.button["font"] = Font(family='Times',size=10)
+        self.button["fg"] = "#000000"
+        self.button["justify"] = "center"
+        self.button["text"] = "Generate Words"
+        self.button.place(x=xoff,y=yoff+160,width=160,height=25)
+        self.button["command"] = self.button_command
+    
 
-	'''
-		TODO implement
-			should allow user to input multiplier amount and cell
-			should update spellcast board to account for multiplier
-	'''
-	def addMultiplier(self, i, j, word=False):
-		self.wb.addMultiplier(i, j, 1)
+    class lblHover:
+        def __init__(self, gameboard, label, path, inputs, vals):
+            self.gameboard = gameboard
+            self.label = label
+            self.path = path
 
-	def removeMultiplier(self, i, j):
-		self.wb.removeMultiplier(i, j)
-		
+            self.inputs = inputs
+            self.vals = vals
+
+            self.label.bind('<Enter>', lambda _ : self.hover())
+            self.label.bind('<Leave>', lambda _ : self.unhover())
+            
+        def hover(self):
+            for tile in self.path:
+                if tile.swap:
+                    self.inputs[tile.cord].configure(highlightbackground="red", highlightcolor="red", background="red", font=('Roboto', 20, tk.font.BOLD), fg="white")
+                    self.vals[tile.cord].set(tile.letter)
+                else:
+                    self.inputs[tile.cord].configure(highlightbackground="blue", highlightcolor="blue", background="blue", font=('Roboto', 20, tk.font.BOLD), fg="white")
+
+        def unhover(self):
+            for tile in self.path:
+                self.inputs[tile.cord].configure(highlightbackground="black", highlightcolor="black", background="white", font=('Roboto', 16, tk.font.NORMAL), fg="black")
+                self.vals[tile.cord].set(self.gameboard.tiles[tile.cord].letter)
+
+    def button_command(self):
+        gameboard_string = "".join([t.get().lower() for t in self.tiles.values()])
+        if not valid_word(gameboard_string) or len(gameboard_string) != 25:
+            return
+
+        self.gameboard = GameBoard()
+        self.gameboard.init_nodes(gameboard_string)
+
+        spellsolver = SpellSolver(self.validate, self.gameboard)
+        word_list = spellsolver.get_word_list(swap="1")
+
+        for i, result in enumerate(word_list):
+            if i >= len(self.labels):
+                break
+            word = "".join([n.letter for n in result[-1]])
+            self.labels[i]["text"] = str(result[0:3])
+            self.lblHover(self.gameboard, self.labels[i], result[-1], self.inputs, self.tiles)
+
 
 if __name__ == "__main__":
-	root = tk.Tk()
-	app = App(root)
-	root.mainloop()
+    print("Init WordValidate")
+    validate = WordValidate()
+    validate.from_file("wordlist_english.txt", swap=True)
+
+    print("Init Gui")
+    root = tk.Tk()
+    app = App(root, validate)
+    root.mainloop()
