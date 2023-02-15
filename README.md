@@ -8,6 +8,7 @@
 ![gui image](img/gui1.png?raw=true "GUI")
 ![gui image](img/gui2.png?raw=true "GUI")
 
+
 ### ConsoleUI instruction
 1. Write the letters on the board in a single line following the order left -> right and then up -> down
 2. Write the coordinates of the corresponding multipliers and leave blank if not applicable (eg 34 or 01)
@@ -38,6 +39,7 @@ Use swap?: 1
 ```
 
 
-### Credits
-- [gui.py](https://github.com/vscala/Spellcast-Word-Finder)
-- [wordlist_english.txt](https://github.com/jacksonrayhamilton/wordlist-english)
+## Acknowledgements
+- vscala for providing the base [gui.py](https://github.com/vscala/Spellcast-Word-Finder)
+- SCOWL (And Friends) for providing the [generator](http://app.aspell.net/create) which was used for the initial wordlist
+- [Jackson Ray Hamilton](https://github.com/jacksonrayhamilton/wordlist-english) for additional words
