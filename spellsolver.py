@@ -62,7 +62,7 @@ class SpellSolver:
         word_list.sort(reverse=True, key=lambda x: x[0])
 
         print(f"The following words have been found (elapsed time: {self.timer.elapsed_millis()} milliseconds)")
-        print([w[:-1] for w in word_list[0:20]])
+        print([w[:-1] for w in word_list[0:10]])
         return word_list
 
 

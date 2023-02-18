@@ -1,9 +1,16 @@
 # Discord Spellcast Helper
 #### By fabaindaiz
 
+Spellsolver is a software that helps to search for the best possible word in Spellcast discord activity. Spellsolver uses a trie to store the valid words, and then iteratively tries all the possible combinations of letters on the board, discarding the ones that don't make valid words and keeping the ones that do.
+
+- Initialization of the trie structure to store valid words can take anywhere from 10 to 30 seconds, but allows all spellsolver queries to be executed in less than a second.
+- I have planned to implement double swap, but with some algorithm that gives good results in a reasonable time (any ideas?)
 
 ### GraphicUI instruction
 1. Install tkinter and execute graphicui.py
+2. Write the letters on the board in the interface table
+3. Use the right click to select letter modifiers or to delete them
+4. Click on one of the buttons to search for words according to the amount of swap you want to use
 
 ![gui image](img/gui1.png?raw=true "GUI")
 ![gui image](img/gui2.png?raw=true "GUI")
@@ -40,6 +47,6 @@ Use swap?: 1
 
 
 ## Acknowledgements
-- vscala for providing the base [gui.py](https://github.com/vscala/Spellcast-Word-Finder)
+- vscala for providing the base [Graphic UI](https://github.com/vscala/Spellcast-Word-Finder)
 - SCOWL (And Friends) for providing the [generator](http://app.aspell.net/create) which was used for the initial wordlist
 - [Jackson Ray Hamilton](https://github.com/jacksonrayhamilton/wordlist-english) for additional words

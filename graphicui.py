@@ -45,7 +45,7 @@ class BoardEntry:
         self.menu = BoardMenu(board, self)
 
         def on_validate(p, aux_cord):
-            aux_cord = int(aux_cord) % 25
+            aux_cord = (int(aux_cord) + 1) % 25
             cord = (aux_cord % 5, aux_cord // 5)
             
             if len(p) == 1:
@@ -67,7 +67,7 @@ class BoardEntry:
         entry["font"] = Font(family='Times',size=10)
         entry["fg"] = "#333333"
         entry["justify"] = "center"
-        entry['validatecommand'] = (entry.register(on_validate), '%P', aux_cord+1)
+        entry['validatecommand'] = (entry.register(on_validate), '%P', aux_cord)
         entry.place(x=app.xoff+x*32,y=app.yoff+y*32,width=32,height=32)
         entry.configure(highlightbackground="black", highlightcolor="black", font=('Roboto', 16))
         entry.bind("<Button-3>", do_popup)
