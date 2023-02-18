@@ -256,7 +256,6 @@ class GraphicUI:
 
 
 if __name__ == "__main__":
-    print("Init WordValidate")
     validate = WordValidate()
     validate.from_file("wordlist_english.txt", swap=True)
 

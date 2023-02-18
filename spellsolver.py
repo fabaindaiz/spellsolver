@@ -1,7 +1,7 @@
 
 from gameboard import GameBoard
 from validate import WordValidate
-from utils import get_word_points
+from utils import Timer, get_word_points
 
 
 class SpellSolver:
@@ -9,6 +9,7 @@ class SpellSolver:
     def __init__(self, validate, gameboard):
         self.gameboard = gameboard
         self.validate = validate
+        self.timer = Timer()
 
     def process_node(self, node, actual_word, actual_path, swap):
         paths = set()
@@ -47,6 +48,7 @@ class SpellSolver:
         return paths
 
     def get_word_list(self, swap=True):
+        self.timer.reset_timer()
         check = set()
         word_list = []
 
@@ -57,10 +59,10 @@ class SpellSolver:
                 check.add(res[0:2])
                 if size != len(check):
                     word_list += [res]
-        
         word_list.sort(reverse=True, key=lambda x: x[0])
+
+        print(f"The following words have been found (elapsed time: {self.timer.elapsed_millis()} milliseconds)")
         print([w[:-1] for w in word_list[0:20]])
-        
         return word_list
 
 

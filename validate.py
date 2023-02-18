@@ -1,4 +1,7 @@
 
+from utils import Timer
+
+
 class TrieNode:
 
     def __init__(self, letter):
@@ -52,8 +55,12 @@ class WordValidate:
 
     def __init__(self):
         self.tree = TrieNode('')
+        self.timer = Timer()
     
     def from_file(self, path, swap=True):
+        self.timer.reset_timer()
+        print("Initializing WordValidate, this will take several seconds")
+
         with open(path) as file:
             for word in file.readlines():
                 word = word[:-1]
@@ -62,6 +69,8 @@ class WordValidate:
                         incomplete_word = word[:pos] + word[pos+1:]
                         self.tree.insert(incomplete_word, word1=word)
                 self.tree.insert(word, word0=word)
+        
+        print(f"WordValidate successfully initialized (elapsed time: {self.timer.elapsed_seconds()} seconds)")
     
     def get_node(self, word):
         node = self.tree

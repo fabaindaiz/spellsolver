@@ -36,7 +36,6 @@ class ConsoleUI:
 
 if __name__ == "__main__":
     consoleui = ConsoleUI()
-    print("Init WordValidate")
     validate = WordValidate()
     validate.from_file("wordlist_english.txt", swap=True)
 
