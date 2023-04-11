@@ -14,13 +14,13 @@ class SpellSolver:
     def process_node(self, node, actual_word, actual_path, swap):
         paths = set()
 
-        if node.word0:
-            for word in node.lword0:
+        if "word0" in node.words:
+            for word in node.words["word0"]:
                 points = get_word_points(actual_path[1:])
                 paths.add((points, word, actual_path[1].cord, tuple(actual_path[1:])))
         
-        if swap == "1" and node.word1:
-            for word in node.lword1:
+        if swap == "1" and "word1" in node.words:
+            for word in node.words["word1"]:
                 index = next((i for i in range(len(actual_word)) if word[i]!=actual_word[i]), len(actual_word))
                 posible_paths = self.gameboard.complete_path(actual_path, word, index)
                 
