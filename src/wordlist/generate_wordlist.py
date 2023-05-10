@@ -1,6 +1,5 @@
-
-from utils import valid_word
 import os
+from utils import valid_word
 
 
 folder_path = "sources"
@@ -17,3 +16,4 @@ words = sorted(words)
 with open("wordlist_english.txt", 'w') as f:
     for word in words:
         f.write("%s\n" % word)
+print("wordlist successfully generated")

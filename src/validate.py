@@ -36,10 +36,10 @@ class WordValidate:
                 self.word0(word)
         print(f"WordValidate successfully initialized (elapsed time: {self.timer.elapsed_seconds()} seconds)")
 
-
+        
 if __name__ == "__main__":
     validate = WordValidate()
-    validate.load_file("wordlist_english.txt")
+    validate.load_file("wordlist/wordlist_english.txt")
 
     def node_str(node):
         return f"word0: {node.get_words('word0')}\nword1: {node.get_words('word1')}\n"

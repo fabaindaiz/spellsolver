@@ -6,8 +6,16 @@ Spellsolver is a software that helps to search for the best possible word in Spe
 - Initialization of the trie structure to store valid words can take anywhere from 10 to 30 seconds and uses approximately 1 GB of ram memory, but allows all spellsolver queries to be executed in less than a second.
 - I have planned to implement double swap, but with some algorithm that gives good results in a reasonable time (any ideas?)
 
-### GraphicUI instruction
-1. Install tkinter and execute graphicui.py
+
+## Requirements
+- python3
+- tkinter
+
+
+## instructions for use
+
+### GraphicUI
+1. Move to folder "src/" and execute graphicui.py
 2. Write the letters on the board in the interface table
 3. Use the right click to select letter modifiers or to delete them
 4. Click on one of the buttons to search for words according to the amount of swap you want to use
@@ -16,11 +24,12 @@ Spellsolver is a software that helps to search for the best possible word in Spe
 ![gui image](img/gui2.png?raw=true "GUI")
 
 
-### ConsoleUI instruction
-1. Write the letters on the board in a single line following the order left -> right and then up -> down
-2. Write the coordinates of the corresponding multipliers and leave blank if not applicable (eg 34 or 01)
-3. To activate the swap mode (consider the use of a swap) you must put a 1, otherwise it will not be activated
-4. The software will return an ordered list with the score, the word without swap, the word with swap (if it is not a swapped word both will be the same) and the coordinate of the initial letter
+### ConsoleUI
+1. Move to folder "src/" and execute consoleui.py
+2. Write the letters on the board in a single line following the order left -> right and then up -> down
+3. Write the coordinates of the corresponding multipliers and leave blank if not applicable (eg 34 or 01)
+4. To activate the swap mode (consider the use of a swap) you must put a 1, otherwise it will not be activated
+5. The software will return an ordered list with the score, the word without swap, the word with swap (if it is not a swapped word both will be the same) and the coordinate of the initial letter
 
 - The coordinates work with two non-separated numerical digits with values from 0 to 4
 
@@ -44,6 +53,11 @@ Use swap?: 1
 [(66, 'zoftig', (3, 2), 'z', (2, 3)), (58, 'vomitory', (3, 1), 'y', (0, 2)), (58, 'vomitous', (3, 1), 'u', (0, 0)), (58, 'comfits', (3, 2), 'c', (4, 2)), (58, 'jabots', (2, 4), 'j', (2, 3)), (58, 'faqirs', (2, 4), 'f', (2, 3)), (54, 'fimbria', (2, 2), 'r', (4, 3)), (54, 'comfit', (3, 2), 'c', (4, 2)), (54, 'setiform', (4, 0), 'r', (3, 3)), (54, 'maxing', (2, 3), 'n', (0, 1)), (54, 'maxima', (1, 4), 'm', (0, 4)), (54, 'fibroma', (4, 4), 'r', (4, 2)), (52, 'soffit', (1, 0), 'f', (2, 3)), (52, 'tombac', (2, 1), 'c', (3, 4)), (52, 'vomited', (3, 1), 'd', (4, 0)), (52, 'tomfool', (2, 1), 'o', (1, 0)), (52, 'motleys', (2, 3), 'y', 
 (4, 1)), (52, 'covets', (3, 2), 'c', (2, 3)), (52, 'akimbo', (4, 3), 'k', (4, 4)), (50, 'gimbal', (0, 2), 'l', (1, 4))]
 ```
+
+### Generate wordlist
+It is not necessary to carry out this step since wordlist is already generated
+
+1. Move to folder "src/wordlist/" and execute generate_wordlist.py
 
 
 ## Acknowledgements
