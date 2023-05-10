@@ -4,8 +4,12 @@ from spellsolver import SpellSolver
 
 
 class ConsoleUI:
+    """Console UI"""
+    def __init__(self, validate: WordValidate) -> None:
+        self.validate: WordValidate = validate
 
-    def main_loop(self, validate):
+    def mainloop(self) -> None:
+        """Mainloop of the Console UI"""
         gameboard_string = input("Insert a gameboard: ")
 
         mult_string = input("Insert 2x cord: ")
@@ -24,17 +28,17 @@ class ConsoleUI:
             TL_cord = (int(TL_string[0]), int(TL_string[1]))
             gameboard.set_mult_letter(TL_cord, 3)
 
-        spellsolver = SpellSolver(validate, gameboard)
+        spellsolver = SpellSolver(self.validate, gameboard)
         spellsolver.word_list(swap=swap)
 
 
 if __name__ == "__main__":
-    consoleui = ConsoleUI()
     validate = WordValidate()
     validate.load_file("wordlist/wordlist_english.txt")
+    app = ConsoleUI(validate)
 
     while(True):
-        #try:
-            consoleui.main_loop(validate)
-        #except Exception as e:
-        #    print("Exception", e)
+        try:
+            app.mainloop()
+        except Exception as e:
+            print("Exception", e)

@@ -8,6 +8,7 @@ from utils import valid_word
 
 
 class BoardMenu:
+    """Represents the contextual menu in GUI"""
     def __init__(self, board, entry):
         self.board = board
         app = board.app
@@ -34,6 +35,7 @@ class BoardMenu:
 
 
 class BoardEntry:
+    """Represents a square tile in GUI"""
     def __init__(self, board, aux_cord):
         self.board = board
         app = board.app
@@ -43,6 +45,7 @@ class BoardEntry:
         self.menu = BoardMenu(board, self)
 
         def on_validate(p, aux_cord):
+            """Validate the value in the entry"""
             aux_cord = (int(aux_cord) + 1) % 25
             cord = (aux_cord % 5, aux_cord // 5)
             
@@ -53,6 +56,7 @@ class BoardEntry:
             return True
         
         def do_popup(event):
+            """Handle the popup event in the entry"""
             try:
                 self.menu.menu.tk_popup(event.x_root, event.y_root)
             finally:
@@ -74,6 +78,7 @@ class BoardEntry:
 
 
 class BoardLabel:
+    """Represents a result label"""
     def __init__(self, board, num):
         self.board = board
         app = board.app
@@ -87,10 +92,12 @@ class BoardLabel:
         self.label.place(x=320,y=10+num*22,width=250,height=25)
     
     def set_text(self, text):
+        """Set text value of the label"""
         self.label["text"] = str(text)
 
 
 class BoardButton:
+    """Represents a button"""
     def __init__(self, board, text, num, command):
         self.board = board
         app = board.app
@@ -106,6 +113,7 @@ class BoardButton:
         
 
 class LabelHover:
+    """Represent a hover event handler for result labels"""
     def __init__(self, board, label, path):
         self.board = board
         self.label = label
@@ -115,6 +123,7 @@ class LabelHover:
         self.label.label.bind('<Leave>', lambda _ : self.unhover())
 
     def hover(self):
+        """Handle hover event in the label"""
         for tile in self.path:
             if tile.swap:
                 self.board.inputs[tile.cord].configure(highlightbackground="red", highlightcolor="red", background="red", font=('Roboto', 20, tk.font.BOLD), fg="white")
@@ -124,6 +133,7 @@ class LabelHover:
         self.label.label.focus_set()
 
     def unhover(self):
+        """handle unhover event in the label"""
         for tile in self.path:
             self.board.inputs[tile.cord].configure(highlightbackground="black", highlightcolor="black", background="white", font=('Roboto', 16, tk.font.NORMAL), fg="black")
             self.board.tiles[tile.cord].set(self.board.gameboard.tiles[tile.cord].letter)
@@ -131,14 +141,16 @@ class LabelHover:
 
 
 class MultHandler:
-    def __init__(self, board):
-        self.board = board
+    """Handle Spellcast word & letter multipliers"""
+    def __init__(self, board: 'Board'):
+        self.board: Board = board
 
-        self.mult_cord = None
-        self.DL_cord = None
-        self.TL_cord = None
+        self.mult_cord: tuple = None
+        self.DL_cord: tuple = None
+        self.TL_cord: tuple = None
     
     def set_mult_word(self, cord):
+        """Set a mult_word in a tile"""
         if self.mult_cord != None:
             self.board.inputs[self.mult_cord].configure(highlightbackground="black", highlightcolor="black", background="white", font=('Roboto', 16, tk.font.NORMAL), fg="black")
 
@@ -146,6 +158,7 @@ class MultHandler:
         self.board.inputs[self.mult_cord].configure(highlightbackground="deep pink", highlightcolor="deep pink", background="white", font=('Roboto', 16, tk.font.NORMAL), fg="black")
 
     def set_mult_DL(self, cord):
+        """Set a mult_DL in a tile"""
         if self.DL_cord != None:
             self.board.inputs[self.DL_cord].configure(highlightbackground="black", highlightcolor="black", background="white", font=('Roboto', 16, tk.font.NORMAL), fg="black")
         
@@ -153,6 +166,7 @@ class MultHandler:
         self.board.inputs[self.DL_cord].configure(highlightbackground="gold", highlightcolor="gold", background="white", font=('Roboto', 16, tk.font.NORMAL), fg="black")
 
     def set_mult_TL(self, cord):
+        """Set a mult_TL in a tile"""
         if self.TL_cord != None:
             self.board.inputs[self.TL_cord].configure(highlightbackground="black", highlightcolor="black", background="white", font=('Roboto', 16, tk.font.NORMAL), fg="black")
         
@@ -160,6 +174,7 @@ class MultHandler:
         self.board.inputs[self.TL_cord].configure(highlightbackground="gold", highlightcolor="gold", background="white", font=('Roboto', 16, tk.font.NORMAL), fg="black")
 
     def configure_mult(self):
+        """Change colors of a tile based in the multipliers"""
         if self.mult_cord != None:
             self.board.inputs[self.mult_cord].configure(highlightbackground="deep pink", highlightcolor="deep pink", background="white", font=('Roboto', 16, tk.font.NORMAL), fg="black")
         if self.DL_cord != None:
@@ -168,6 +183,7 @@ class MultHandler:
             self.board.inputs[self.TL_cord].configure(highlightbackground="gold", highlightcolor="gold", background="white", font=('Roboto', 16, tk.font.NORMAL), fg="black")
         
     def remove_mult(self):
+        """Remove colors of a tile"""
         if self.mult_cord != None:
             self.board.inputs[self.mult_cord].configure(highlightbackground="black", highlightcolor="black", background="white", font=('Roboto', 16, tk.font.NORMAL), fg="black")
         if self.DL_cord != None:
@@ -181,18 +197,19 @@ class MultHandler:
 
 
 class Board:
-    def __init__(self, app, validate):
-        self.validate = validate
-        self.app = app
+    """Represents a Spellcast Board with his logic"""
+    def __init__(self, app: tk.Tk, validate: WordValidate):
+        self.validate: WordValidate = validate
+        self.app: tk.Tk = app
 
-        self.mult = MultHandler(self)
+        self.mult: MultHandler = MultHandler(self)
 
-        self.entry = []
-        self.labels = []
-        self.buttons = []
+        self.entry: list = []
+        self.labels: list = []
+        self.buttons: list = []
         
-        self.inputs = {}
-        self.tiles = {}
+        self.inputs: dict = {}
+        self.tiles: dict = {}
         
         for aux_cord in range(25):
             self.entry += [BoardEntry(self, aux_cord)]
@@ -204,7 +221,8 @@ class Board:
         self.buttons += [BoardButton(self, "Swap", 1, lambda: self.button_command(swap=True))]
     
 
-    def button_command(self, swap):
+    def button_command(self, swap: bool) -> None:
+        """Execute SpellSolver when a button is pressed"""
         gameboard_string = "".join([t.get().lower() for t in self.tiles.values()])
         if not valid_word(gameboard_string) or len(gameboard_string) != 25:
             return
@@ -229,7 +247,8 @@ class Board:
         
 
 class GraphicUI:
-    def __init__(self, root, validate):
+    """Graphic UI"""
+    def __init__(self, root: tk.Tk, validate: WordValidate) -> None:
         self.xoff, self.yoff = 25, 25
         self.root = root
 
@@ -243,12 +262,15 @@ class GraphicUI:
         root.resizable(width=False, height=False)
 
         self.board = Board(self, validate)
+    
+    def mainloop(self) -> None:
+        """Mainloop of the Graphic UI"""
+        self.root.mainloop()
 
 
 if __name__ == "__main__":
     validate = WordValidate()
     validate.load_file("wordlist/wordlist_english.txt")
 
-    root = tk.Tk()
-    app = GraphicUI(root, validate)
-    root.mainloop()
+    app = GraphicUI(tk.Tk(), validate)
+    app.mainloop()
