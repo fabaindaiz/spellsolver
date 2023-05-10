@@ -1,13 +1,16 @@
 
 
 class Path:
-    def __init__(self, path: list):
+    """Represents a path of GameTiles forming a word"""
+    def __init__(self, path: list) -> None:
         self.path: list = path
     
-    def path_tuple(self):
+    def path_tuple(self) -> tuple:
+        """Get a tuple with the path nodes"""
         return tuple(self.path[1:])
 
-    def word_points(self):
+    def word_points(self) -> int:
+        """Get points value of actual word"""
         path = self.path[1:]
         word_points = 0
         word_mult = 1
@@ -21,14 +24,16 @@ class Path:
             word_mult *= node.word_mult
         return word_points * word_mult + word_bonus
     
-    def suggest_node(self, neighbors):
+    def suggest_node(self, neighbors: list) -> list:
+        """Get all nodes in neighbors that are not in path"""
         nodes = []
         for node in neighbors:
             if node not in self.path:
                 nodes += [node]
         return nodes
     
-    def complete_path(self, tiles, word, pos):
+    def complete_path(self, tiles: dict, word: str, pos: int) -> list:
+        """Get posible nodes in tiles that can make valid words"""
         nodes = set(tiles.values())
         if 0 <= pos < len(word):
             nodes = nodes.intersection(self.suggest_node(self.path[pos].neighbors))

@@ -6,12 +6,14 @@ from utils import Timer
 
 
 class SpellSolver:
-    def __init__(self, validate, gameboard):
+    """Solve a Spellcast game"""
+    def __init__(self, validate: WordValidate, gameboard: GameBoard) -> None:
         self.gameboard: GameBoard = gameboard
         self.validate: WordValidate = validate
-        self.timer = Timer()
+        self.timer: Timer = Timer()
 
-    def process_node(self, node: TrieNode, actual_word: str, actual_path: Path, swap: bool):
+    def process_node(self, node: TrieNode, actual_word: str, actual_path: Path, swap: bool) -> set:
+        """Recursively process a node to find posible valid words"""
         paths = set()
 
         for word in node.get_words("word0"):
@@ -29,7 +31,8 @@ class SpellSolver:
     
         return paths
 
-    def posible_paths(self, word, path: Path, swap):
+    def posible_paths(self, word, path: Path, swap: bool) -> set:
+        """Get all posible paths that complete a path using swap"""
         paths = set()
 
         for neighbor in path.path[-1].neighbors:
@@ -43,7 +46,8 @@ class SpellSolver:
                     paths.update(self.posible_paths(actual_word, actual_path, swap))
         return paths
 
-    def word_list(self, swap=True):
+    def word_list(self, swap: bool=True) -> list:
+        """Get a valid words list from a solver Spellcast game"""
         self.timer.reset_timer()
         check = set()
         word_list = []
