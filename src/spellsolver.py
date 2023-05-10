@@ -21,7 +21,7 @@ class SpellSolver:
         if swap:
             for word in node.get_words("word1"):
                 index = next((i for i in range(len(actual_word)) if word[i]!=actual_word[i]), len(actual_word))
-                posible_paths = actual_path.complete_path(gameboard.tiles, word, index)
+                posible_paths = actual_path.complete_path(self.gameboard.tiles, word, index)
                 
                 for path in posible_paths:
                     points = path.word_points()

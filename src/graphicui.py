@@ -8,7 +8,6 @@ from utils import valid_word
 
 
 class BoardMenu:
-
     def __init__(self, board, entry):
         self.board = board
         app = board.app
@@ -35,7 +34,6 @@ class BoardMenu:
 
 
 class BoardEntry:
-
     def __init__(self, board, aux_cord):
         self.board = board
         app = board.app
@@ -76,7 +74,6 @@ class BoardEntry:
 
 
 class BoardLabel:
-
     def __init__(self, board, num):
         self.board = board
         app = board.app
@@ -94,7 +91,6 @@ class BoardLabel:
 
 
 class BoardButton:
-
     def __init__(self, board, text, num, command):
         self.board = board
         app = board.app
@@ -110,7 +106,6 @@ class BoardButton:
         
 
 class LabelHover:
-
     def __init__(self, board, label, path):
         self.board = board
         self.label = label
@@ -136,7 +131,6 @@ class LabelHover:
 
 
 class MultHandler:
-
     def __init__(self, board):
         self.board = board
 
@@ -187,7 +181,6 @@ class MultHandler:
 
 
 class Board:
-
     def __init__(self, app, validate):
         self.validate = validate
         self.app = app
@@ -207,8 +200,8 @@ class Board:
         for num in range(10):
             self.labels += [BoardLabel(self, num)]
         
-        self.buttons += [BoardButton(self, "Normal", 0, lambda: self.button_command(swap=""))]
-        self.buttons += [BoardButton(self, "Swap", 1, lambda: self.button_command(swap="1"))]
+        self.buttons += [BoardButton(self, "Normal", 0, lambda: self.button_command(swap=False))]
+        self.buttons += [BoardButton(self, "Swap", 1, lambda: self.button_command(swap=True))]
     
 
     def button_command(self, swap):
@@ -216,8 +209,7 @@ class Board:
         if not valid_word(gameboard_string) or len(gameboard_string) != 25:
             return
 
-        self.gameboard = GameBoard()
-        self.gameboard.init_nodes(gameboard_string)
+        self.gameboard = GameBoard(gameboard_string)
 
         if self.mult.mult_cord != None:
             self.gameboard.set_mult_word(self.mult.mult_cord)
@@ -227,7 +219,7 @@ class Board:
             self.gameboard.set_mult_letter(self.mult.TL_cord, 3)
 
         spellsolver = SpellSolver(self.validate, self.gameboard)
-        word_list = spellsolver.get_word_list(swap)
+        word_list = spellsolver.word_list(swap=swap)
 
         for i, result in enumerate(word_list):
             if i >= len(self.labels):
@@ -237,9 +229,7 @@ class Board:
         
 
 class GraphicUI:
-    
     def __init__(self, root, validate):
-
         self.xoff, self.yoff = 25, 25
         self.root = root
 
@@ -257,7 +247,7 @@ class GraphicUI:
 
 if __name__ == "__main__":
     validate = WordValidate()
-    validate.from_file("wordlist_english.txt", swap=True)
+    validate.load_file("wordlist/wordlist_english.txt")
 
     print("Init GraphicUI")
     root = tk.Tk()
