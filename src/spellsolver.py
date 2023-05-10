@@ -1,8 +1,7 @@
-from gameboard import GameBoard
-from validate import WordValidate
-from trie import TrieNode
-from path import Path
-from utils import Timer
+from src.gameboard import GameBoard
+from src.validate import WordValidate
+from src.trie import TrieNode
+from src.path import Path
 
 
 class SpellSolver:
@@ -10,7 +9,6 @@ class SpellSolver:
     def __init__(self, validate: WordValidate, gameboard: GameBoard) -> None:
         self.gameboard: GameBoard = gameboard
         self.validate: WordValidate = validate
-        self.timer: Timer = Timer()
 
     def process_node(self, node: TrieNode, actual_word: str, actual_path: Path, swap: bool) -> set:
         """Recursively process a node to find posible valid words"""
@@ -48,7 +46,6 @@ class SpellSolver:
 
     def word_list(self, swap: bool=True) -> list:
         """Get a valid words list from a solver Spellcast game"""
-        self.timer.reset_timer()
         check = set()
         word_list = []
 
@@ -60,20 +57,18 @@ class SpellSolver:
                 if size != len(check):
                     word_list += [res]
         word_list.sort(reverse=True, key=lambda x: x[0])
-
-        print(f"The following words have been found (elapsed time: {self.timer.elapsed_millis()} milliseconds)")
-        print([w[:-1] for w in word_list[0:10]])
         return word_list
 
 
 if __name__ == "__main__":
+    gameboard = GameBoard()
     validate = WordValidate()
     validate.load_file("wordlist/wordlist_english.txt")
 
     while(True):
         gameboard_string = input("Insert a gameboard: ")
-        swap = input("Use swap?: ") != "0"
-
-        gameboard = GameBoard(gameboard_string)
+        gameboard.init(gameboard_string)
         spellsolver = SpellSolver(validate, gameboard)
+
+        swap = input("Use swap?: ") != "0"
         spellsolver.word_list(swap=swap)
