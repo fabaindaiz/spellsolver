@@ -28,7 +28,6 @@ def get_word_points(path):
 
 
 class Timer:
-
     def __init__(self):
         self.reset_timer()
     
