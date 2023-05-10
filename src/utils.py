@@ -1,34 +1,23 @@
-
 from datetime import datetime
 
 
 chars = "abcdefghijklmnopqrstuvwxyz"
 
 def valid_word(word):
-    word = word[:-1].lower()
     for letter in word:
         if letter not in chars:
             return False
     return True
 
 
-def get_word_points(path):
-        word_points = 0
-        word_bonus = 0
-        word_mult = 1
+points = {'a': 1, 'b': 4, 'c': 5, 'd': 3, 'e': 1, 'f': 5, 'g': 3, 'h': 4, 'i': 1, 'j': 7, 'k': 6, 'l': 3, 'm': 4,
+    'n': 2, 'o': 1, 'p': 4, 'q': 8, 'r': 2, 's': 2, 't': 2, 'u': 4, 'v': 5, 'w': 5, 'x': 7, 'y': 4, 'z': 8, '': 0}
 
-        for node in path:
-            word_points += node.get_points()
-            word_mult *= node.word_mult
-        
-        if len(path) >= 6:
-            word_bonus += 10
-
-        return word_points * word_mult + word_bonus
+def letter_points(letter):
+    return points[letter]
 
 
 class Timer:
-
     def __init__(self):
         self.reset_timer()
     
