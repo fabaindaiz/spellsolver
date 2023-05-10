@@ -24,7 +24,7 @@ class WordValidate:
     def word1(self, word: str):
         for pos in range(len(word)):
             iword = word[:pos] + word[pos+1:]
-            self.trie.insert(iword, word1=iword)
+            self.trie.insert(iword, word1=word)
 
     def load_file(self, path):
         print("WordValidate is being initialized, this will take several seconds")
@@ -41,8 +41,8 @@ if __name__ == "__main__":
     validate = WordValidate()
     validate.load_file("wordlist/wordlist_english.txt")
 
-    def node_str(node):
-        return f"word0: {node.get_words('word0')}\nword1: {node.get_words('word1')}\n"
+    def node_str(node: TrieNode):
+        return f"word0: {node.get_words('word0', recursive=True)}\nword1: {node.get_words('word1', recursive=True)}\n"
 
     while(True):
         word = input("Insert a word: ")

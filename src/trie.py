@@ -30,9 +30,10 @@ class TrieNode:
                 return None
             node = node.childs[letter]
         return node
-
-    def get_words(self, key: str) -> list:
+    
+    def get_words(self, key: str, recursive=False) -> list:
         words = self.leaf.get(key)
-        for node in self.childs.values():
-            words += node.get_words(key)
+        if recursive:
+            for node in self.childs.values():
+                words += node.get_words(key, recursive=True)
         return words

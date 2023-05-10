@@ -1,4 +1,4 @@
-from utils import letter_points
+from utils import letter_points, valid_word
 
 
 class GameTile:
@@ -9,7 +9,7 @@ class GameTile:
 
         self.word_mult = 1
         self.letter_mult = 1
-        self.points = letter_points(letter)
+        self.letter_points = letter_points(letter)
 
         self.neighbors = []
 
@@ -21,7 +21,7 @@ class GameTile:
         return node
     
     def points(self):
-        return self.points * self.letter_mult
+        return self.letter_points * self.letter_mult
     
     def init_neighbors(self, tiles):
         x, y = self.cord
@@ -32,7 +32,11 @@ class GameTile:
 
 class GameBoard:
     def __init__(self, gameboard: str):
+        gameboard = gameboard.lower()
         self.tiles: dict = {}
+
+        if (not valid_word(gameboard)) or (len(gameboard) != 25):
+            raise Exception("Gameboard init error")
 
         for aux, letter in enumerate(gameboard):
             x = aux % 5

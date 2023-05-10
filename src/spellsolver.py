@@ -1,59 +1,55 @@
-
 from gameboard import GameBoard
 from validate import WordValidate
-from utils import Timer, get_word_points
+from trie import TrieNode
+from path import Path
+from utils import Timer
 
 
 class SpellSolver:
-
     def __init__(self, validate, gameboard):
-        self.gameboard = gameboard
-        self.validate = validate
+        self.gameboard: GameBoard = gameboard
+        self.validate: WordValidate = validate
         self.timer = Timer()
 
-    def process_node(self, node, actual_word, actual_path, swap):
+    def process_node(self, node: TrieNode, actual_word: str, actual_path: Path, swap: bool):
         paths = set()
 
-        if "word0" in node.words:
-            for word in node.words["word0"]:
-                points = get_word_points(actual_path[1:])
-                paths.add((points, word, actual_path[1].cord, tuple(actual_path[1:])))
+        for word in node.get_words("word0"):
+            points = actual_path.word_points()
+            paths.add((points, word, actual_path.path[1].cord, actual_path.path_tuple()))
         
-        if swap == "1" and "word1" in node.words:
-            for word in node.words["word1"]:
+        if swap:
+            for word in node.get_words("word1"):
                 index = next((i for i in range(len(actual_word)) if word[i]!=actual_word[i]), len(actual_word))
-                posible_paths = self.gameboard.complete_path(actual_path, word, index)
+                posible_paths = actual_path.complete_path(gameboard.tiles, word, index)
                 
                 for path in posible_paths:
-                    points = get_word_points(path[1:])
-                    paths.add((points, word, actual_path[1].cord, word[index], path[index+1].cord, tuple(path[1:]))) # tuple([(t.cord, t.letter) for t in path[1:]])
+                    points = path.word_points()
+                    paths.add((points, word, actual_path.path[1].cord, word[index], path.path[index+1].cord, actual_path.path_tuple()))
     
         return paths
 
-    def get_posible_paths(self, word, path, swap):
+    def posible_paths(self, word, path: Path, swap):
         paths = set()
 
-        for neighbor in path[-1].neighbors:
-            if neighbor not in path:
+        for neighbor in path.path[-1].neighbors:
+            if neighbor not in path.path:
                 actual_word = word + neighbor.letter
-                actual_path = path + [neighbor]
+                actual_path = Path(path.path + [neighbor])
 
-                node = self.validate.get_node(actual_word)
-                
-                if node != False:
+                node = self.validate.trie.get_node(actual_word)
+                if node:
                     paths.update(self.process_node(node, actual_word, actual_path, swap))
-                    
-                    paths.update(self.get_posible_paths(actual_word, actual_path, swap))
-
+                    paths.update(self.posible_paths(actual_word, actual_path, swap))
         return paths
 
-    def get_word_list(self, swap=True):
+    def word_list(self, swap=True):
         self.timer.reset_timer()
         check = set()
         word_list = []
 
         for tile in self.gameboard.tiles.values():
-            result = self.get_posible_paths("", [tile], swap)
+            result = self.posible_paths("", Path([tile]), swap)
             for res in result:
                 size = len(check)
                 check.add(res[0:2])
@@ -67,16 +63,13 @@ class SpellSolver:
 
 
 if __name__ == "__main__":
-    print("Init WordValidate")
     validate = WordValidate()
-    validate.from_file("wordlist_english.txt", swap=True)
+    validate.load_file("wordlist/wordlist_english.txt")
 
     while(True):
         gameboard_string = input("Insert a gameboard: ")
-        swap_string = input("Use swap?: ")
+        swap = input("Use swap?: ") != "0"
 
-        gameboard = GameBoard()
-        gameboard.init_nodes(gameboard_string)
-
+        gameboard = GameBoard(gameboard_string)
         spellsolver = SpellSolver(validate, gameboard)
-        spellsolver.get_word_list(swap=swap_string)
+        spellsolver.word_list(swap=swap)

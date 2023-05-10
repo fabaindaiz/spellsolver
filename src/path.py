@@ -3,19 +3,20 @@
 class Path:
     def __init__(self, path: list):
         self.path: list = path
-
-    def copy(self):
-        node = Path(self.path)
-        return node
+    
+    def path_tuple(self):
+        return tuple(self.path[1:])
 
     def word_points(self):
+        path = self.path[1:]
         word_points = 0
-        word_bonus = 0
         word_mult = 1
 
-        if len(self.path) >= 6:
+        word_bonus = 0
+        if len(path) >= 6:
             word_bonus += 10
-        for node in self.path:
+        
+        for node in path:
             word_points += node.points()
             word_mult *= node.word_mult
         return word_points * word_mult + word_bonus
@@ -28,11 +29,11 @@ class Path:
         return nodes
     
     def complete_path(self, tiles, word, pos):
-        nodes = set(tiles)
+        nodes = set(tiles.values())
         if 0 <= pos < len(word):
-            nodes = nodes.intersection(self.path[pos].suggest_node(self.path))
+            nodes = nodes.intersection(self.suggest_node(self.path[pos].neighbors))
         if 0 <= pos+1 < len(word):
-            nodes = nodes.intersection(self.path[pos+1].suggest_node(self.path))
+            nodes = nodes.intersection(self.suggest_node(self.path[pos+1].neighbors))
         
         paths = []
         letter = word[pos]
@@ -41,5 +42,5 @@ class Path:
                 new_node = node.copy(letter)
                 new_path = self.path.copy()
                 new_path.insert(pos+1, new_node)
-                paths += [new_path]
+                paths += [Path(new_path)]
         return paths
