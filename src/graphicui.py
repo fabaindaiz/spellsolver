@@ -249,7 +249,6 @@ if __name__ == "__main__":
     validate = WordValidate()
     validate.load_file("wordlist/wordlist_english.txt")
 
-    print("Init GraphicUI")
     root = tk.Tk()
     app = GraphicUI(root, validate)
     root.mainloop()
