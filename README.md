@@ -6,14 +6,10 @@ Spellsolver is a software that helps to search for the best possible word in Spe
 - Initialization of the trie structure to store valid words can take anywhere from 10 to 30 seconds and uses approximately 1 GB of ram memory, but allows all spellsolver queries to be executed in less than a second.
 - I have planned to implement double swap, but with some algorithm that gives good results in a reasonable time (any ideas?)
 
-
-## TODO
+### TODO
 - Add general documentation about how spellsolver works
-- Modify spellsolver with better implementations
-- Modify graphicui with better implementations
 
-
-## Requirements
+### Requirements
 - python3
 - tkinter
 
@@ -21,7 +17,7 @@ Spellsolver is a software that helps to search for the best possible word in Spe
 ## instructions for use
 
 ### GraphicUI
-1. Move to folder "src/" and execute graphicui.py
+1. Execute graphicui.py
 2. Write the letters on the board in the interface table
 3. Use the right click to select letter modifiers or to delete them
 4. Click on one of the buttons to search for words according to the amount of swap you want to use
@@ -31,7 +27,7 @@ Spellsolver is a software that helps to search for the best possible word in Spe
 
 
 ### ConsoleUI
-1. Move to folder "src/" and execute consoleui.py
+1. Execute consoleui.py
 2. Write the letters on the board in a single line following the order left -> right and then up -> down
 3. Write the coordinates of the corresponding multipliers and leave blank if not applicable (eg 34 or 01)
 4. To activate the swap mode (consider the use of a swap) you must put a 1, otherwise it will not be activated
@@ -63,7 +59,7 @@ Use swap?: 1
 ### Generate wordlist
 It is not necessary to carry out this step since wordlist is already generated
 
-1. Move to folder "src/wordlist/" and execute generate_wordlist.py
+1. Move to path "src/wordlist/" and execute generate_wordlist.py
 
 
 ## Acknowledgements

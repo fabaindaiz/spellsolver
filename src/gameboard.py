@@ -1,4 +1,4 @@
-from utils import letter_points, valid_word
+from src.utils import letter_points, valid_word
 
 
 class GameTile:
@@ -36,9 +36,11 @@ class GameTile:
 
 class GameBoard:
     """Represents a Spellcast gameboard"""
-    def __init__(self, gameboard: str) -> None:
-        gameboard = gameboard.lower()
+    def __init__(self) -> None:
         self.tiles: dict = {}
+    
+    def load(self, gameboard: str) -> None:
+        gameboard = gameboard.lower()
 
         if (not valid_word(gameboard)) or (len(gameboard) != 25):
             raise Exception("Gameboard init error")
@@ -61,8 +63,10 @@ class GameBoard:
 
 
 if __name__ == "__main__":
+    gameboard = GameBoard()
+
     gameboard_string = input("Insert a gameboard: ")
-    gameboard = GameBoard(gameboard_string)
+    gameboard.load(gameboard_string)
 
     def print_gameboard(gameboard):
         """Return a string representation of a GameBoard"""

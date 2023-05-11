@@ -1,5 +1,4 @@
-from trie import TrieLeaf, TrieNode
-from utils import Timer
+from src.trie import TrieLeaf, TrieNode
 
 
 class ValidateLeaf(TrieLeaf):
@@ -21,7 +20,6 @@ class WordValidate:
     """Validate a word using a trie"""
     def __init__(self) -> None:
         self.trie: TrieNode = TrieNode('', ValidateLeaf)
-        self.timer: Timer = Timer()
 
     def word0(self, word: str) -> None:
         """Insert a word as word0 in the trie"""
@@ -35,14 +33,11 @@ class WordValidate:
 
     def load_file(self, path) -> None:
         """Initialize the trie with all words from a file"""
-        print("WordValidate is being initialized, this will take several seconds")
-        self.timer.reset_timer()
         with open(path) as file:
             for word in file.readlines():
                 word = word[:-1]
                 self.word1(word)
                 self.word0(word)
-        print(f"WordValidate successfully initialized (elapsed time: {self.timer.elapsed_seconds()} seconds)")
 
         
 if __name__ == "__main__":
