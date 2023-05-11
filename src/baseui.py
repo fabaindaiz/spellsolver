@@ -20,12 +20,12 @@ class BaseUI:
         """Load all values of the gameboard"""
         self.gameboard.load(gameboard_string)
 
-    def solve(self, swap):
+    def solve(self, swap, num=10):
         """Solve the spellcast game"""
         self.timer.reset_timer()
         spellsolver = SpellSolver(self.validate, self.gameboard)
         word_list = spellsolver.word_list(swap=swap)
 
         print(f"The following words have been found (elapsed time: {self.timer.elapsed_millis()} milliseconds)")
-        print([w[:-1] for w in word_list[0:10]])
+        print([w[:-1] for w in word_list[:num]])
         return word_list
