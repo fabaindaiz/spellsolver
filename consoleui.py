@@ -11,17 +11,12 @@ class ConsoleUI(BaseUI):
             description='Spellsolver',
             epilog="Word Finder for Discord Spellcast")
 
-        self.parser.add_argument("--game", type=str, required=False,
-            help="")
-        self.parser.add_argument("--swap", type=str, required=False,
-            help="")
+        self.parser.add_argument("--game", type=str, required=False, help="")
+        self.parser.add_argument("--swap", type=str, required=False, help="")
         
-        self.parser.add_argument("--x2", type=str, required=False,
-            help="")
-        self.parser.add_argument("--dl", type=str, required=False,
-            help="")
-        self.parser.add_argument("--tl", type=str, required=False,
-            help="")
+        self.parser.add_argument("--x2", type=str, required=False, help="")
+        self.parser.add_argument("--dl", type=str, required=False, help="")
+        self.parser.add_argument("--tl", type=str, required=False, help="")
         
         self.opt = self.parser.parse_args()
     
@@ -45,22 +40,26 @@ class ConsoleUI(BaseUI):
         self.set_multipliers(opt.x2, opt.dl, opt.tl)
         self.solve(opt.swap)     
 
-    def mainloop(self) -> None:
+    def mainloop(self) -> bool:
         """Main loop of the Console UI"""
         if self.opt.game:
             self.mainargs(self.opt)
             return False
 
-        gameboard_string = input("Insert a gameboard: ")
-        self.load(gameboard_string)
+        try:
+            gameboard_string = input("Insert a gameboard: ")
+            self.load(gameboard_string)
 
-        mult_string = input("Insert 2x cord: ")
-        DL_string = input("Insert DL cord: ")
-        TL_string = input("Insert TL cord: ")
-        self.set_multipliers(mult_string, DL_string, TL_string)
+            mult_string = input("Insert 2x cord: ")
+            DL_string = input("Insert DL cord: ")
+            TL_string = input("Insert TL cord: ")
+            self.set_multipliers(mult_string, DL_string, TL_string)
 
-        swap = input("Use swap?: ") == "1"
-        self.solve(swap)
+            swap = input("Use swap?: ") == "1"
+            self.solve(swap)
+        except Exception as e:
+            print("Exception:", e)
+        
         return True
 
 
@@ -69,7 +68,4 @@ if __name__ == "__main__":
 
     loop = True
     while(loop):
-        try:
-            loop = app.mainloop()
-        except Exception as e:
-            print("Exception", e)
+        loop = app.mainloop()

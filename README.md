@@ -8,8 +8,6 @@ Spellsolver is a software that helps to search for the best possible word in Spe
 
 ### TODO
 - Add general documentation about how spellsolver works
-- Modify spellsolver with better implementations
-- Modify graphicui with better implementations
 
 ### Requirements
 - python3
