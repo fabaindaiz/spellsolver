@@ -1,5 +1,4 @@
-import tkinter as tk
-from src.tkinterwidget import Board, LabelHover
+from src.tkinterwidget import Board
 from src.baseui import BaseUI
 
 
@@ -7,7 +6,6 @@ class TkinterBoard(Board):
     """Represents a board with his logic"""
     def __init__(self, app: BaseUI) -> None:
         super().__init__(app)
-
         self.mult: MultHandler = MultHandler(self)
 
     def button_command(self, swap: bool) -> None:
@@ -23,9 +21,7 @@ class TkinterBoard(Board):
             self.app.gameboard.set_mult_letter(self.mult.TL_cord, 3)
         
         word_list = self.app.solve(swap)
-        for label, result in zip(self.labels, word_list):
-            label.set_text(result[:2])
-            LabelHover(self, label, result[-1])
+        self.set_results(word_list)
 
 class MultHandler:
     """Handle Spellcast word & letter multipliers"""
@@ -36,57 +32,47 @@ class MultHandler:
         self.DL_cord: tuple = None
         self.TL_cord: tuple = None
     
-    def font_conf(self, color: str) -> dict:
-        """Get default font configuration"""
-        return {
-            "highlightbackground": color,
-            "highlightcolor": color,
-            "background": "white",
-            "font": ('Roboto', 16, tk.font.NORMAL),
-            "fg": "black"
-        }
-    
     def set_mult_word(self, cord: tuple) -> None:
         """Set a mult_word in a tile"""
         if self.mult_cord != None:
-            self.board.tiles[self.mult_cord].entry.entry.configure(**self.font_conf("black"))
+            self.board.tiles[self.mult_cord].multiplier("black")
 
         self.mult_cord = cord
-        self.board.tiles[self.mult_cord].entry.entry.configure(**self.font_conf("deep pink"))
+        self.board.tiles[self.mult_cord].multiplier("deep pink")
 
     def set_mult_DL(self, cord: tuple) -> None:
         """Set a mult_DL in a tile"""
         if self.DL_cord != None:
-            self.board.tiles[self.DL_cord].entry.entry.configure(**self.font_conf("black"))
+            self.board.tiles[self.DL_cord].multiplier("black")
         
         self.DL_cord = cord
-        self.board.tiles[self.DL_cord].entry.entry.configure(**self.font_conf("gold"))
+        self.board.tiles[self.DL_cord].multiplier("gold")
 
     def set_mult_TL(self, cord: tuple) -> None:
         """Set a mult_TL in a tile"""
         if self.TL_cord != None:
-            self.board.tiles[self.TL_cord].entry.entry.configure(**self.font_conf("black"))
+            self.board.tiles[self.TL_cord].multiplier("black")
         
         self.TL_cord = cord
-        self.board.tiles[self.TL_cord].entry.entry.configure(**self.font_conf("gold"))
+        self.board.tiles[self.TL_cord].multiplier("gold")
 
     def configure_mult(self) -> None:
         """Change colors of a tile based in the multipliers"""
         if self.mult_cord != None:
-            self.board.tiles[self.mult_cord].entry.entry.configure(**self.font_conf("deep pink"))
+            self.board.tiles[self.mult_cord].multiplier("deep pink")
         if self.DL_cord != None:
-            self.board.tiles[self.DL_cord].entry.entry.configure(**self.font_conf("gold"))
+            self.board.tiles[self.DL_cord].multiplier("gold")
         if self.TL_cord != None:
-            self.board.tiles[self.TL_cord].entry.entry.configure(**self.font_conf("gold"))
+            self.board.tiles[self.TL_cord].multiplier("gold")
         
     def remove_mult(self) -> None:
         """Remove colors of a tile"""
         if self.mult_cord != None:
-            self.board.tiles[self.mult_cord].entry.entry.configure(**self.font_conf("black"))
+            self.board.tiles[self.mult_cord].multiplier("black")
         if self.DL_cord != None:
-            self.board.tiles[self.DL_cord].entry.entry.configure(**self.font_conf("black"))
+            self.board.tiles[self.DL_cord].multiplier("black")
         if self.TL_cord != None:
-            self.board.tiles[self.TL_cord].entry.entry.configure(**self.font_conf("black"))
+            self.board.tiles[self.TL_cord].multiplier("black")
         
         self.mult_cord = None
         self.DL_cord = None

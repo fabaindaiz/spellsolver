@@ -1,14 +1,13 @@
 import tkinter as tk
 from tkinter.font import Font
 from src.baseui import BaseUI
-from src.utils import get_coordinate
+from src.utils import get_coordinate, font_config
 
 
 class Board:
     """Represents an abstract board"""
     def __init__(self, app: BaseUI) -> None:
         self.app: BaseUI = app
-        self.mult = None
 
         self.buttons: list = []
         self.labels: list = []
@@ -22,6 +21,10 @@ class Board:
 
         for aux_cord in range(25):
             self.tiles[get_coordinate(aux_cord)] = BoardTile(self, aux_cord)
+    
+    def set_results(self, word_list):
+        for label, result in zip(self.labels, word_list):
+            label.set_hover(text=result[:2], path=result[-1])
 
 class BoardTile:
     """Represents a tile from the board with his logic"""
@@ -36,6 +39,17 @@ class BoardTile:
     def letter(self) -> str:
         """Get the letter of the tile in lower case"""
         return self.stringvar.get().lower()
+    
+    def multiplier(self, color: str) -> None:
+        """Set multiplier color in tile"""
+        font_config = {
+            "highlightbackground": color,
+            "highlightcolor": color,
+            "background": "white",
+            "font": ('Roboto', 16, tk.font.NORMAL),
+            "fg": "black"
+        }
+        self.entry.entry.configure(**font_config)
 
     def hover(self, letter: str, swap: bool) -> None:
         """Handle hover event on the tile"""
@@ -127,6 +141,8 @@ class BoardLabel:
         self.board: Board = board
         app = board.app
 
+        self.hover: LabelHover = None
+
         self.label = tk.Label(app.root)
         self.label["borderwidth"] = "1px"
         self.label["font"] = Font(family='Times',size=14)
@@ -135,8 +151,9 @@ class BoardLabel:
         self.label["text"] = text
         self.label.place(x=320,y=10+num*22,width=250,height=25)
     
-    def set_text(self, text: str) -> None:
-        """Set text value of the label"""
+    def set_hover(self, text: str, path: list):
+        """Set hover & text value of the label"""
+        self.hover = LabelHover(self.board, self, path)
         self.label["text"] = str(text)
 
 class LabelHover:
