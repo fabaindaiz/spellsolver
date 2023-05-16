@@ -8,7 +8,7 @@ class GraphicUI(BaseUI):
     def __init__(self) -> None:
         super().__init__()
         
-        self.root = tk.Tk()
+        self.root: tk.Tk = tk.Tk()
         self.root.title("Spellsolver")
 
         width = 600
