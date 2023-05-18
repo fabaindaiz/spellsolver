@@ -54,7 +54,7 @@ if __name__ == "__main__":
 
     while(True):
         gameboard_string = input("Insert a gameboard: ")
-        gameboard.init(gameboard_string)
+        gameboard.load(gameboard_string)
         spellsolver = SpellSolver(validate, gameboard)
 
         swap = input("Use swap?: ") != "0"
