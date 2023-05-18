@@ -17,7 +17,7 @@ Spellsolver is a software that helps to search for the best possible word in Spe
 ## instructions for use
 
 ### GraphicUI
-1. Execute graphicui.py
+1. From this folder execute graphicui.py
 2. Write the letters on the board in the interface table
 3. Use the right click to select letter modifiers or to delete them
 4. Click on one of the buttons to search for words according to the amount of swap you want to use
@@ -27,7 +27,7 @@ Spellsolver is a software that helps to search for the best possible word in Spe
 
 
 ### ConsoleUI
-1. Execute consoleui.py
+1. From this folder execute consoleui.py
 2. Write the letters on the board in a single line following the order left -> right and then up -> down
 3. Write the coordinates of the corresponding multipliers and leave blank if not applicable (eg 34 or 01)
 4. To activate the swap mode (consider the use of a swap) you must put a 1, otherwise it will not be activated

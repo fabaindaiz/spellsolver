@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter.font import Font
 from src.baseui import BaseUI
-from src.utils import get_coordinate, font_config
+from src.utils import get_coordinate
 
 
 class Board:
