@@ -6,7 +6,7 @@ from src.utils import Timer
 
 class BaseUI:
     """Represents a base implementation of UI with all basics methods"""
-    def __init__(self):
+    def __init__(self) -> None:
         self.timer: Timer = Timer()
         self.validate = WordValidate()
         self.gameboard = GameBoard()
@@ -16,11 +16,11 @@ class BaseUI:
         self.validate.load_file("src/wordlist/wordlist_english.txt")
         print(f"WordValidate successfully initialized (elapsed time: {self.timer.elapsed_seconds()} seconds)")
 
-    def load(self, gameboard_string):
+    def load(self, gameboard_string: str) -> None:
         """Load all values of the gameboard"""
         self.gameboard.load(gameboard_string)
 
-    def solve(self, swap, num=10):
+    def solve(self, swap: bool, num: int=10) -> list:
         """Solve the spellcast game"""
         self.timer.reset_timer()
         spellsolver = SpellSolver(self.validate, self.gameboard)

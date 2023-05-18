@@ -31,7 +31,7 @@ Spellsolver is a software that helps to search for the best possible word in Spe
 ### GraphicUI
 1. From this folder execute 
 ```bash
-uvicorn webapi:app --host 0.0.0.0 --port 8080 --reload
+uvicorn webapi:app.api --host 0.0.0.0 --port 8080
 ```
 2. Navigate to localhost:8080/docs to get the endpoints
 
@@ -65,6 +65,7 @@ Use swap?: 1
 [(66, 'zoftig', (3, 2), 'z', (2, 3)), (58, 'vomitory', (3, 1), 'y', (0, 2)), (58, 'vomitous', (3, 1), 'u', (0, 0)), (58, 'comfits', (3, 2), 'c', (4, 2)), (58, 'jabots', (2, 4), 'j', (2, 3)), (58, 'faqirs', (2, 4), 'f', (2, 3)), (54, 'fimbria', (2, 2), 'r', (4, 3)), (54, 'comfit', (3, 2), 'c', (4, 2)), (54, 'setiform', (4, 0), 'r', (3, 3)), (54, 'maxing', (2, 3), 'n', (0, 1)), (54, 'maxima', (1, 4), 'm', (0, 4)), (54, 'fibroma', (4, 4), 'r', (4, 2)), (52, 'soffit', (1, 0), 'f', (2, 3)), (52, 'tombac', (2, 1), 'c', (3, 4)), (52, 'vomited', (3, 1), 'd', (4, 0)), (52, 'tomfool', (2, 1), 'o', (1, 0)), (52, 'motleys', (2, 3), 'y', 
 (4, 1)), (52, 'covets', (3, 2), 'c', (2, 3)), (52, 'akimbo', (4, 3), 'k', (4, 4)), (50, 'gimbal', (0, 2), 'l', (1, 4))]
 ```
+
 
 ### Generate wordlist
 It is not necessary to carry out this step since wordlist is already generated
