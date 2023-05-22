@@ -20,7 +20,7 @@ class WebAPI(BaseUI):
         self.api.include_router(self.solver.router)
 
     def mainloop(self) -> bool:
-        """Mainloop of the Graphic UI"""
+        """Mainloop of the WebAPI"""
         self.server.run()
         return False
 
