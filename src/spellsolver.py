@@ -13,11 +13,11 @@ class SpellSolver:
 
     def process_node(self, node: TrieNode, actual_word: str, actual_path: Path, swap: bool) -> set:
         """Recursively process a node to find posible valid words"""
-        results = set()
+        paths = set()
 
         for word in node.get_words("word0"):
             #paths.add((actual_path.word_points(), word, actual_path.path[1].cord, actual_path.path_tuple()))
-            results.add(ResultWord(points=actual_path.word_points(), word=word, path=actual_path.path_tuple()))
+            paths.add(ResultWord(points=actual_path.word_points(), word=word, path=actual_path.path_tuple()))
         
         if swap:
             for word in node.get_words("word1"):
@@ -25,29 +25,28 @@ class SpellSolver:
                 
                 for path in actual_path.complete_path(self.gameboard.tiles, word, index):
                     #paths.add((path.word_points(), word, actual_path.path[1].cord, word[index], path.path[index+1].cord, path.path_tuple()))
-                    results.add(ResultWord(points=path.word_points(), word=word, path=path.path_tuple(), swap=True))
-        return results
+                    paths.add(ResultWord(points=path.word_points(), word=word, path=path.path_tuple(), swap=True))
+        return paths
 
     def posible_paths(self, word, path: Path, swap: bool) -> set:
         """Get all posible paths that complete a path using swap"""
-        results = set()
+        paths = set()
         for neighbor in path.suggest_node(path.path[-1].neighbors):
             actual_word = word + neighbor.letter
             actual_path = Path(path.path + [neighbor])
 
             node = self.validate.trie.get_node(actual_word)
             if node:
-                results.update(self.process_node(node, actual_word, actual_path, swap))
-                results.update(self.posible_paths(actual_word, actual_path, swap))
-        return results
+                paths.update(self.process_node(node, actual_word, actual_path, swap))
+                paths.update(self.posible_paths(actual_word, actual_path, swap))
+        return paths
 
-    def word_list(self, swap: bool=True) -> list:
+    def word_list(self, swap: bool=True) -> ResultList:
         """Get a valid words list from a solver Spellcast game"""
-        word_list = {}
+        results = ResultList()
         for tile in self.gameboard.tiles.values():
-            for res in self.posible_paths("", Path([tile]), swap):
-                word_list.update({res.word: res})
-        return sorted(word_list.values(), reverse=True, key=lambda x: x.points)
+            results.update(self.posible_paths("", Path([tile]), swap))
+        return results
 
 
 if __name__ == "__main__":

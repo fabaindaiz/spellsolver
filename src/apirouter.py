@@ -37,9 +37,13 @@ class SolverRouter(BaseRouter):
             if data.TL:
                 self.app.gameboard.set_mult_letter(data.TL, 3)
             
-            word_list = self.app.solve(data.swap)
+            results = self.app.solve(data.swap)
+            response = {
+                "elapsed": self.timer.elapsed_millis(),
+                "words": results.sorted()
+            }
             return {
-                "successful": True, "message": "Spellsolver executed correctly", "data": word_list }
+                "successful": True, "message": "Spellsolver executed correctly", "data": response }
     
         except Exception as e:
             return { "successful": False, "message": "Spellsolver cannot be executed", "data": e }

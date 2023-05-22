@@ -1,9 +1,16 @@
 
 
-class ResultList:
+class ResultList():
     def __init__(self) -> None:
         self.data: dict = {}
         self.time: float = None
+    
+    def update(self, results: list) -> None:
+        for res in results:
+            self.data.update({res.word: res})
+    
+    def sorted(self) -> list:
+        return sorted(self.data.values(), reverse=True, key=lambda x: x.points)
 
 class ResultWord:
     def __init__(self, points: int, word: str, path: list, swap: bool=False) -> None:

@@ -38,7 +38,10 @@ class ConsoleUI(BaseUI):
         """Main loop of the Console UI using arguments"""
         self.load(opt.game)
         self.set_multipliers(opt.x2, opt.dl, opt.tl)
-        self.solve(opt.swap)     
+        results = self.solve(opt.swap)
+
+        print(f"The following words have been found (elapsed time: {self.timer.elapsed_millis()} milliseconds)")
+        print([word.text() for word in results.sorted()[:10]])
 
     def mainloop(self) -> bool:
         """Main loop of the Console UI"""
@@ -46,19 +49,22 @@ class ConsoleUI(BaseUI):
             self.mainargs(self.opt)
             return False
 
-        try:
-            gameboard_string = input("Insert a gameboard: ")
-            self.load(gameboard_string)
+        #try:
+        gameboard_string = input("Insert a gameboard: ")
+        self.load(gameboard_string)
 
-            mult_string = input("Insert 2x cord: ")
-            DL_string = input("Insert DL cord: ")
-            TL_string = input("Insert TL cord: ")
-            self.set_multipliers(mult_string, DL_string, TL_string)
+        mult_string = input("Insert 2x cord: ")
+        DL_string = input("Insert DL cord: ")
+        TL_string = input("Insert TL cord: ")
+        self.set_multipliers(mult_string, DL_string, TL_string)
 
-            swap = input("Use swap?: ") == "1"
-            word_list = self.solve(swap)
-        except Exception as e:
-            print("Exception:", e)
+        swap = input("Use swap?: ") == "1"
+        results = self.solve(swap)
+
+        print(f"The following words have been found (elapsed time: {self.timer.elapsed_millis()} milliseconds)")
+        print([word.text() for word in results.sorted()[:10]])
+        #except Exception as e:
+        #    print("Exception:", e)
         
         return True
 
