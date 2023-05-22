@@ -27,5 +27,5 @@ class BaseUI:
         word_list = spellsolver.word_list(swap=swap)
 
         print(f"The following words have been found (elapsed time: {self.timer.elapsed_millis()} milliseconds)")
-        print([w[:-1] for w in word_list[:num]])
-        return word_list
+        print([word.text() for word in word_list[:num]])
+        return [word.text() for word in word_list[:num]]

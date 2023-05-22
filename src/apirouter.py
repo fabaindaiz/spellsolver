@@ -24,7 +24,7 @@ class SolverRouter(BaseRouter):
 
             if not response["successful"]:
                 return self.error(response)
-            return response  
+            return response
     
     def solve(self, data: SolverData) -> dict:
         try:

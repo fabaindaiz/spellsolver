@@ -56,7 +56,7 @@ class ConsoleUI(BaseUI):
             self.set_multipliers(mult_string, DL_string, TL_string)
 
             swap = input("Use swap?: ") == "1"
-            self.solve(swap)
+            word_list = self.solve(swap)
         except Exception as e:
             print("Exception:", e)
         

@@ -24,7 +24,7 @@ class Board:
     
     def set_results(self, word_list):
         for label, result in zip(self.labels, word_list):
-            label.set_hover(text=result[:2], path=result[-1])
+            label.set_hover(text=result.text(), path=result.path)
 
 class BoardTile:
     """Represents a tile from the board with his logic"""

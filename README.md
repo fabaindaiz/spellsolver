@@ -28,12 +28,9 @@ Spellsolver is a software that helps to search for the best possible word in Spe
 ![gui image](img/gui2.png?raw=true "GUI")
 
 
-### GraphicUI
-1. From this folder execute 
-```bash
-uvicorn webapi:app.api --host 0.0.0.0 --port 8080
-```
-2. Navigate to localhost:8080/docs to get the endpoints
+### WebAPI
+1. From this folder execute webapi.py
+2. Navigate to localhost:8080/docs to test the endpoints
 
 
 ### ConsoleUI
