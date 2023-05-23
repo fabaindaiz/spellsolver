@@ -25,4 +25,6 @@ class BaseUI:
         """Solve the spellcast game"""
         self.timer.reset_timer()
         spellsolver = SpellSolver(self.validate, self.gameboard)
-        return spellsolver.word_list(swap=swap)
+        results = spellsolver.word_list(swap=swap)
+        results.time = self.timer.elapsed_millis()
+        return results

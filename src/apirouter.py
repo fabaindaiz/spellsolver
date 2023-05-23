@@ -39,7 +39,7 @@ class SolverRouter(BaseRouter):
             
             results = self.app.solve(data.swap)
             response = {
-                "elapsed": self.timer.elapsed_millis(),
+                "elapsed": results.time,
                 "words": results.sorted()
             }
             return {

@@ -16,7 +16,6 @@ class SpellSolver:
         paths = set()
 
         for word in node.get_words("word0"):
-            #paths.add((actual_path.word_points(), word, actual_path.path[1].cord, actual_path.path_tuple()))
             paths.add(ResultWord(points=actual_path.word_points(), word=word, path=actual_path.path_tuple()))
         
         if swap:
@@ -24,8 +23,7 @@ class SpellSolver:
                 index = next((i for i in range(len(actual_word)) if word[i]!=actual_word[i]), len(actual_word))
                 
                 for path in actual_path.complete_path(self.gameboard.tiles, word, index):
-                    #paths.add((path.word_points(), word, actual_path.path[1].cord, word[index], path.path[index+1].cord, path.path_tuple()))
-                    paths.add(ResultWord(points=path.word_points(), word=word, path=path.path_tuple(), swap=True))
+                    paths.add(ResultWord(points=path.word_points(), word=word, path=path.path_tuple(), swap=index))
         return paths
 
     def posible_paths(self, word, path: Path, swap: bool) -> set:

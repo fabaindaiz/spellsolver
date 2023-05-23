@@ -21,10 +21,7 @@ class TkinterBoard(Board):
             self.app.gameboard.set_mult_letter(self.mult.TL_cord, 3)
         
         results = self.app.solve(swap)
-        sorted = results.sorted()
-
-        print(f"The following words have been found (elapsed time: {self.timer.elapsed_millis()} milliseconds)")
-        print([word.text() for word in sorted[:10]])
+        sorted = results.sorted(console=True)
         self.set_results(sorted)
 
 class MultHandler:
