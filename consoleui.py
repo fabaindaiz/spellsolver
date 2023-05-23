@@ -38,7 +38,10 @@ class ConsoleUI(BaseUI):
         """Main loop of the Console UI using arguments"""
         self.load(opt.game)
         self.set_multipliers(opt.x2, opt.dl, opt.tl)
-        self.solve(opt.swap)     
+        results = self.solve(opt.swap)
+
+        print(f"The following words have been found (elapsed time: {results.time} milliseconds)")
+        print([word.text() for word in results.sorted()[:10]])
 
     def mainloop(self) -> bool:
         """Main loop of the Console UI"""
@@ -56,7 +59,8 @@ class ConsoleUI(BaseUI):
             self.set_multipliers(mult_string, DL_string, TL_string)
 
             swap = input("Use swap?: ") == "1"
-            self.solve(swap)
+            results = self.solve(swap)
+            results.sorted(console=True)
         except Exception as e:
             print("Exception:", e)
         

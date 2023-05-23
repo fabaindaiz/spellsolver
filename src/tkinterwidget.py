@@ -1,5 +1,7 @@
 import tkinter as tk
 from tkinter.font import Font
+from src.resultlist import ResultWord
+from src.gameboard import GameTile
 from src.baseui import BaseUI
 from src.utils import get_coordinate
 
@@ -9,9 +11,9 @@ class Board:
     def __init__(self, app: BaseUI) -> None:
         self.app: BaseUI = app
 
-        self.buttons: list = []
-        self.labels: list = []
-        self.tiles: dict = {}
+        self.buttons: list[BoardButton] = []
+        self.labels: list[BoardLabel] = []
+        self.tiles: dict[tuple[int], BoardTile] = {}
 
         self.buttons += [BoardButton(self, 0, "Normal", lambda: self.button_command(swap=False))]
         self.buttons += [BoardButton(self, 1, "Swap", lambda: self.button_command(swap=True))]
@@ -23,8 +25,11 @@ class Board:
             self.tiles[get_coordinate(aux_cord)] = BoardTile(self, aux_cord)
     
     def set_results(self, word_list):
+        """Set spellsolver result"""
+        label: BoardLabel
+        result: ResultWord
         for label, result in zip(self.labels, word_list):
-            label.set_hover(text=result[:2], path=result[-1])
+            label.set_hover(text=result.text(), path=result.path)
 
 class BoardTile:
     """Represents a tile from the board with his logic"""
@@ -79,7 +84,7 @@ class BoardMenu:
 
         cord = get_coordinate(aux_cord)
 
-        self.menu = tk.Menu(app.root, tearoff = 0)
+        self.menu: tk.Menu = tk.Menu(app.root, tearoff = 0)
         self.menu.add_command(label="2X", command=lambda: self.board.mult.set_mult_word(cord))
         self.menu.add_command(label="DL", command=lambda: self.board.mult.set_mult_DL(cord))
         self.menu.add_command(label="TL", command=lambda: self.board.mult.set_mult_TL(cord))
@@ -126,7 +131,7 @@ class BoardButton:
         self.board: Board = board
         app = board.app
 
-        self.button = tk.Button(app.root)
+        self.button: tk.Button = tk.Button(app.root)
         self.button["bg"] = "#e9e9ed"
         self.button["font"] = Font(family='Times',size=10)
         self.button["fg"] = "#000000"
@@ -143,7 +148,7 @@ class BoardLabel:
 
         self.hover: LabelHover = None
 
-        self.label = tk.Label(app.root)
+        self.label: tk.Label = tk.Label(app.root)
         self.label["borderwidth"] = "1px"
         self.label["font"] = Font(family='Times',size=14)
         self.label["fg"] = "#333333"
@@ -151,17 +156,17 @@ class BoardLabel:
         self.label["text"] = text
         self.label.place(x=320,y=10+num*22,width=250,height=25)
     
-    def set_hover(self, text: str, path: list):
+    def set_hover(self, text: str, path: list[GameTile]):
         """Set hover & text value of the label"""
         self.hover = LabelHover(self.board, self, path)
         self.label["text"] = str(text)
 
 class LabelHover:
     """Represent a hover event handler for result labels"""
-    def __init__(self, board: Board, label: BoardLabel, path: list) -> None:
+    def __init__(self, board: Board, label: BoardLabel, path: list[GameTile]) -> None:
         self.board: Board = board
         self.label: BoardLabel = label
-        self.path: list = path
+        self.path: list[GameTile] = path
 
         self.label.label.bind('<Enter>', lambda _ : self._hover())
         self.label.label.bind('<Leave>', lambda _ : self._unhover())

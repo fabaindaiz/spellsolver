@@ -4,14 +4,14 @@ from src.trie import TrieLeaf, TrieNode
 class ValidateLeaf(TrieLeaf):
     """Implements TrieLeaf interface to store words"""
     def __init__(self) -> None:
-        self.words: dict = {}
+        self.words: dict[str, list[str]] = {}
 
     def insert(self, **kwargs: dict) -> None:
         """Insert a word in the TrieLeaf"""
         for key, value in kwargs.items():
             self.words.setdefault(key, []).append(value)
     
-    def get(self, **kwargs: dict) -> list:
+    def get(self, **kwargs: dict) -> list[str]:
         """Get a list of words in the TrieLeaf"""
         key = kwargs.get("key")
         return self.words.get(key, [])
@@ -31,7 +31,7 @@ class WordValidate:
             iword = word[:pos] + word[pos+1:]
             self.trie.insert(iword, word1=word)
 
-    def load_file(self, path) -> None:
+    def load_file(self, path: str) -> None:
         """Initialize the trie with all words from a file"""
         with open(path) as file:
             for word in file.readlines():

@@ -20,8 +20,9 @@ class TkinterBoard(Board):
         if self.mult.TL_cord != None:
             self.app.gameboard.set_mult_letter(self.mult.TL_cord, 3)
         
-        word_list = self.app.solve(swap)
-        self.set_results(word_list)
+        results = self.app.solve(swap)
+        sorted = results.sorted(console=True)
+        self.set_results(sorted)
 
 class MultHandler:
     """Handle Spellcast word & letter multipliers"""
