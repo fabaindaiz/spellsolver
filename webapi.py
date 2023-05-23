@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from src.baseapi import BaseAPI, BaseRouter
 from src.apirouter import SolverRouter
 from src.baseui import BaseUI
-from src.config import VERSION, HOST, PORT
+from config import VERSION, HOST, PORT
 
 
 class WebAPI(BaseUI):

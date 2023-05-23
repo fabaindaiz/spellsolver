@@ -11,7 +11,7 @@ class ResultList():
     def update(self, results: list['ResultWord']) -> None:
         """Update result list"""
         for res in results:
-            self.data.update({res.word: res})
+            self.data.update({(res.points, res.word): res})
     
     def sorted(self, console: bool=False, api: bool=False) -> list['ResultWord']:
         """Return result list sorted by points"""
@@ -48,12 +48,3 @@ class ResultWord:
             "path": [node.cord for node in self.path],
             "swap": self.swap
         }
-
-    def __hash__(self) -> int:
-        """Get hash of result"""
-        return hash((self.points, self.word, self.path))
-
-    def __eq__(self, __value: object) -> bool:
-        """Compare result with other object"""
-        if not isinstance(__value, ResultWord): return False
-        return self.points == __value.points and self.word == __value.word and self.path == __value.path
