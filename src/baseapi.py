@@ -18,11 +18,11 @@ class BaseRouter:
 
 class BaseAPI:
     """Represents a abstract fastapi API"""
-    def __init__(self) -> None:
+    def __init__(self, version: str) -> None:
         self.api = FastAPI(
             title="Spellsolver API",
-            version="1.3",
-            docs_url="/docs"
+            docs_url="/docs",
+            version=version
             )
         
         self.api.add_middleware(

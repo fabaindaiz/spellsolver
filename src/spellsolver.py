@@ -1,7 +1,8 @@
 from src.resultlist import ResultList, ResultWord
-from src.gameboard import GameBoard, GameTile
+from src.gameboard import GameBoard
 from src.validate import WordValidate
 from src.trie import TrieNode
+from src.utils import Timer
 from src.path import Path
 
 
@@ -40,9 +41,9 @@ class SpellSolver:
                 paths.update(self.posible_paths(actual_word, actual_path, swap))
         return paths
 
-    def word_list(self, swap: bool=True) -> ResultList:
+    def word_list(self, swap: bool=True, timer: Timer=None) -> ResultList:
         """Get a valid words list from a solver Spellcast game"""
-        results = ResultList()
+        results = ResultList(timer=timer)
         for tile in self.gameboard.tiles.values():
             results.update(self.posible_paths("", Path([tile]), swap))
         return results

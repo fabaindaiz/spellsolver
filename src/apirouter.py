@@ -1,16 +1,22 @@
-from fastapi.responses import Response
+from fastapi import BackgroundTasks
 from pydantic import BaseModel
 from src.baseapi import BaseRouter
-from src.baseui import BaseUI
+from src.baseui import BaseUI, ThreadSolver
 
+
+class Response(BaseModel):
+    successful: bool
+    message: str
+    data: object
 
 class SolverData(BaseModel):
     """Data model for spellsolver_solve endpoint"""
     gameboard: str
-    mult: tuple | None = None
-    DL: tuple | None = None
-    TL: tuple | None = None
+    mult: tuple[int] | None = None
+    DL: tuple[int] | None = None
+    TL: tuple[int] | None = None
     swap: bool | None = None
+
 
 class SolverRouter(BaseRouter):
     """Represents a spellsolver fastapi router"""
@@ -30,22 +36,24 @@ class SolverRouter(BaseRouter):
     def solve(self, data: SolverData) -> dict[str, object]:
         """Solve a spellsolver game"""
         try:
-            self.app.load(data.gameboard)
+            solver = self.app.safesolver()
+            solver.load(data.gameboard)
 
             if data.mult:
-                self.app.gameboard.set_mult_word(data.mult)
+                solver.gameboard.set_mult_word(data.mult)
             if data.DL:
-                self.app.gameboard.set_mult_letter(data.DL, 2)
+                solver.gameboard.set_mult_letter(data.DL, 2)
             if data.TL:
-                self.app.gameboard.set_mult_letter(data.TL, 3)
+                solver.gameboard.set_mult_letter(data.TL, 3)
             
-            results = self.app.solve(data.swap)
+            results = solver.solve(data.swap)
+            sorted_data = results.sorted(api=True)
             response = {
-                "elapsed": results.time,
-                "words": results.sorted(api=True)
+                "elapsed": results.timer.elapsed_millis(),
+                "results": sorted_data
             }
             return {
-                "successful": True, "message": "Spellsolver executed correctly", "data": response }
+                "successful": True, "message": "Spellsolver successfully found a result", "data": response }
     
         except Exception as e:
-            return { "successful": False, "message": "Spellsolver cannot be executed", "data": e }
+            return { "successful": False, "message": "Spellsolver cannot find a result", "data": e }

@@ -1,11 +1,12 @@
 from src.gameboard import GameTile
+from src.utils import Timer
 
 
 class ResultList():
     """Represents a result list"""
-    def __init__(self) -> None:
+    def __init__(self, timer: Timer=None) -> None:
         self.data: dict[str, ResultWord] = {}
-        self.time: float = None
+        self.timer: Timer = timer
     
     def update(self, results: list['ResultWord']) -> None:
         """Update result list"""
@@ -16,8 +17,9 @@ class ResultList():
         """Return result list sorted by points"""
         sorted_data = sorted(self.data.values(), reverse=True, key=lambda x: x.points)
         if console:
-            print(f"The following words have been found (elapsed time: {self.time} milliseconds)")
-            print([word.text(console=console) for word in sorted_data[:10]])
+            sorted_list = [word.text(console=console) for word in sorted_data[:10]]
+            print(f"The following words have been found (elapsed time: {self.timer.elapsed_millis()} milliseconds)")
+            print(sorted_list)
         if api:
             return [word.dict() for word in sorted_data[:10]]
         return sorted_data

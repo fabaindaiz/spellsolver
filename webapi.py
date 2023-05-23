@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from src.baseapi import BaseAPI, BaseRouter
 from src.apirouter import SolverRouter
 from src.baseui import BaseUI
+from src.config import VERSION, HOST, PORT
 
 
 class WebAPI(BaseUI):
@@ -10,10 +11,10 @@ class WebAPI(BaseUI):
     def __init__(self) -> None:
         super().__init__()
 
-        self.app: BaseAPI = BaseAPI()
+        self.app: BaseAPI = BaseAPI(version=VERSION)
         self.api: FastAPI = self.app.api
 
-        self.webconfig: uvicorn.Config = uvicorn.Config(self.api, port=8080, log_level="info")
+        self.webconfig: uvicorn.Config = uvicorn.Config(self.api, host=HOST, port=PORT, log_level="info")
         self.server: uvicorn.Server = uvicorn.Server(config=self.webconfig)
 
         self.solver: BaseRouter = SolverRouter(self, tags=["spellsolver"])
