@@ -15,6 +15,7 @@ WordValidate successfully initialized (elapsed time: 25.05 seconds)
 
 ### TODO
 - Add general documentation about how spellsolver works
+- Improve results print format in console mode
 
 ### Requirements
 - python3
@@ -70,7 +71,7 @@ Insert DL cord: 23
 Insert TL cord: 
 Use swap?: 1
 The following words have been found (elapsed time: 437.0 milliseconds)
-['(58 vomitory (4, 2) | y (0, 2))', '(58 vomitous (4, 2) | u (2, 0))', '(58 comfits (4, 2) | c (4, 2))', '(54 fimbria (2, 2) | r (4, 3))', '(54 comfit (4, 2) | c (4, 2))', '(54 maxing (2, 3) | n (1, 1))', '(54 maxima (1, 3) | m (1, 3))', '(54 fibroma (4, 4) | r (2, 2))', '(52 tombac (2, 1) | c (3, 4))', '(52 vomited (4, 2) | d (4, 1))']
+['(66 zoftig (2, 3) | z (2, 3))', '(58 vomitory (4, 2) | y (0, 0))', '(58 vomitous (4, 2) | u (2, 0))', '(58 comfits (3, 3) | c (3, 3))', '(58 jabots (2, 3) | j (2, 3))', '(58 faqirs (2, 3) | f (2, 3))', '(54 fimbria (2, 2) | r (4, 3))', '(54 setiform (4, 0) | r (3, 3))', '(54 comfit (3, 3) | c (3, 3))', '(54 maxing (2, 3) | n (1, 3))']
 ```
 
 ### Generate wordlist

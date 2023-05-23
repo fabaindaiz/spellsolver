@@ -12,33 +12,31 @@ class SpellSolver:
         self.gameboard: GameBoard = gameboard
         self.validate: WordValidate = validate
 
-    def process_node(self, node: TrieNode, actual_word: str, actual_path: Path, swap: bool) -> set[ResultWord]:
+    def process_node(self, node: TrieNode, actual_word: str, actual_path: Path, swap: bool) -> list[ResultWord]:
         """Recursively process a node to find posible valid words"""
-        paths = set()
-
+        paths = []
         for word in node.get_words("word0"):
-            paths.add(ResultWord(points=actual_path.word_points(), word=word, path=actual_path.path_tuple()))
+            paths += [ResultWord(points=actual_path.word_points(), word=word, path=actual_path.path_tuple())]
 
         if swap:
             for word in node.get_words("word1"):
                 index = next((i for i in range(len(actual_word)) if word[i]!=actual_word[i]), len(actual_word))
                 
                 for path in actual_path.complete_path(self.gameboard.tiles, word, index):
-                    paths.add(ResultWord(points=path.word_points(), word=word, path=path.path_tuple(), swap=index))
+                    paths += [ResultWord(points=path.word_points(), word=word, path=path.path_tuple(), swap=index)]
         return paths
 
-    def posible_paths(self, word, path: Path, swap: bool) -> set[ResultWord]:
+    def posible_paths(self, word, path: Path, swap: bool) -> list[ResultWord]:
         """Get all posible paths that complete a path using swap"""
-        paths = set()
-        
+        paths = []
         for neighbor in path.suggest_node(path.path[-1].neighbors):
             actual_word = word + neighbor.letter
             actual_path = Path(path.path + [neighbor])
 
             node = self.validate.trie.get_node(actual_word)
             if node:
-                paths.update(self.process_node(node, actual_word, actual_path, swap))
-                paths.update(self.posible_paths(actual_word, actual_path, swap))
+                paths += self.process_node(node, actual_word, actual_path, swap)
+                paths += self.posible_paths(actual_word, actual_path, swap)
         return paths
 
     def word_list(self, swap: bool=True, timer: Timer=None) -> ResultList:
