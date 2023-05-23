@@ -3,7 +3,7 @@ from src.resultlist import ResultList
 from src.validate import WordValidate
 from src.gameboard import GameBoard
 from src.utils import Timer
-from src.config import VERSION
+from config import VERSION
 
 
 class ThreadSolver:
