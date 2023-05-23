@@ -7,7 +7,7 @@ class TrieLeaf:
         """Insert kwargs value in TrieLeaf"""
         pass
 
-    def get(**kwargs: dict) -> list:
+    def get(**kwargs: dict) -> list[str]:
         """Get kwargs value in TrieLeaf"""
         pass
 
@@ -15,7 +15,7 @@ class TrieNode:
     """Represents a node of a trie"""
     def __init__(self, letter: str, leaf_class: TrieLeaf) -> None:
         self.letter: str = letter
-        self.childs: dict = {}
+        self.childs: dict[str, TrieNode] = {}
 
         self.leaf_class: type = leaf_class
         self.leaf: TrieLeaf = leaf_class()
@@ -38,7 +38,7 @@ class TrieNode:
             node = node.childs[letter]
         return node
     
-    def get_words(self, key: str, recursive=False) -> list:
+    def get_words(self, key: str, recursive=False) -> list[str]:
         """Get words from trie using a key"""
         words = self.leaf.get(key=key)
         if recursive:

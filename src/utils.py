@@ -1,7 +1,7 @@
 from datetime import datetime
 
 
-def get_coordinate(aux_cord: int) -> tuple:
+def get_coordinate(aux_cord: int) -> tuple[int]:
     """Get a coordinate from a aux_cord"""
     return (aux_cord % 5, aux_cord // 5)
 

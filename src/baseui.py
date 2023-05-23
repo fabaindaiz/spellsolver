@@ -9,8 +9,8 @@ class BaseUI:
     """Represents a base implementation of UI with all basics methods"""
     def __init__(self) -> None:
         self.timer: Timer = Timer()
-        self.validate = WordValidate()
-        self.gameboard = GameBoard()
+        self.validate: WordValidate = WordValidate()
+        self.gameboard: GameBoard = GameBoard()
 
         print("WordValidate is being initialized, this will take several seconds")
         self.timer.reset_timer()

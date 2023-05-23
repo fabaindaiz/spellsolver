@@ -1,11 +1,12 @@
+from src.gameboard import GameTile
 
 
 class Path:
     """Represents a path of GameTiles forming a word"""
-    def __init__(self, path: list) -> None:
-        self.path: list = path
+    def __init__(self, path: list[GameTile]) -> None:
+        self.path: list[GameTile] = path
     
-    def path_tuple(self) -> tuple:
+    def path_tuple(self) -> tuple[GameTile]:
         """Get a tuple with the path nodes"""
         return tuple(self.path[1:])
 
@@ -24,7 +25,7 @@ class Path:
             word_mult *= node.word_mult
         return word_points * word_mult + word_bonus
     
-    def suggest_node(self, neighbors: list) -> list:
+    def suggest_node(self, neighbors: list[GameTile]) -> list[GameTile]:
         """Get all nodes in neighbors that are not in path"""
         nodes = []
         for node in neighbors:
@@ -32,7 +33,7 @@ class Path:
                 nodes += [node]
         return nodes
     
-    def complete_path(self, tiles: dict, word: str, pos: int) -> list:
+    def complete_path(self, tiles: dict[tuple[int], GameTile], word: str, pos: int) -> list['Path']:
         """Get posible nodes in tiles that can make valid words"""
         nodes = set(tiles.values())
         if 0 <= pos < len(word):

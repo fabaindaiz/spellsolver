@@ -5,16 +5,19 @@ from fastapi.encoders import jsonable_encoder
 
 
 class BaseRouter:
-    def __init__(self, **kwargs) -> None:
+    """Represents a abstract fastapi router"""
+    def __init__(self, **kwargs: dict) -> None:
         self.router: APIRouter = APIRouter(**kwargs)
         
-    def error(self, response) -> JSONResponse:
+    def error(self, response: object) -> JSONResponse:
+        """Return a default error with a message"""
         return JSONResponse(
             status_code=status.HTTP_403_FORBIDDEN,
             content=jsonable_encoder(response),
         )
 
 class BaseAPI:
+    """Represents a abstract fastapi API"""
     def __init__(self) -> None:
         self.api = FastAPI(
             title="Spellsolver API",
@@ -31,4 +34,5 @@ class BaseAPI:
             )
     
     def include_router(self, router: BaseRouter):
+        """Include a router in the API"""
         self.api.include_router(router.router)

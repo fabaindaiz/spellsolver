@@ -4,8 +4,8 @@ from src.utils import letter_points, valid_word
 class GameTile:
     """Respresents a Spellcast tile"""
     def __init__(self, letter, cord) -> None:
-        self.letter: str= letter
-        self.cord: tuple = cord
+        self.letter: str = letter
+        self.cord: tuple[int] = cord
         self.swap: bool = False
 
         self.word_mult: int = 1
@@ -26,7 +26,7 @@ class GameTile:
         """Gets points value of actual tile"""
         return self.letter_points * self.letter_mult
     
-    def init_neighbors(self, tiles: dict) -> None:
+    def init_neighbors(self, tiles: dict[tuple[int], 'GameTile']) -> None:
         """Init neighbors of actual tile"""
         x, y = self.cord
         cords = [(x-1,y-1), (x,y-1), (x+1,y-1), (x-1,y), (x+1,y), (x-1,y+1), (x,y+1), (x+1,y+1)]
@@ -37,7 +37,7 @@ class GameTile:
 class GameBoard:
     """Represents a Spellcast gameboard"""
     def __init__(self) -> None:
-        self.tiles: dict = {}
+        self.tiles: dict[tuple[int], GameTile] = {}
     
     def load(self, gameboard: str) -> None:
         gameboard = gameboard.lower()
@@ -68,7 +68,7 @@ if __name__ == "__main__":
     gameboard_string = input("Insert a gameboard: ")
     gameboard.load(gameboard_string)
 
-    def print_gameboard(gameboard):
+    def print_gameboard(gameboard: GameBoard):
         """Return a string representation of a GameBoard"""
         r = list(gameboard.tiles.values())
         return f"{' '.join([l.letter for l in r[0:5]])}\n{' '.join([l.letter for l in r[5:10]])}\n{' '.join([l.letter for l in r[10:15]])}\n{' '.join([l.letter for l in r[15:20]])}\n{' '.join([l.letter for l in r[20:25]])}\n{' '.join([l.letter for l in r[25:30]])}"

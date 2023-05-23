@@ -6,7 +6,7 @@ from src.baseui import BaseUI
 
 
 class WebAPI(BaseUI):
-    """Console UI"""
+    """Web API"""
     def __init__(self) -> None:
         super().__init__()
 
