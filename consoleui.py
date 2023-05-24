@@ -11,12 +11,12 @@ class ConsoleUI(BaseUI):
             description='Spellsolver',
             epilog="Word Finder for Discord Spellcast")
 
-        self.parser.add_argument("--game", type=str, required=False, help="")
-        self.parser.add_argument("--swap", type=str, required=False, help="")
+        self.parser.add_argument('game', type=str, default=None, nargs='?', help="gameboard string")
+        self.parser.add_argument('--swap', action="store_true", help="enable swap mode")
         
-        self.parser.add_argument("--x2", type=str, required=False, help="")
-        self.parser.add_argument("--dl", type=str, required=False, help="")
-        self.parser.add_argument("--tl", type=str, required=False, help="")
+        self.parser.add_argument('--x2', type=str, required=False, help="word multiplier")
+        self.parser.add_argument('--dl', type=str, required=False, help="double letter")
+        self.parser.add_argument('--tl', type=str, required=False, help="triple letter")
         
         self.opt = self.parser.parse_args()
     
@@ -40,8 +40,21 @@ class ConsoleUI(BaseUI):
         self.set_multipliers(opt.x2, opt.dl, opt.tl)
         results = self.solve(opt.swap)
 
-        print(f"The following words have been found (elapsed time: {results.time} milliseconds)")
-        print([word.text() for word in results.sorted()[:10]])
+        results.sorted(console=True)
+    
+    def maininput(self) -> None:
+        """Main loop of the Console UI using inputs"""
+        gameboard_string = input("Insert a gameboard: ")
+        self.load(gameboard_string)
+
+        mult_string = input("Insert 2x cord: ")
+        DL_string = input("Insert DL cord: ")
+        TL_string = input("Insert TL cord: ")
+        self.set_multipliers(mult_string, DL_string, TL_string)
+
+        swap = input("Use swap?: ") == "1"
+        results = self.solve(swap)
+        results.sorted(console=True)
 
     def mainloop(self) -> bool:
         """Main loop of the Console UI"""
@@ -50,17 +63,7 @@ class ConsoleUI(BaseUI):
             return False
 
         try:
-            gameboard_string = input("Insert a gameboard: ")
-            self.load(gameboard_string)
-
-            mult_string = input("Insert 2x cord: ")
-            DL_string = input("Insert DL cord: ")
-            TL_string = input("Insert TL cord: ")
-            self.set_multipliers(mult_string, DL_string, TL_string)
-
-            swap = input("Use swap?: ") == "1"
-            results = self.solve(swap)
-            results.sorted(console=True)
+            self.maininput()
         except Exception as e:
             print("Exception:", e)
         

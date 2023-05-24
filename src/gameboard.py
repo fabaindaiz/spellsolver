@@ -71,6 +71,6 @@ if __name__ == "__main__":
     def print_gameboard(gameboard: GameBoard):
         """Return a string representation of a GameBoard"""
         r = list(gameboard.tiles.values())
-        return f"{' '.join([l.letter for l in r[0:5]])}\n{' '.join([l.letter for l in r[5:10]])}\n{' '.join([l.letter for l in r[10:15]])}\n{' '.join([l.letter for l in r[15:20]])}\n{' '.join([l.letter for l in r[20:25]])}\n{' '.join([l.letter for l in r[25:30]])}"
+        return '\n'.join(' '.join(l.letter for l in r[i*5:(i+1)*5]) for i in range(5)) 
     
     print(print_gameboard(gameboard))

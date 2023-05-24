@@ -17,7 +17,7 @@ class ResultList():
         """Return result list sorted by points"""
         sorted_data = sorted(self.data.values(), reverse=True, key=lambda x: x.points)
         if console:
-            sorted_list = [word.text(console=console) for word in sorted_data[:10]]
+            sorted_list = [", ".join(word.text(console=console) for word in sorted_data[:10])]
             print(f"The following words have been found (elapsed time: {self.timer.elapsed_millis()} milliseconds)")
             print(sorted_list)
         if api:
@@ -36,6 +36,7 @@ class ResultWord:
         """Get text representation of result"""
         if not console:
             return f"({self.points} {self.word})"
+        # Console prints
         elif -1 < self.swap < len(self.path):
             return f"({self.points} {self.word} {self.path[0].cord} | {self.word[self.swap]} {self.path[self.swap].cord})"
         else:
