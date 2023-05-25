@@ -1,4 +1,4 @@
-from src.gameboard import GameTile
+from src.modules.gameboard import GameTile
 
 
 class Path:

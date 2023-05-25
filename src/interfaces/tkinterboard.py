@@ -1,5 +1,5 @@
-from src.tkinterwidget import Board
-from src.baseui import BaseUI
+from src.interfaces.tkinterwidget import Board
+from src.interfaces.baseui import BaseUI
 
 
 class TkinterBoard(Board):

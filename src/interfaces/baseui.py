@@ -1,9 +1,9 @@
 from src.spellsolver import SpellSolver
-from src.resultlist import ResultList
-from src.validate import WordValidate
-from src.gameboard import GameBoard
+from src.modules.resultlist import ResultList
+from src.modules.validate import WordValidate
+from src.modules.gameboard import GameBoard
 from src.utils import Timer
-from config import VERSION
+from src.config import VERSION
 
 
 class ThreadSolver:

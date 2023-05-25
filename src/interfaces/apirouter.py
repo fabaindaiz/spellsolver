@@ -1,7 +1,6 @@
-from fastapi import BackgroundTasks
 from pydantic import BaseModel
-from src.baseapi import BaseRouter
-from src.baseui import BaseUI, ThreadSolver
+from src.interfaces.baseapi import BaseRouter
+from src.interfaces.baseui import BaseUI
 
 
 class Response(BaseModel):
@@ -12,9 +11,9 @@ class Response(BaseModel):
 class SolverData(BaseModel):
     """Data model for spellsolver_solve endpoint"""
     gameboard: str
-    mult: tuple[int] | None = None
-    DL: tuple[int] | None = None
-    TL: tuple[int] | None = None
+    mult: str | None = None
+    DL: str | None = None
+    TL: str | None = None
     swap: bool | None = None
 
 
@@ -40,11 +39,14 @@ class SolverRouter(BaseRouter):
             solver.load(data.gameboard)
 
             if data.mult:
-                solver.gameboard.set_mult_word(data.mult)
+                mult_cord = (int(data.mult[0]), int(data.mult[1]))
+                solver.gameboard.set_mult_word(mult_cord)
             if data.DL:
-                solver.gameboard.set_mult_letter(data.DL, 2)
+                DL_cord = (int(data.DL[0]), int(data.DL[1]))
+                solver.gameboard.set_mult_letter(DL_cord, 2)
             if data.TL:
-                solver.gameboard.set_mult_letter(data.TL, 3)
+                TL_cord = (int(data.TL[0]), int(data.TL[1]))
+                solver.gameboard.set_mult_letter(TL_cord, 3)
             
             results = solver.solve(data.swap)
             sorted_data = results.sorted(api=True)
