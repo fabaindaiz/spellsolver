@@ -38,10 +38,10 @@ class TrieNode:
             node = node.childs[letter]
         return node
     
-    def get_words(self, key: str, recursive=False) -> list[str]:
-        """Get words from trie using a key"""
-        words = self.leaf.get(key=key)
+    def get_leaf(self, recursive=False, **kwargs: dict) -> list[str]:
+        """Get content from trie leaf using kwargs"""
+        words = self.leaf.get(**kwargs)
         if recursive:
             for node in self.childs.values():
-                words += node.get_words(key, recursive=True)
+                words += node.get_leaf(recursive=True, **kwargs)
         return words

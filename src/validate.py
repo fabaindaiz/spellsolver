@@ -13,8 +13,9 @@ class ValidateLeaf(TrieLeaf):
     
     def get(self, **kwargs: dict) -> list[str]:
         """Get a list of words in the TrieLeaf"""
-        key = kwargs.get("key")
-        return self.words.get(key, [])
+        if "key" in kwargs:
+            key = kwargs.get("key")
+            return self.words.get(key, [])
 
 class WordValidate:
     """Validate a word using a trie"""
@@ -36,8 +37,8 @@ class WordValidate:
         with open(path) as file:
             for word in file.readlines():
                 word = word[:-1]
-                self.word1(word)
                 self.word0(word)
+                self.word1(word)
 
         
 if __name__ == "__main__":
@@ -46,7 +47,7 @@ if __name__ == "__main__":
 
     def node_str(node: TrieNode) -> str:
         """Return a string representation of a TrieNode"""
-        return f"word0: {node.get_words('word0', recursive=True)}\nword1: {node.get_words('word1', recursive=True)}\n"
+        return f"word0: {node.get_leaf(recursive=True, key='word0')}\nword1: {node.get_leaf(recursive=True, key='word1')}\n"
 
     while(True):
         word = input("Insert a word: ")

@@ -15,11 +15,11 @@ class SpellSolver:
     def process_node(self, node: TrieNode, actual_word: str, actual_path: Path, swap: bool) -> list[ResultWord]:
         """Recursively process a node to find posible valid words"""
         paths = []
-        for word in node.get_words("word0"):
+        for word in node.get_leaf(key="word0"):
             paths += [ResultWord(points=actual_path.word_points(), word=word, path=actual_path.path_tuple())]
 
         if swap:
-            for word in node.get_words("word1"):
+            for word in node.get_leaf(key="word1"):
                 index = next((i for i in range(len(actual_word)) if word[i]!=actual_word[i]), len(actual_word))
                 
                 for path in actual_path.complete_path(self.gameboard.tiles, word, index):

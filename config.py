@@ -1,4 +1,4 @@
-VERSION = "v1.4"
+VERSION = "v1.5"
 DEBUG = False
 
 HOST = "127.0.0.1"

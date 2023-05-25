@@ -13,15 +13,17 @@ WordValidate is being initialized, this will take several seconds
 WordValidate successfully initialized (elapsed time: 25.05 seconds)
 ```
 
-### TODO
-- Add general documentation about how spellsolver works
-- Improve results print format in console mode
+- #### Inside the docs folder, you will find some documents that detail the operation of spellsolver, as well as notes on how the algorithm is implemented and its limitations.
+
 
 ### Requirements
 - python3
 - tk (tkinter for graphicui.py)
 - fastapi (for webapi.py)
 - uvicorn (for webapi.py)
+
+### TODO
+- Improve results print format in console mode
 
 
 ## instructions for use
@@ -73,7 +75,7 @@ options:
   --tl TL     triple letter
 
 example:
-    python consoleui.py rslesrotvegifovxqmbabaaif --x2 23 --dl 23 --swap
+    python consoleui.py rslesrotvegifovxqmbabaaif --swap --x2 23 --dl 23
 ```
 
 ### Generate wordlist
