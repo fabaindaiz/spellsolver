@@ -1,9 +1,9 @@
-from src.resultlist import ResultList, ResultWord
-from src.gameboard import GameBoard
-from src.validate import WordValidate
-from src.trie import TrieNode
+from src.modules.resultlist import ResultList, ResultWord
+from src.modules.gameboard import GameBoard
+from src.modules.validate import WordValidate
+from src.modules.trie import TrieNode
+from src.modules.path import Path
 from src.utils import Timer
-from src.path import Path
 
 
 class SpellSolver:

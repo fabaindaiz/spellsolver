@@ -1,7 +1,6 @@
-from fastapi import BackgroundTasks
 from pydantic import BaseModel
-from src.baseapi import BaseRouter
-from src.baseui import BaseUI, ThreadSolver
+from src.interfaces.baseapi import BaseRouter
+from src.interfaces.baseui import BaseUI
 
 
 class Response(BaseModel):

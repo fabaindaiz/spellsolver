@@ -1,8 +1,8 @@
 import tkinter as tk
 from tkinter.font import Font
-from src.resultlist import ResultWord
-from src.gameboard import GameTile
-from src.baseui import BaseUI
+from src.modules.resultlist import ResultWord
+from src.modules.gameboard import GameTile
+from src.interfaces.baseui import BaseUI
 from src.utils import get_coordinate
 
 

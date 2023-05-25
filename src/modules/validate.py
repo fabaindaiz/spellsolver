@@ -1,4 +1,4 @@
-from src.trie import TrieLeaf, TrieNode
+from src.modules.trie import TrieLeaf, TrieNode
 
 
 class ValidateLeaf(TrieLeaf):
@@ -43,7 +43,7 @@ class WordValidate:
         
 if __name__ == "__main__":
     validate = WordValidate()
-    validate.load_file("wordlist/wordlist_english.txt")
+    validate.load_file("src/wordlist/wordlist_english.txt")
 
     def node_str(node: TrieNode) -> str:
         """Return a string representation of a TrieNode"""

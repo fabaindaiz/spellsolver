@@ -1,6 +1,6 @@
 import tkinter as tk
-from src.tkinterboard import TkinterBoard
-from src.baseui import BaseUI
+from src.interfaces.tkinterboard import TkinterBoard
+from src.interfaces.baseui import BaseUI
         
 
 class GraphicUI(BaseUI):

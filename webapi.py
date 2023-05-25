@@ -1,9 +1,9 @@
 import uvicorn
 from fastapi import FastAPI
-from src.baseapi import BaseAPI, BaseRouter
-from src.apirouter import SolverRouter
-from src.baseui import BaseUI
-from config import VERSION, HOST, PORT
+from src.interfaces.baseapi import BaseAPI, BaseRouter
+from src.interfaces.apirouter import SolverRouter
+from src.interfaces.baseui import BaseUI
+from src.config import VERSION, HOST, PORT
 
 
 class WebAPI(BaseUI):

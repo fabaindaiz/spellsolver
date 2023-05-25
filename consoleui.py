@@ -1,5 +1,5 @@
 from argparse import ArgumentParser, Namespace
-from src.baseui import BaseUI
+from src.interfaces.baseui import BaseUI
 
 
 class ConsoleUI(BaseUI):
