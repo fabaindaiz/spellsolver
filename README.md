@@ -8,7 +8,7 @@ Spellsolver is a software that helps to search for the best possible word in Spe
 
 The following messages will be printed while spellsolver is starting
 ```bash
-Spellsolver v1.4 - fabaindaiz
+Spellsolver v1.5 - fabaindaiz
 WordValidate is being initialized, this will take several seconds
 WordValidate successfully initialized (elapsed time: 25.05 seconds)
 ```
@@ -33,6 +33,16 @@ WordValidate successfully initialized (elapsed time: 25.05 seconds)
 2. Navigate to localhost:8080/docs to test the endpoints
 
 ![api image](img/api1.png?raw=true "API")
+
+```bash
+# Example solve request body
+{
+  "gameboard": "rslesrotvegifovxqmbabaaif",
+  "mult": "23",
+  "DL": "23",
+  "swap": true
+}
+```
 
 ### GraphicUI
 1. From this folder execute graphicui.py
