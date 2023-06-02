@@ -6,7 +6,7 @@ Spellsolver is a software that helps to search for the best possible word in Spe
 - Initialization of the trie structure to store valid words can take anywhere from 10 to 30 seconds and uses approximately 1 GB of ram memory, but allows all spellsolver queries to be executed in less than a second.
 - I have planned to implement double swap, but with some algorithm that gives good results in a reasonable time (any ideas?)
 
-The following messages will be printed while spellsolver is starting
+A message like this will be printed on the screen while Spellsolver starts
 ```bash
 Spellsolver v1.5 - fabaindaiz
 WordValidate is being initialized, this will take several seconds
