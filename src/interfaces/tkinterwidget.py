@@ -24,10 +24,12 @@ class Board:
         for aux_cord in range(25):
             self.tiles[get_coordinate(aux_cord)] = BoardTile(self, aux_cord)
     
-    def set_results(self, word_list):
+    def set_results(self, word_list: list[ResultWord]):
         """Set spellsolver result"""
-        label: BoardLabel
-        result: ResultWord
+        if len(word_list) < 10:
+            for label in self.labels:
+                label.reset()
+
         for label, result in zip(self.labels, word_list):
             label.set_hover(text=result.text(), path=result.path)
 
@@ -36,6 +38,8 @@ class BoardTile:
     def __init__(self, board: Board, aux_cord: int) -> None:
         self.board: Board = board
         app = board.app
+
+        self.backup_letter: str = None
 
         self.stringvar: tk.StringVar = tk.StringVar(app.root, value='')
         self.menu: BoardMenu = BoardMenu(self.board, aux_cord)
@@ -58,22 +62,20 @@ class BoardTile:
 
     def hover(self, letter: str, swap: bool) -> None:
         """Handle hover event on the tile"""
-        if swap:
-            self.entry.entry.configure(
-                highlightbackground="red", highlightcolor="red", background="red",
-                font=('Roboto', 20, tk.font.BOLD), fg="white")
-            self.stringvar.set(letter)
-        else:
-            self.entry.entry.configure(
-                highlightbackground="blue", highlightcolor="blue", background="blue",
-                font=('Roboto', 20, tk.font.BOLD), fg="white")
+        self.backup_letter = self.letter()
+        self.stringvar.set(letter)
+        
+        color = "red" if swap else "blue"
+        self.entry.entry.configure(
+            highlightbackground=color, highlightcolor=color, background=color,
+            font=('Roboto', 20, tk.font.BOLD), fg="white")
     
     def unhover(self, cord: tuple) -> None:
         """Handle unhover event on the tile"""
         self.entry.entry.configure(
             highlightbackground="black", highlightcolor="black", background="white",
             font=('Roboto', 16, tk.font.NORMAL), fg="black")
-        self.stringvar.set(self.board.app.gameboard.tiles[cord].letter)
+        self.stringvar.set(self.backup_letter)
         self.board.mult.configure_mult()
 
 class BoardMenu:
@@ -146,6 +148,7 @@ class BoardLabel:
         self.board: Board = board
         app = board.app
 
+        self.text: str = text
         self.hover: LabelHover = None
 
         self.label: tk.Label = tk.Label(app.root)
@@ -153,10 +156,14 @@ class BoardLabel:
         self.label["font"] = Font(family='Times',size=14)
         self.label["fg"] = "#333333"
         self.label["justify"] = "center"
-        self.label["text"] = text
+        self.label["text"] = self.text
         self.label.place(x=320,y=10+num*22,width=250,height=25)
+
+    def reset(self) -> None:
+        self.hover: LabelHover = None
+        self.label["text"] = self.text
     
-    def set_hover(self, text: str, path: list[GameTile]):
+    def set_hover(self, text: str, path: list[GameTile]) -> None:
         """Set hover & text value of the label"""
         self.hover = LabelHover(self.board, self, path)
         self.label["text"] = str(text)

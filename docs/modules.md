@@ -1,6 +1,6 @@
 # Modules
 
-#### Modules that comprise the necessary parts for the functioning of the spellsolver algorithm.
+#### The necessary parts for the functioning of the spellsolver algorithm.
 
 
 ## Trie
