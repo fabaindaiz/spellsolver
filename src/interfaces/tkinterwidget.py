@@ -39,6 +39,8 @@ class BoardTile:
         self.board: Board = board
         app = board.app
 
+        self.backup_letter: str = None
+
         self.stringvar: tk.StringVar = tk.StringVar(app.root, value='')
         self.menu: BoardMenu = BoardMenu(self.board, aux_cord)
         self.entry: BoardEntry = BoardEntry(self.board, self.menu, self.stringvar, aux_cord)
@@ -60,22 +62,20 @@ class BoardTile:
 
     def hover(self, letter: str, swap: bool) -> None:
         """Handle hover event on the tile"""
-        if swap:
-            self.entry.entry.configure(
-                highlightbackground="red", highlightcolor="red", background="red",
-                font=('Roboto', 20, tk.font.BOLD), fg="white")
-            self.stringvar.set(letter)
-        else:
-            self.entry.entry.configure(
-                highlightbackground="blue", highlightcolor="blue", background="blue",
-                font=('Roboto', 20, tk.font.BOLD), fg="white")
+        self.backup_letter = self.letter()
+        self.stringvar.set(letter)
+        
+        color = "red" if swap else "blue"
+        self.entry.entry.configure(
+            highlightbackground=color, highlightcolor=color, background=color,
+            font=('Roboto', 20, tk.font.BOLD), fg="white")
     
     def unhover(self, cord: tuple) -> None:
         """Handle unhover event on the tile"""
         self.entry.entry.configure(
             highlightbackground="black", highlightcolor="black", background="white",
             font=('Roboto', 16, tk.font.NORMAL), fg="black")
-        self.stringvar.set(self.board.app.gameboard.tiles[cord].letter)
+        self.stringvar.set(self.backup_letter)
         self.board.mult.configure_mult()
 
 class BoardMenu:

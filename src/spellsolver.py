@@ -20,13 +20,14 @@ class SpellSolver:
 
         if swap:
             for word in node.get_leaf(key="word1"):
+                # Gets the index of the letter that is in word but not in actual_word
                 index = next((i for i in range(len(actual_word)) if word[i]!=actual_word[i]), len(actual_word))
                 
                 for path in actual_path.complete_path(self.gameboard.tiles, word, index):
                     paths += [ResultWord(points=path.word_points(), word=word, path=path.path_tuple(), swap=index)]
         return paths
 
-    def posible_paths(self, word, path: Path, swap: bool) -> list[ResultWord]:
+    def posible_paths(self, word: str, path: Path, swap: bool) -> list[ResultWord]:
         """Get all posible paths that complete a path using swap"""
         paths = []
         for neighbor in path.suggest_node(path.path[-1].neighbors):
@@ -43,7 +44,8 @@ class SpellSolver:
         """Get a valid words list from a solver Spellcast game"""
         results = ResultList(timer=timer)
         for tile in self.gameboard.tiles.values():
-            results.update(self.posible_paths("", Path([tile]), swap))
+            paths = self.posible_paths(word="", path=Path([tile]), swap=swap)
+            results.update(paths)
         return results
 
 
