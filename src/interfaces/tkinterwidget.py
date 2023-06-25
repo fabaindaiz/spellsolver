@@ -4,6 +4,7 @@ from src.modules.resultlist import ResultWord
 from src.modules.gameboard import GameTile
 from src.interfaces.baseui import BaseUI
 from src.utils import get_coordinate
+from src.config import SWAP
 
 
 class Board:
@@ -15,9 +16,12 @@ class Board:
         self.labels: list[BoardLabel] = []
         self.tiles: dict[tuple[int], BoardTile] = {}
 
+        self.double_swap: bool = "word2" in SWAP
+
         self.buttons += [BoardButton(self, 0, "Normal", lambda: self.button_command(swap=0))]
         self.buttons += [BoardButton(self, 1, "1 Swap", lambda: self.button_command(swap=1))]
-        self.buttons += [BoardButton(self, 2, "2 Swap", lambda: self.button_command(swap=2))]
+        if self.double_swap:
+            self.buttons += [BoardButton(self, 2, "2 Swap", lambda: self.button_command(swap=2))]
 
         for num in range(10):
             self.labels += [BoardLabel(self, num)]
@@ -143,8 +147,12 @@ class BoardButton:
         self.button["fg"] = "#000000"
         self.button["justify"] = "center"
         self.button["text"] = text
-        self.button.place(x=app.xoff+num*54,y=app.yoff+160,width=54,height=25)
         self.button["command"] = command
+
+        if self.board.double_swap:
+            self.button.place(x=app.xoff+num*54,y=app.yoff+160,width=54,height=25)
+        else:
+            self.button.place(x=app.xoff+num*80,y=app.yoff+160,width=80,height=25)
 
 class BoardLabel:
     """Represents a result label"""
