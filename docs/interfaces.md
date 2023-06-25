@@ -4,7 +4,7 @@
 
 
 ## BaseUI
-In baseui.py, the abstract class BaseUI is implemented. It has all the necessary methods to interact with the spellsolver algorithm and deliver the results in a format that can be easily used by the interface. ThreadSolver is also implemented, which is a thread-safe solver that allows executing multiple queries to the spellsolver queries in parallel, reusing the same initialized WordValidate.
+In baseui.py, the abstract class BaseUI is implemented. It has all the necessary methods to interact with the spellsolver algorithm and deliver the results in a format that can be easily used by the interface. ThreadSolver is also implemented, which is a thread-safe solver that allows executing multiple queries to the spellsolver algorithm in parallel, reusing the same initialized WordValidate.
 
 ## BaseAPI & ApiRouter
 BaseApi implements an interface with a base FastAPI API and router that includes all the necessary basic methods for the WebAPI. ApiRouter implements a router with the methods and endpoints required to perform Spellsolver queries and return a response in JSON format.

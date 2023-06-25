@@ -32,3 +32,16 @@ class Path:
             if node not in self.path:
                 nodes += [node]
         return nodes
+    
+    def swap_index(self, word: str, swaps: list[int]):
+        """Get a new path with swap nodes replaced"""
+        if len(swaps) == 0:
+            return self
+            
+        new_path = self.path.copy()
+        for index in swaps:
+            letter = word[index]
+            node = self.path[index+1]
+            new_path[index+1] = node.copy(letter)
+
+        return Path(new_path)

@@ -63,7 +63,7 @@ class BoardTile:
             "highlightbackground": color,
             "highlightcolor": color,
             "background": "white",
-            "font": ('Roboto', 16, tk.font.NORMAL),
+            "font": ('Roboto', 18, tk.font.NORMAL),
             "fg": "black"
         }
         self.entry.entry.configure(**font_config)
@@ -76,13 +76,13 @@ class BoardTile:
         color = "red" if swap else "blue"
         self.entry.entry.configure(
             highlightbackground=color, highlightcolor=color, background=color,
-            font=('Roboto', 20, tk.font.BOLD), fg="white")
+            font=('Roboto', 24, tk.font.BOLD), fg="white")
     
     def unhover(self, cord: tuple) -> None:
         """Handle unhover event on the tile"""
         self.entry.entry.configure(
             highlightbackground="black", highlightcolor="black", background="white",
-            font=('Roboto', 16, tk.font.NORMAL), fg="black")
+            font=('Roboto', 18, tk.font.NORMAL), fg="black")
         self.stringvar.set(self.backup_letter)
         self.board.mult.configure_mult()
 
@@ -127,12 +127,12 @@ class BoardEntry:
 
         self.entry: tk.Entry = tk.Entry(app.root, textvariable=stringvar, validate="key", highlightthickness=2)
         self.entry["borderwidth"] = "1px"
-        self.entry["font"] = Font(family='Times',size=10)
+        self.entry["font"] = Font(family='Times',size=18)
         self.entry["fg"] = "#333333"
         self.entry["justify"] = "center"
         self.entry['validatecommand'] = (self.entry.register(on_validate), '%P')
-        self.entry.place(x=app.xoff+x*32, y=app.yoff+y*32, width=32, height=32)
-        self.entry.configure(highlightbackground="black", highlightcolor="black", font=('Roboto', 16))
+        self.entry.place(x=app.xoff+x*40, y=app.yoff+y*40, width=40, height=40)
+        self.entry.configure(highlightbackground="black", highlightcolor="black", font=('Roboto', 18))
         self.entry.bind("<Button-3>", lambda event: menu.popup(event))
 
 class BoardButton:
@@ -143,16 +143,16 @@ class BoardButton:
 
         self.button: tk.Button = tk.Button(app.root)
         self.button["bg"] = "#e9e9ed"
-        self.button["font"] = Font(family='Times',size=10)
+        self.button["font"] = Font(family='Times',size=12)
         self.button["fg"] = "#000000"
         self.button["justify"] = "center"
         self.button["text"] = text
         self.button["command"] = command
 
         if self.board.double_swap:
-            self.button.place(x=app.xoff+num*54,y=app.yoff+160,width=54,height=25)
+            self.button.place(x=app.xoff+num*67,y=app.yoff+210,width=67,height=30)
         else:
-            self.button.place(x=app.xoff+num*80,y=app.yoff+160,width=80,height=25)
+            self.button.place(x=app.xoff+num*100,y=app.yoff+210,width=100,height=30)
 
 class BoardLabel:
     """Represents a result label"""
@@ -165,11 +165,11 @@ class BoardLabel:
 
         self.label: tk.Label = tk.Label(app.root)
         self.label["borderwidth"] = "1px"
-        self.label["font"] = Font(family='Times',size=14)
+        self.label["font"] = Font(family='Times',size=18)
         self.label["fg"] = "#333333"
         self.label["justify"] = "center"
         self.label["text"] = self.text
-        self.label.place(x=320,y=10+num*22,width=250,height=25)
+        self.label.place(x=300,y=20+num*25,width=250,height=25)
 
     def reset(self) -> None:
         self.hover: LabelHover = None
