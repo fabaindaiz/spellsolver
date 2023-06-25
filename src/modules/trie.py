@@ -8,7 +8,18 @@ class TrieLeaf:
         pass
 
     def get(**kwargs: dict) -> list[str]:
-        """Get kwargs value in TrieLeaf"""
+        """Get kwargs value from TrieLeaf"""
+        pass
+
+class TrieHeuristic:
+    """Interface that represent heuristic values of a TrieNode"""
+
+    def insert(**kwargs: dict) -> None:
+        """Insert heuristic values in TrieHeuristic"""
+        pass
+
+    def get(**kwargs: dict) -> list['TrieNode']:
+        """Get kwargs heuristic values from TrieHeuristic"""
         pass
 
 class TrieNode:

@@ -3,12 +3,12 @@
 
 Spellsolver is a software that helps to search for the best possible word in Spellcast discord activity. Spellsolver uses a trie to store the valid words, and then iteratively tries all the possible combinations of letters on the board, discarding the ones that don't make valid words and keeping the ones that do.
 
-- Initialization of the trie structure to store valid words can take anywhere from 10 to 30 seconds and uses approximately 1 GB of ram memory, but allows all spellsolver queries to be executed in less than a second.
+- Initialization of the trie structure to store valid words can take anywhere from 10 to 30 seconds and uses approximately 1.2 GB of ram memory, but allows almost all spellsolver queries to be executed in less than a second.
 - I have planned to implement double swap, but with some algorithm that gives good results in a reasonable time (any ideas?)
 
 A message like this will be printed on the screen while Spellsolver starts
 ```bash
-Spellsolver v1.5 - fabaindaiz
+Spellsolver v1.7 - fabaindaiz
 WordValidate is being initialized, this will take several seconds
 WordValidate successfully initialized (elapsed time: 25.05 seconds)
 ```
@@ -23,6 +23,8 @@ WordValidate successfully initialized (elapsed time: 25.05 seconds)
 - uvicorn (for webapi.py)
 
 ### TODO
+- Update readme and documentation with the improved spellsolver algorithm
+- Use some heuristics to reduce the load and query time of double swap
 - Improve results print format in console mode
 
 
@@ -40,7 +42,7 @@ WordValidate successfully initialized (elapsed time: 25.05 seconds)
   "gameboard": "rslesrotvegifovxqmbabaaif",
   "mult": "23",
   "DL": "23",
-  "swap": true
+  "swap": 1
 }
 ```
 
@@ -57,7 +59,7 @@ WordValidate successfully initialized (elapsed time: 25.05 seconds)
 1. From this folder execute consoleui.py
 2. Write the letters on the board in a single line following the order left -> right and then up -> down
 3. Write the coordinates of the corresponding multipliers and leave blank if not applicable (eg 34 or 01)
-4. To activate the swap mode (consider the use of a swap) you must put a 1, otherwise it will not be activated
+4. To activate the swap mode (use of a swap) you must put a 1, otherwise use 0 and it will not be activated
 5. The software will return an ordered list with the score, the word and the coordinate of the initial letter
 
 ```bash
@@ -76,16 +78,16 @@ The following words have been found (elapsed time: 295.0 milliseconds)
 
 ```bash
 positional arguments:
-  game        gameboard string
+  game         gameboard string
 
 options:
-  --swap      enable swap mode
-  --x2 X2     word multiplier
-  --dl DL     double letter
-  --tl TL     triple letter
+  --swap SWAP  enable swap mode
+  --x2 X2      word multiplier
+  --dl DL      double letter
+  --tl TL      triple letter
 
 example:
-    python consoleui.py rslesrotvegifovxqmbabaaif --swap --x2 23 --dl 23
+  python consoleui.py rslesrotvegifovxqmbabaaif --swap 1 --x2 23 --dl 23
 ```
 
 ### Generate wordlist

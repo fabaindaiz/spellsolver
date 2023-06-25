@@ -15,8 +15,9 @@ class Board:
         self.labels: list[BoardLabel] = []
         self.tiles: dict[tuple[int], BoardTile] = {}
 
-        self.buttons += [BoardButton(self, 0, "Normal", lambda: self.button_command(swap=False))]
-        self.buttons += [BoardButton(self, 1, "Swap", lambda: self.button_command(swap=True))]
+        self.buttons += [BoardButton(self, 0, "Normal", lambda: self.button_command(swap=0))]
+        self.buttons += [BoardButton(self, 1, "1 Swap", lambda: self.button_command(swap=1))]
+        self.buttons += [BoardButton(self, 2, "2 Swap", lambda: self.button_command(swap=2))]
 
         for num in range(10):
             self.labels += [BoardLabel(self, num)]
@@ -32,6 +33,9 @@ class Board:
 
         for label, result in zip(self.labels, word_list):
             label.set_hover(text=result.text(), path=result.path)
+    
+    def button_command(self, swap: int) -> None:
+        raise NotImplementedError()
 
 class BoardTile:
     """Represents a tile from the board with his logic"""
@@ -139,7 +143,7 @@ class BoardButton:
         self.button["fg"] = "#000000"
         self.button["justify"] = "center"
         self.button["text"] = text
-        self.button.place(x=app.xoff+num*80,y=app.yoff+160,width=80,height=25)
+        self.button.place(x=app.xoff+num*54,y=app.yoff+160,width=54,height=25)
         self.button["command"] = command
 
 class BoardLabel:

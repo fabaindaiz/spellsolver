@@ -21,7 +21,7 @@ class ThreadSolver:
         """Solve the spellcast game"""
         self.timer.reset_timer()
         spellsolver = SpellSolver(self.app.validate, self.gameboard)
-        return spellsolver.word_list(swap=swap, timer=self.timer)
+        return spellsolver.word_list(swap=int(swap), timer=self.timer)
 
 class BaseUI:
     """Represents a base implementation of UI with all basics methods"""
@@ -43,8 +43,8 @@ class BaseUI:
         """Load all values of the gameboard"""
         self.gameboard.load(gameboard_string)
 
-    def solve(self, swap: bool) -> ResultList:
+    def solve(self, swap: int) -> ResultList:
         """Solve the spellcast game"""
         self.timer.reset_timer()
         spellsolver = SpellSolver(self.validate, self.gameboard)
-        return spellsolver.word_list(swap=swap, timer=self.timer)
+        return spellsolver.word_list(swap=int(swap), timer=self.timer)
