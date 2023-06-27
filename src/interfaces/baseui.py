@@ -47,3 +47,7 @@ class BaseUI:
         self.timer.reset_timer()
         spellsolver = SpellSolver(self.validate, self.gameboard)
         return spellsolver.word_list(swap=int(swap), timer=self.timer)
+
+    def mainloop(self) -> bool:
+        """Mainloop of the Graphic UI"""
+        raise NotImplementedError()

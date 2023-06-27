@@ -2,6 +2,7 @@
 
 def get_coordinate(aux_cord: int) -> tuple[int]:
     """Get a coordinate from a aux_cord"""
+    aux_cord = aux_cord % 25
     return (aux_cord % 5, aux_cord // 5)
 
 

@@ -11,7 +11,7 @@ class WordList:
         self.dest_path: str = WORDLIST
 
     def open_file(self) -> TextIOWrapper:
-        """"""
+        """Load a wordlist file, if it doesn't exist it is generated"""
         if not os.path.isfile(self.dest_path):
             self.generate_wordlist()
             print("Wordlist file successfully generated from sources")
@@ -26,9 +26,9 @@ class WordList:
         for file in files:
             with open(file) as f:
                 for word in f.readlines():
-                    word = word[:-1]
+                    word = word[:-1].lower()
                     if valid_word(word):
-                        words.add(word.lower())
+                        words.add(word)
 
         words = sorted(words)
         with open(self.dest_path, 'w') as f:

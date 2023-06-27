@@ -35,7 +35,7 @@ class Path:
     
     def swap_index(self, word: str, swaps: list[int]):
         """Get a new path with swap nodes replaced"""
-        if len(swaps) == 0:
+        if swaps == []:
             return self
             
         new_path = self.path.copy()

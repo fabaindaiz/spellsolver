@@ -78,7 +78,7 @@ class BoardTile:
             highlightbackground=color, highlightcolor=color, background=color,
             font=('Roboto', 24, tk.font.BOLD), fg="white")
     
-    def unhover(self, cord: tuple) -> None:
+    def unhover(self) -> None:
         """Handle unhover event on the tile"""
         self.entry.entry.configure(
             highlightbackground="black", highlightcolor="black", background="white",
@@ -114,16 +114,18 @@ class BoardEntry:
         self.board: Board = board
         app = board.app
 
+        cord = get_coordinate(aux_cord)
+        next = get_coordinate(aux_cord + 1)
+        x, y = cord
+
         def on_validate(input: str) -> bool:
             """Validate the value in the entry"""
+            if len(input) > 1:
+                self.board.tiles[cord].entry.focus()
+                return False
             if len(input) == 1:
-                next_cord = get_coordinate((aux_cord + 1) % 25)
-                entry: BoardEntry = self.board.tiles[next_cord].entry
-                entry.entry.focus_set()
-                entry.entry.select_range(0, 'end')
+                self.board.tiles[next].entry.focus()
             return True
-        
-        (x, y) = get_coordinate(aux_cord)
 
         self.entry: tk.Entry = tk.Entry(app.root, textvariable=stringvar, validate="key", highlightthickness=2)
         self.entry["borderwidth"] = "1px"
@@ -131,9 +133,14 @@ class BoardEntry:
         self.entry["fg"] = "#333333"
         self.entry["justify"] = "center"
         self.entry['validatecommand'] = (self.entry.register(on_validate), '%P')
-        self.entry.place(x=app.xoff+x*40, y=app.yoff+y*40, width=40, height=40)
-        self.entry.configure(highlightbackground="black", highlightcolor="black", font=('Roboto', 18))
         self.entry.bind("<Button-3>", lambda event: menu.popup(event))
+        self.entry.configure(highlightbackground="black", highlightcolor="black", font=('Roboto', 18))
+        self.entry.place(x=app.xoff+40*x, y=app.yoff+40*y, width=40, height=40)
+
+    def focus(self) -> None:
+        """Set the focus on the entry"""
+        self.entry.focus_set()
+        self.entry.select_range(0, 'end')
 
 class BoardButton:
     """Represents a solve button"""
@@ -150,9 +157,9 @@ class BoardButton:
         self.button["command"] = command
 
         if self.board.double_swap:
-            self.button.place(x=app.xoff+num*67,y=app.yoff+210,width=67,height=30)
+            self.button.place(x=app.xoff+67*num, y=app.yoff+210, width=67, height=30)
         else:
-            self.button.place(x=app.xoff+num*100,y=app.yoff+210,width=100,height=30)
+            self.button.place(x=app.xoff+100*num, y=app.yoff+210, width=100, height=30)
 
 class BoardLabel:
     """Represents a result label"""
@@ -169,7 +176,7 @@ class BoardLabel:
         self.label["fg"] = "#333333"
         self.label["justify"] = "center"
         self.label["text"] = self.text
-        self.label.place(x=300,y=20+num*25,width=250,height=25)
+        self.label.place(x=300, y=20+num*25, width=250, height=25)
 
     def reset(self) -> None:
         self.hover: LabelHover = None
@@ -194,9 +201,9 @@ class LabelHover:
         """Handle hover event in the label"""
         for tile in self.path:
             self.board.tiles[tile.cord].hover(tile.letter, tile.swap)   
-        self.label.label.focus_set()
+        #self.label.label.focus_set()
 
     def _unhover(self) -> None:
         """handle unhover event in the label"""
         for tile in self.path:
-            self.board.tiles[tile.cord].unhover(tile.cord)
+            self.board.tiles[tile.cord].unhover()
