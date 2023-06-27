@@ -25,10 +25,10 @@ class Path:
             word_mult *= node.word_mult
         return word_points * word_mult + word_bonus
     
-    def suggest_node(self, neighbors: list[GameTile]) -> list[GameTile]:
+    def suggest_node(self) -> list[GameTile]:
         """Get all nodes in neighbors that are not in path"""
         nodes = []
-        for node in neighbors:
+        for node in self.path[-1].neighbors:
             if node not in self.path:
                 nodes += [node]
         return nodes

@@ -3,7 +3,7 @@ from src.modules.gameboard import GameBoard
 from src.modules.validate import WordValidate
 from src.modules.trie import TrieNode
 from src.modules.path import Path
-from src.utils import Timer
+from src.utils.timer import Timer
 
 
 class SpellSolver:
@@ -29,35 +29,35 @@ class SpellSolver:
             paths += self.process_word(node.get_leaf(key="word2"), actual_word, actual_path)
         return paths
     
-    def process_path_aux(self, actual_word: str, actual_path: Path, swap: int, act_swap: int) -> list[ResultWord]:
+    def process_path_aux(self, node: TrieNode, actual_word: str, actual_path: Path, swap: int, act_swap: int) -> list[ResultWord]:
         paths = []
-        node = self.validate.trie.get_node(actual_word)
+        node = node.get_node(actual_word[-1])
         if node:
-            paths += self.process_path(actual_word, actual_path, swap, act_swap)
             paths += self.process_node(node, actual_word, actual_path, swap)
+            paths += self.process_path(node, actual_word, actual_path, swap, act_swap)
         return paths
 
-    def process_path(self, word: str, path: Path, swap: int, act_swap: int=0) -> list[ResultWord]:
+    def process_path(self, node: TrieNode, word: str, path: Path, swap: int, act_swap: int=0) -> list[ResultWord]:
         """Get all posible paths that complete a path using swap"""
         paths = []
-        for neighbor in path.suggest_node(path.path[-1].neighbors):
+        for neighbor in path.suggest_node():
             actual_path = Path(path.path + [neighbor])
             
             # Normal path
             actual_word = word + neighbor.letter
-            paths += self.process_path_aux(actual_word, actual_path, swap, act_swap)
+            paths += self.process_path_aux(node, actual_word, actual_path, swap, act_swap)
             
             # Swap path
             if act_swap < swap:
                 actual_word = word + "0"
-                paths += self.process_path_aux(actual_word, actual_path, swap, act_swap+1)
+                paths += self.process_path_aux(node, actual_word, actual_path, swap, act_swap+1)
         return paths
 
     def word_list(self, swap: int=1, timer: Timer=None) -> ResultList:
         """Get a valid words list from a solver Spellcast game"""
         results = ResultList(timer=timer)
         for tile in self.gameboard.tiles.values():
-            paths = self.process_path(word="", path=Path([tile]), swap=swap)
+            paths = self.process_path(node=self.validate.trie, word="", path=Path([tile]), swap=swap)
             results.update(paths)
         return results
 

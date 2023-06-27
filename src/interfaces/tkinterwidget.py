@@ -3,7 +3,7 @@ from tkinter.font import Font
 from src.modules.resultlist import ResultWord
 from src.modules.gameboard import GameTile
 from src.interfaces.baseui import BaseUI
-from src.utils import get_coordinate
+from src.utils.utils import get_coordinate
 from src.config import SWAP
 
 

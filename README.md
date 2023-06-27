@@ -13,7 +13,7 @@ WordValidate is being initialized, this will take several seconds
 WordValidate successfully initialized (elapsed time: 25.05 seconds)
 ```
 
-- #### Inside the docs folder, you will find some documents that detail the operation of spellsolver, as well as notes on how the algorithm is implemented and its limitations.
+- #### Inside the docs folder, you will find some documents that detail the operation of spellsolver, as well as notes on how the algorithm is implemented.
 
 
 ### Requirements
@@ -89,6 +89,7 @@ options:
 example:
   python consoleui.py rslesrotvegifovxqmbabaaif --swap 1 --x2 23 --dl 23
 ```
+
 
 ### Generate wordlist
 It is not necessary to carry out this step since wordlist is already generated

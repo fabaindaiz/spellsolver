@@ -1,5 +1,5 @@
 from src.modules.gameboard import GameTile
-from src.utils import Timer
+from src.utils.timer import Timer
 
 
 class ResultList():
@@ -38,9 +38,10 @@ class ResultWord:
             return f"{self.points} {self.word}"
         
         # Console prints
-        word = f"{self.points} {self.word} {self.path[0].cord}"
-        result = " | ".join([f"{self.word[swap]} {self.path[swap].cord}" for swap in self.swaps])
-        return f"({word} | {result})"
+        word = [f"{self.points} {self.word} {self.path[0].cord}"]
+        swap = [f"{self.word[swap]} {self.path[swap].cord}" for swap in self.swaps]
+        result = " | ".join(word + swap)
+        return f"({result})"
         
     def dict(self) -> dict[str, object]:
         return {

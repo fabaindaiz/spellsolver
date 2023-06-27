@@ -2,7 +2,7 @@ from src.spellsolver import SpellSolver
 from src.modules.resultlist import ResultList
 from src.modules.validate import WordValidate
 from src.modules.gameboard import GameBoard
-from src.utils import Timer
+from src.utils.timer import Timer
 from src.config import VERSION
 
 
