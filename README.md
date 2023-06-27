@@ -3,17 +3,18 @@
 
 Spellsolver is a software that helps to search for the best possible word in Spellcast discord activity. Spellsolver uses a trie to store the valid words, and then iteratively tries all the possible combinations of letters on the board, discarding the ones that don't make valid words and keeping the ones that do.
 
-- Initialization of the trie structure to store valid words can take anywhere from 10 to 30 seconds and uses approximately 1 GB of ram memory, but allows all spellsolver queries to be executed in less than a second.
-- I have planned to implement double swap, but with some algorithm that gives good results in a reasonable time (any ideas?)
+- Initialization of the trie structure to store valid words in single swap mode can take anywhere from 20 to 30 seconds and uses approximately 1.2 GB of ram memory, but allows almost all spellsolver queries to be executed in less than a second.
+- Double swap mode can be enabled in config.py, but it is not recommended as it significantly increases load times (2 minutes), ram usage (5.2 GB) and query time (up to 20 seconds)
+- In case the wordlist.txt file does not exist, a new file will be automatically generated from the sources folder when starting spellsolver using any interface
 
 A message like this will be printed on the screen while Spellsolver starts
 ```bash
-Spellsolver v1.5 - fabaindaiz
+Spellsolver v1.7 - fabaindaiz
 WordValidate is being initialized, this will take several seconds
 WordValidate successfully initialized (elapsed time: 25.05 seconds)
 ```
 
-- #### Inside the docs folder, you will find some documents that detail the operation of spellsolver, as well as notes on how the algorithm is implemented and its limitations.
+- #### Inside the docs folder, you will find some documents that detail the operation of spellsolver, as well as notes on how the algorithm is implemented.
 
 
 ### Requirements
@@ -23,16 +24,21 @@ WordValidate successfully initialized (elapsed time: 25.05 seconds)
 - uvicorn (for webapi.py)
 
 ### TODO
-- Improve results print format in console mode
+- Look for possible optimizations for the spellsolver algorithm
+- Add some heuristics to reduce the load and query time of double swap mode
 
 
 ## instructions for use
+
+- The letters on the board must be written in a single line following the order left -> right and then up -> down with no spaces
+- To add a multiplier, the coordinates must be written as two numbers together (eg 34 or 01), otherwise the field must not be included or it must be left empty
+- To activate the swap mode you must put the number of swaps that you want to use (eg 1), otherwise you must use a 0 and the option will not be activated
 
 ### WebAPI
 1. From this folder execute webapi.py
 2. Navigate to localhost:8080/docs to test the endpoints
 
-![api image](img/api1.png?raw=true "API")
+![api image](assets/readme/api1.png?raw=true "API")
 
 ```bash
 # Example solve request body
@@ -40,7 +46,7 @@ WordValidate successfully initialized (elapsed time: 25.05 seconds)
   "gameboard": "rslesrotvegifovxqmbabaaif",
   "mult": "23",
   "DL": "23",
-  "swap": true
+  "swap": 1
 }
 ```
 
@@ -50,15 +56,13 @@ WordValidate successfully initialized (elapsed time: 25.05 seconds)
 3. Use the right click to select letter modifiers or to delete them
 4. Click on one of the buttons to search for words according to the amount of swap you want to use
 
-![gui image](img/gui1.png?raw=true "GUI")
-![gui image](img/gui2.png?raw=true "GUI")
+![gui image](assets/readme/gui1.png?raw=true "GUI")
+![gui image](assets/readme/gui2.png?raw=true "GUI")
 
 ### ConsoleUI using inputs
 1. From this folder execute consoleui.py
-2. Write the letters on the board in a single line following the order left -> right and then up -> down
-3. Write the coordinates of the corresponding multipliers and leave blank if not applicable (eg 34 or 01)
-4. To activate the swap mode (consider the use of a swap) you must put a 1, otherwise it will not be activated
-5. The software will return an ordered list with the score, the word and the coordinate of the initial letter
+2. Write the letters of the board and the rest of the data as indicated above
+3. The software will return an ordered list with the score, the word and the coordinate of the initial letter
 
 ```bash
 Insert a gameboard: rslesrotvegifovxqmbabaaif
@@ -71,28 +75,22 @@ The following words have been found (elapsed time: 295.0 milliseconds)
 ```
 
 ### ConsoleUI using arguments
-1. From this folder execute consoleui.py with the following arguments
+1. From this folder execute consoleui.py with the following arguments as indicated above
 2. The software will return an ordered list with the score, the word and the coordinate of the initial letter
 
 ```bash
 positional arguments:
-  game        gameboard string
+  game         gameboard string
 
 options:
-  --swap      enable swap mode
-  --x2 X2     word multiplier
-  --dl DL     double letter
-  --tl TL     triple letter
+  --swap SWAP  enable swap mode
+  --x2 X2      word multiplier
+  --dl DL      double letter
+  --tl TL      triple letter
 
 example:
-    python consoleui.py rslesrotvegifovxqmbabaaif --swap --x2 23 --dl 23
+  python consoleui.py rslesrotvegifovxqmbabaaif --swap 1 --x2 23 --dl 23
 ```
-
-### Generate wordlist
-It is not necessary to carry out this step since wordlist is already generated
-
-1. Move to path "src/wordlist/" and execute generate_wordlist.py
-2. wordlist_english.txt file will be generated in the same folder
 
 
 ## Acknowledgements

@@ -1,15 +1,26 @@
 
 
+class TrieHeuristic:
+    """Interface that represent heuristic values of a TrieNode"""
+
+    def insert(**kwargs: dict) -> None:
+        """Insert heuristic values in TrieHeuristic"""
+        raise NotImplementedError()
+
+    def get(**kwargs: dict) -> list['TrieNode']:
+        """Get kwargs heuristic values from TrieHeuristic"""
+        raise NotImplementedError()
+
 class TrieLeaf:
     """Interface that represents a leaf of a trie"""
 
     def insert(**kwargs: dict) -> None:
         """Insert kwargs value in TrieLeaf"""
-        pass
+        raise NotImplementedError()
 
     def get(**kwargs: dict) -> list[str]:
-        """Get kwargs value in TrieLeaf"""
-        pass
+        """Get kwargs value from TrieLeaf"""
+        raise NotImplementedError()
 
 class TrieNode:
     """Represents a node of a trie"""
@@ -22,7 +33,7 @@ class TrieNode:
 
     def insert(self, iter_word: str, **kwargs: dict) -> None:
         """Insert a word recursively in the trie"""
-        if len(iter_word) == 0:
+        if iter_word == "":
             return self.leaf.insert(**kwargs)
         
         next_letter = iter_word[0]

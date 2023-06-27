@@ -3,7 +3,7 @@ from src.modules.gameboard import GameBoard
 from src.modules.validate import WordValidate
 from src.modules.trie import TrieNode
 from src.modules.path import Path
-from src.utils import Timer
+from src.utils.timer import Timer
 
 
 class SpellSolver:
@@ -12,39 +12,52 @@ class SpellSolver:
         self.gameboard: GameBoard = gameboard
         self.validate: WordValidate = validate
 
-    def process_node(self, node: TrieNode, actual_word: str, actual_path: Path, swap: bool) -> list[ResultWord]:
-        """Recursively process a node to find posible valid words"""
+    def process_word(self, words: list[str], actual_word: str, actual_path: Path) -> list[ResultWord]:
         paths = []
-        for word in node.get_leaf(key="word0"):
-            paths += [ResultWord(points=actual_path.word_points(), word=word, path=actual_path.path_tuple())]
-
-        if swap:
-            for word in node.get_leaf(key="word1"):
-                # Gets the index of the letter that is in word but not in actual_word
-                index = next((i for i in range(len(actual_word)) if word[i]!=actual_word[i]), len(actual_word))
-                
-                for path in actual_path.complete_path(self.gameboard.tiles, word, index):
-                    paths += [ResultWord(points=path.word_points(), word=word, path=path.path_tuple(), swap=index)]
+        swaps = [i for i, letter in enumerate(actual_word) if letter == "0"]
+        for word in words:
+            actual_path = actual_path.swap_index(word, swaps=swaps)
+            paths += [ResultWord(points=actual_path.word_points(), word=word, path=actual_path.path_tuple(), swaps=swaps)]
         return paths
 
-    def posible_paths(self, word: str, path: Path, swap: bool) -> list[ResultWord]:
+    def process_node(self, node: TrieNode, actual_word: str, actual_path: Path, swap: int) -> list[ResultWord]:
+        """Recursively process a node to find posible valid words"""
+        paths = self.process_word(node.get_leaf(key="word0"), actual_word, actual_path)
+        if swap >= 1:
+            paths += self.process_word(node.get_leaf(key="word1"), actual_word, actual_path)
+        if swap >= 2:
+            paths += self.process_word(node.get_leaf(key="word2"), actual_word, actual_path)
+        return paths
+    
+    def process_path_aux(self, node: TrieNode, actual_word: str, actual_path: Path, swap: int, act_swap: int) -> list[ResultWord]:
+        paths = []
+        node = node.get_node(actual_word[-1])
+        if node:
+            paths += self.process_node(node, actual_word, actual_path, swap)
+            paths += self.process_path(node, actual_word, actual_path, swap, act_swap)
+        return paths
+
+    def process_path(self, node: TrieNode, word: str, path: Path, swap: int, act_swap: int=0) -> list[ResultWord]:
         """Get all posible paths that complete a path using swap"""
         paths = []
-        for neighbor in path.suggest_node(path.path[-1].neighbors):
-            actual_word = word + neighbor.letter
+        for neighbor in path.suggest_node():
             actual_path = Path(path.path + [neighbor])
-
-            node = self.validate.trie.get_node(actual_word)
-            if node:
-                paths += self.process_node(node, actual_word, actual_path, swap)
-                paths += self.posible_paths(actual_word, actual_path, swap)
+            
+            # Normal path
+            actual_word = word + neighbor.letter
+            paths += self.process_path_aux(node, actual_word, actual_path, swap, act_swap)
+            
+            # Swap path
+            if act_swap < swap:
+                actual_word = word + "0"
+                paths += self.process_path_aux(node, actual_word, actual_path, swap, act_swap+1)
         return paths
 
-    def word_list(self, swap: bool=True, timer: Timer=None) -> ResultList:
+    def word_list(self, swap: int=1, timer: Timer=None) -> ResultList:
         """Get a valid words list from a solver Spellcast game"""
         results = ResultList(timer=timer)
         for tile in self.gameboard.tiles.values():
-            paths = self.posible_paths(word="", path=Path([tile]), swap=swap)
+            paths = self.process_path(node=self.validate.trie, word="", path=Path([tile]), swap=swap)
             results.update(paths)
         return results
 
@@ -52,12 +65,12 @@ class SpellSolver:
 if __name__ == "__main__":
     gameboard = GameBoard()
     validate = WordValidate()
-    validate.load_file("wordlist/wordlist_english.txt")
+    validate.load_wordlist()
 
     while(True):
         gameboard_string = input("Insert a gameboard: ")
         gameboard.load(gameboard_string)
         spellsolver = SpellSolver(validate, gameboard)
 
-        swap = input("Use swap?: ") != "0"
-        spellsolver.word_list(swap=swap)
+        swap = input("Use swap?: ")
+        spellsolver.word_list(swap=int(swap))

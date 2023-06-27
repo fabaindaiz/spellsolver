@@ -14,7 +14,7 @@ class SolverData(BaseModel):
     mult: str | None = None
     DL: str | None = None
     TL: str | None = None
-    swap: bool | None = None
+    swap: int | None = None
 
 
 class SolverRouter(BaseRouter):

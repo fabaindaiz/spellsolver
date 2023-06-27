@@ -1,5 +1,20 @@
-from src.modules.trie import TrieLeaf, TrieNode
+from src.modules.trie import TrieHeuristic, TrieLeaf, TrieNode
+from src.modules.wordlist import WordList
+from src.config import SWAP
 
+
+class ValidateHeuristic(TrieHeuristic):
+    """Implements TrieHeuristic interface to store heuristic values"""
+    def __init__(self) -> None:
+        pass
+
+    def insert(**kwargs: dict) -> None:
+        """Insert heuristic values in TrieHeuristic"""
+        pass
+
+    def get(**kwargs: dict) -> list['TrieNode']:
+        """Get kwargs heuristic values from TrieHeuristic"""
+        pass
 
 class ValidateLeaf(TrieLeaf):
     """Implements TrieLeaf interface to store words"""
@@ -20,6 +35,7 @@ class ValidateLeaf(TrieLeaf):
 class WordValidate:
     """Validate a word using a trie"""
     def __init__(self) -> None:
+        self.wordlist = WordList()
         self.trie: TrieNode = TrieNode('', ValidateLeaf)
 
     def word0(self, word: str) -> None:
@@ -29,25 +45,39 @@ class WordValidate:
     def word1(self, word: str) -> None:
         """Insert a word as word1 in the trie"""
         for pos in range(len(word)):
-            iword = word[:pos] + word[pos+1:]
+            iword = word[:pos] + "0" + word[pos+1:]
             self.trie.insert(iword, word1=word)
+    
+    def word2(self, word: str) -> None:
+        """Insert a word as word1 in the trie"""
+        for pos2 in range(len(word)):
+            for pos1 in range(pos2-1):
+                iword = word[:pos1] + "0" + word[pos1+1:pos2] + "0" + word[pos2+1:]
+                self.trie.insert(iword, word2=word)
 
-    def load_file(self, path: str) -> None:
+    def load_wordlist(self) -> None:
         """Initialize the trie with all words from a file"""
-        with open(path) as file:
+        wordlist_file = self.wordlist.open_file()
+        print("WordValidate is being initialized, this will take several seconds")
+        
+        with wordlist_file as file:
             for word in file.readlines():
                 word = word[:-1]
-                self.word0(word)
-                self.word1(word)
+                if "word0" in SWAP:
+                    self.word0(word)
+                if "word1" in SWAP:
+                    self.word1(word)
+                if "word2" in SWAP:
+                    self.word2(word)
 
-        
+
 if __name__ == "__main__":
     validate = WordValidate()
-    validate.load_file("src/wordlist/wordlist_english.txt")
+    validate.load_wordlist()
 
     def node_str(node: TrieNode) -> str:
         """Return a string representation of a TrieNode"""
-        return f"word0: {node.get_leaf(recursive=True, key='word0')}\nword1: {node.get_leaf(recursive=True, key='word1')}\n"
+        return "\n".join([f"{swap}: {node.get_leaf(recursive=True, key=swap)}" for swap in SWAP])
 
     while(True):
         word = input("Insert a word: ")

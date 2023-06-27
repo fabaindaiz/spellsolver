@@ -12,7 +12,7 @@ class GraphicUI(BaseUI):
         self.root.title("Spellsolver")
 
         width = 600
-        height = 256
+        height = 300
         self.xoff, self.yoff = 25, 25
         screenwidth = self.root.winfo_screenwidth()
         screenheight = self.root.winfo_screenheight()

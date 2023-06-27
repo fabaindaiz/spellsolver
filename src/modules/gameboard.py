@@ -1,4 +1,4 @@
-from src.utils import letter_points, valid_word
+from src.utils.utils import letter_points, valid_word
 
 
 class GameTile:

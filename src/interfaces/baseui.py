@@ -2,7 +2,7 @@ from src.spellsolver import SpellSolver
 from src.modules.resultlist import ResultList
 from src.modules.validate import WordValidate
 from src.modules.gameboard import GameBoard
-from src.utils import Timer
+from src.utils.timer import Timer
 from src.config import VERSION
 
 
@@ -21,7 +21,7 @@ class ThreadSolver:
         """Solve the spellcast game"""
         self.timer.reset_timer()
         spellsolver = SpellSolver(self.app.validate, self.gameboard)
-        return spellsolver.word_list(swap=swap, timer=self.timer)
+        return spellsolver.word_list(swap=int(swap), timer=self.timer)
 
 class BaseUI:
     """Represents a base implementation of UI with all basics methods"""
@@ -31,9 +31,8 @@ class BaseUI:
         self.validate: WordValidate = WordValidate()
 
         print(f"Spellsolver {VERSION} - fabaindaiz")
-        print("WordValidate is being initialized, this will take several seconds")
         self.timer.reset_timer()
-        self.validate.load_file("src/wordlist/wordlist_english.txt")
+        self.validate.load_wordlist()
         print(f"WordValidate successfully initialized (elapsed time: {self.timer.elapsed_seconds()} seconds)")
     
     def safesolver(self) -> ThreadSolver:
@@ -43,8 +42,12 @@ class BaseUI:
         """Load all values of the gameboard"""
         self.gameboard.load(gameboard_string)
 
-    def solve(self, swap: bool) -> ResultList:
+    def solve(self, swap: int) -> ResultList:
         """Solve the spellcast game"""
         self.timer.reset_timer()
         spellsolver = SpellSolver(self.validate, self.gameboard)
-        return spellsolver.word_list(swap=swap, timer=self.timer)
+        return spellsolver.word_list(swap=int(swap), timer=self.timer)
+
+    def mainloop(self) -> bool:
+        """Mainloop of the Graphic UI"""
+        raise NotImplementedError()

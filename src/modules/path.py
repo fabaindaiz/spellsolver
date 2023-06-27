@@ -25,28 +25,23 @@ class Path:
             word_mult *= node.word_mult
         return word_points * word_mult + word_bonus
     
-    def suggest_node(self, neighbors: list[GameTile]) -> list[GameTile]:
+    def suggest_node(self) -> list[GameTile]:
         """Get all nodes in neighbors that are not in path"""
         nodes = []
-        for node in neighbors:
+        for node in self.path[-1].neighbors:
             if node not in self.path:
                 nodes += [node]
         return nodes
     
-    def complete_path(self, tiles: dict[tuple[int], GameTile], word: str, pos: int) -> list['Path']:
-        """Get posible nodes in tiles that can make valid words"""
-        nodes = set(tiles.values())
-        if 0 <= pos < len(word):
-            nodes = nodes.intersection(self.suggest_node(self.path[pos].neighbors))
-        if 0 <= pos+1 < len(word):
-            nodes = nodes.intersection(self.suggest_node(self.path[pos+1].neighbors))
-        
-        paths = []
-        letter = word[pos]
-        for node in nodes:
-            if node not in self.path:
-                new_node = node.copy(letter)
-                new_path = self.path.copy()
-                new_path.insert(pos+1, new_node)
-                paths += [Path(new_path)]
-        return paths
+    def swap_index(self, word: str, swaps: list[int]):
+        """Get a new path with swap nodes replaced"""
+        if swaps == []:
+            return self
+            
+        new_path = self.path.copy()
+        for index in swaps:
+            letter = word[index]
+            node = self.path[index+1]
+            new_path[index+1] = node.copy(letter)
+
+        return Path(new_path)

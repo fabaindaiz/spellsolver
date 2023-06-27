@@ -12,25 +12,25 @@ class ConsoleUI(BaseUI):
             epilog="Word Finder for Discord Spellcast")
 
         self.parser.add_argument('game', type=str, default=None, nargs='?', help="gameboard string")
-        self.parser.add_argument('--swap', action="store_true", help="enable swap mode")
+        self.parser.add_argument('--swap', type=int, required=False, help="enable swap mode", default=0)
         
-        self.parser.add_argument('--x2', type=str, required=False, help="word multiplier")
-        self.parser.add_argument('--dl', type=str, required=False, help="double letter")
-        self.parser.add_argument('--tl', type=str, required=False, help="triple letter")
+        self.parser.add_argument('--x2', type=str, required=False, help="word multiplier", default="")
+        self.parser.add_argument('--dl', type=str, required=False, help="double letter", default="")
+        self.parser.add_argument('--tl', type=str, required=False, help="triple letter", default="")
         
         self.opt = self.parser.parse_args()
     
     def set_multipliers(self, mult_string: str, DL_string: str, TL_string: str) -> None:
         """Set values for multipliers"""
-        if mult_string and mult_string != "":
+        if mult_string != "":
             mult_cord = (int(mult_string[0]), int(mult_string[1]))
             self.gameboard.set_mult_word(mult_cord)
         
-        if DL_string and DL_string != "":
+        if DL_string != "":
             DL_cord = (int(DL_string[0]), int(DL_string[1]))
             self.gameboard.set_mult_letter(DL_cord, 2)
         
-        if TL_string and TL_string != "":
+        if TL_string != "":
             TL_cord = (int(TL_string[0]), int(TL_string[1]))
             self.gameboard.set_mult_letter(TL_cord, 3)
 
@@ -52,7 +52,7 @@ class ConsoleUI(BaseUI):
         TL_string = input("Insert TL cord: ")
         self.set_multipliers(mult_string, DL_string, TL_string)
 
-        swap = input("Use swap?: ") == "1"
+        swap = input("Use swap?: ")
         results = self.solve(swap)
         results.sorted(console=True)
 
