@@ -65,7 +65,7 @@ class SpellSolver:
 if __name__ == "__main__":
     gameboard = GameBoard()
     validate = WordValidate()
-    validate.load_file("wordlist/wordlist_english.txt")
+    validate.load_wordlist()
 
     while(True):
         gameboard_string = input("Insert a gameboard: ")

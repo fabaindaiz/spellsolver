@@ -1,16 +1,5 @@
 
 
-class TrieLeaf:
-    """Interface that represents a leaf of a trie"""
-
-    def insert(**kwargs: dict) -> None:
-        """Insert kwargs value in TrieLeaf"""
-        pass
-
-    def get(**kwargs: dict) -> list[str]:
-        """Get kwargs value from TrieLeaf"""
-        pass
-
 class TrieHeuristic:
     """Interface that represent heuristic values of a TrieNode"""
 
@@ -20,6 +9,17 @@ class TrieHeuristic:
 
     def get(**kwargs: dict) -> list['TrieNode']:
         """Get kwargs heuristic values from TrieHeuristic"""
+        pass
+
+class TrieLeaf:
+    """Interface that represents a leaf of a trie"""
+
+    def insert(**kwargs: dict) -> None:
+        """Insert kwargs value in TrieLeaf"""
+        pass
+
+    def get(**kwargs: dict) -> list[str]:
+        """Get kwargs value from TrieLeaf"""
         pass
 
 class TrieNode:

@@ -1,6 +1,20 @@
-from src.modules.trie import TrieLeaf, TrieHeuristic, TrieNode
+from src.modules.trie import TrieHeuristic, TrieLeaf, TrieNode
+from src.modules.wordlist import WordList
 from src.config import SWAP
 
+
+class ValidateHeuristic(TrieHeuristic):
+    """Implements TrieHeuristic interface to store heuristic values"""
+    def __init__(self) -> None:
+        pass
+
+    def insert(**kwargs: dict) -> None:
+        """Insert heuristic values in TrieHeuristic"""
+        pass
+
+    def get(**kwargs: dict) -> list['TrieNode']:
+        """Get kwargs heuristic values from TrieHeuristic"""
+        pass
 
 class ValidateLeaf(TrieLeaf):
     """Implements TrieLeaf interface to store words"""
@@ -18,22 +32,10 @@ class ValidateLeaf(TrieLeaf):
             key = kwargs.get("key")
             return self.words.get(key, [])
 
-class ValidateHeuristic(TrieHeuristic):
-    """Implements TrieHeuristic interface to store heuristic values"""
-    def __init__(self) -> None:
-        pass
-
-    def insert(**kwargs: dict) -> None:
-        """Insert heuristic values in TrieHeuristic"""
-        pass
-
-    def get(**kwargs: dict) -> list['TrieNode']:
-        """Get kwargs heuristic values from TrieHeuristic"""
-        pass
-
 class WordValidate:
     """Validate a word using a trie"""
     def __init__(self) -> None:
+        self.wordlist = WordList()
         self.trie: TrieNode = TrieNode('', ValidateLeaf)
 
     def word0(self, word: str) -> None:
@@ -53,9 +55,12 @@ class WordValidate:
                 iword = word[:pos1] + "0" + word[pos1+1:pos2] + "0" + word[pos2+1:]
                 self.trie.insert(iword, word2=word)
 
-    def load_file(self, path: str) -> None:
+    def load_wordlist(self) -> None:
         """Initialize the trie with all words from a file"""
-        with open(path) as file:
+        wordlist_file = self.wordlist.open_file()
+        print("WordValidate is being initialized, this will take several seconds")
+        
+        with wordlist_file as file:
             for word in file.readlines():
                 word = word[:-1]
                 if "word0" in SWAP:
@@ -68,7 +73,7 @@ class WordValidate:
 
 if __name__ == "__main__":
     validate = WordValidate()
-    validate.load_file("src/wordlist/wordlist_english.txt")
+    validate.load_wordlist()
 
     def node_str(node: TrieNode) -> str:
         """Return a string representation of a TrieNode"""

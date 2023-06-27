@@ -31,9 +31,8 @@ class BaseUI:
         self.validate: WordValidate = WordValidate()
 
         print(f"Spellsolver {VERSION} - fabaindaiz")
-        print("WordValidate is being initialized, this will take several seconds")
         self.timer.reset_timer()
-        self.validate.load_file("src/wordlist/wordlist_english.txt")
+        self.validate.load_wordlist()
         print(f"WordValidate successfully initialized (elapsed time: {self.timer.elapsed_seconds()} seconds)")
     
     def safesolver(self) -> ThreadSolver:

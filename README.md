@@ -3,8 +3,9 @@
 
 Spellsolver is a software that helps to search for the best possible word in Spellcast discord activity. Spellsolver uses a trie to store the valid words, and then iteratively tries all the possible combinations of letters on the board, discarding the ones that don't make valid words and keeping the ones that do.
 
-- Initialization of the trie structure to store valid words (single swap mode) can take anywhere from 20 to 30 seconds and uses approximately 1.2 GB of ram memory, but allows almost all spellsolver queries to be executed in less than a second.
-- Double swapping can be enabled in config.py, but it is not recommended as it significantly increases load times (2 minutes) and ram usage (5.2 GB)
+- Initialization of the trie structure to store valid words in single swap mode can take anywhere from 20 to 30 seconds and uses approximately 1.2 GB of ram memory, but allows almost all spellsolver queries to be executed in less than a second.
+- Double swap mode can be enabled in config.py, but it is not recommended as it significantly increases load times (2 minutes), ram usage (5.2 GB) and query time (up to 20 seconds)
+- In case the wordlist.txt file does not exist, a new file will be automatically generated from the sources folder when starting spellsolver using any interface
 
 A message like this will be printed on the screen while Spellsolver starts
 ```bash
@@ -23,7 +24,8 @@ WordValidate successfully initialized (elapsed time: 25.05 seconds)
 - uvicorn (for webapi.py)
 
 ### TODO
-- Add some heuristics to reduce the load and query time of double swap
+- Look for possible optimizations for the spellsolver algorithm
+- Add some heuristics to reduce the load and query time of double swap mode
 
 
 ## instructions for use
@@ -36,7 +38,7 @@ WordValidate successfully initialized (elapsed time: 25.05 seconds)
 1. From this folder execute webapi.py
 2. Navigate to localhost:8080/docs to test the endpoints
 
-![api image](img/api1.png?raw=true "API")
+![api image](assets/readme/api1.png?raw=true "API")
 
 ```bash
 # Example solve request body
@@ -54,8 +56,8 @@ WordValidate successfully initialized (elapsed time: 25.05 seconds)
 3. Use the right click to select letter modifiers or to delete them
 4. Click on one of the buttons to search for words according to the amount of swap you want to use
 
-![gui image](img/gui1.png?raw=true "GUI")
-![gui image](img/gui2.png?raw=true "GUI")
+![gui image](assets/readme/gui1.png?raw=true "GUI")
+![gui image](assets/readme/gui2.png?raw=true "GUI")
 
 ### ConsoleUI using inputs
 1. From this folder execute consoleui.py
@@ -89,13 +91,6 @@ options:
 example:
   python consoleui.py rslesrotvegifovxqmbabaaif --swap 1 --x2 23 --dl 23
 ```
-
-
-### Generate wordlist
-It is not necessary to carry out this step since wordlist is already generated
-
-1. Move to path "src/wordlist/" and execute generate_wordlist.py
-2. wordlist_english.txt file will be generated in the same folder
 
 
 ## Acknowledgements

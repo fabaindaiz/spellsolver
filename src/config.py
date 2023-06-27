@@ -1,8 +1,15 @@
 VERSION = "v1.7"
 DEBUG = False
 
-# FastAPI host settings
-# Modify the host and port used by webapi.py
+# Wordlist settings
+SOURCES = "assets/wordlist-english/sources"
+WORDLIST = "assets/wordlist-english/wordlist.txt"
+
+# Heuristic settings
+# Work in progress
+HEURISTIC = False
+
+# FastAPI settings
 HOST = "127.0.0.1"
 PORT = 8080
 
