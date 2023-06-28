@@ -19,3 +19,6 @@ In path.py, Path is implemented, which allows for storing a list of GameTiles re
 
 ## Resultlist
 In resultlist.py, a structure is implemented to store the valid words found during the execution of spellsolver. It is responsible for removing duplicate solutions and provides methods to construct representations of this list of words as a string and a dictionary, which can be presented later in the interfaces.
+
+## WordList
+In wordlist.py the wordlist.txt file specified in config.py is loaded to be used in the initialization of Validate, if this file does not exist, a new wordlist.txt file will be generated from the files found in the source folder specified in config.py. Spellcast and Spellsolver works with a wordlist file with english words, extracted from [wordlist-english](https://github.com/jacksonrayhamilton/wordlist-english).

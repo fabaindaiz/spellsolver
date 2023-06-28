@@ -12,22 +12,21 @@ class Board:
     def __init__(self, app: BaseUI) -> None:
         self.app: BaseUI = app
 
+        self.tiles: dict[tuple[int], BoardTile] = {}
         self.buttons: list[BoardButton] = []
         self.labels: list[BoardLabel] = []
-        self.tiles: dict[tuple[int], BoardTile] = {}
 
         self.double_swap: bool = "word2" in SWAP
 
-        self.buttons += [BoardButton(self, 0, "Normal", lambda: self.button_command(swap=0))]
-        self.buttons += [BoardButton(self, 1, "1 Swap", lambda: self.button_command(swap=1))]
-        if self.double_swap:
-            self.buttons += [BoardButton(self, 2, "2 Swap", lambda: self.button_command(swap=2))]
-
-        for num in range(10):
-            self.labels += [BoardLabel(self, num)]
-
         for aux_cord in range(25):
             self.tiles[get_coordinate(aux_cord)] = BoardTile(self, aux_cord)
+
+        self.buttons.append(BoardButton(self, 0, "Normal", lambda: self.button_command(swap=0)))
+        self.buttons.append(BoardButton(self, 1, "1 Swap", lambda: self.button_command(swap=1)))
+        if self.double_swap:
+            self.buttons.append(BoardButton(self, 2, "2 Swap", lambda: self.button_command(swap=2)))
+
+        self.labels = [BoardLabel(self, num) for num in range(10)]
     
     def set_results(self, word_list: list[ResultWord]):
         """Set spellsolver result"""

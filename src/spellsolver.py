@@ -17,24 +17,24 @@ class SpellSolver:
         swaps = [i for i, letter in enumerate(actual_word) if letter == "0"]
         for word in words:
             actual_path = actual_path.swap_index(word, swaps=swaps)
-            paths += [ResultWord(points=actual_path.word_points(), word=word, path=actual_path.path_tuple(), swaps=swaps)]
+            paths.append(ResultWord(points=actual_path.word_points(), word=word, path=actual_path.path_tuple(), swaps=swaps))
         return paths
 
     def process_node(self, node: TrieNode, actual_word: str, actual_path: Path, swap: int) -> list[ResultWord]:
         """Recursively process a node to find posible valid words"""
         paths = self.process_word(node.get_leaf(key="word0"), actual_word, actual_path)
         if swap >= 1:
-            paths += self.process_word(node.get_leaf(key="word1"), actual_word, actual_path)
+            paths.extend(self.process_word(node.get_leaf(key="word1"), actual_word, actual_path))
         if swap >= 2:
-            paths += self.process_word(node.get_leaf(key="word2"), actual_word, actual_path)
+            paths.extend(self.process_word(node.get_leaf(key="word2"), actual_word, actual_path))
         return paths
     
     def process_path_aux(self, node: TrieNode, actual_word: str, actual_path: Path, swap: int, act_swap: int) -> list[ResultWord]:
         paths = []
         node = node.get_node(actual_word[-1])
         if node:
-            paths += self.process_node(node, actual_word, actual_path, swap)
-            paths += self.process_path(node, actual_word, actual_path, swap, act_swap)
+            paths.extend(self.process_node(node, actual_word, actual_path, swap))
+            paths.extend(self.process_path(node, actual_word, actual_path, swap, act_swap))
         return paths
 
     def process_path(self, node: TrieNode, word: str, path: Path, swap: int, act_swap: int=0) -> list[ResultWord]:
@@ -45,12 +45,12 @@ class SpellSolver:
             
             # Normal path
             actual_word = word + neighbor.letter
-            paths += self.process_path_aux(node, actual_word, actual_path, swap, act_swap)
+            paths.extend(self.process_path_aux(node, actual_word, actual_path, swap, act_swap))
             
             # Swap path
             if act_swap < swap:
                 actual_word = word + "0"
-                paths += self.process_path_aux(node, actual_word, actual_path, swap, act_swap+1)
+                paths.extend(self.process_path_aux(node, actual_word, actual_path, swap, act_swap+1))
         return paths
 
     def word_list(self, swap: int=1, timer: Timer=None) -> ResultList:

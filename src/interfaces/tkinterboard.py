@@ -10,7 +10,7 @@ class TkinterBoard(Board):
 
     def button_command(self, swap: int) -> None:
         """Execute SpellSolver when a button is pressed"""
-        gameboard_string = "".join([tile.letter() for tile in self.tiles.values()])
+        gameboard_string = "".join(tile.letter() for tile in self.tiles.values())
         self.app.gameboard.load(gameboard_string)
 
         if self.mult.mult_cord != None:
