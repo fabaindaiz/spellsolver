@@ -52,6 +52,10 @@ class BoardTile:
         self.menu: BoardMenu = BoardMenu(self.board, aux_cord)
         self.entry: BoardEntry = BoardEntry(self.board, self.menu, self.stringvar, aux_cord)
 
+        self.entry.entry.configure(
+            highlightbackground="black", highlightcolor="black", background="white",
+            font=('Roboto', 18, tk.font.NORMAL), fg="black")
+
     def letter(self) -> str:
         """Get the letter of the tile in lower case"""
         return self.stringvar.get().lower()
@@ -95,8 +99,8 @@ class BoardMenu:
 
         self.menu: tk.Menu = tk.Menu(app.root, tearoff = 0)
         self.menu.add_command(label="2X", command=lambda: self.board.mult.set_mult_word(cord))
-        self.menu.add_command(label="DL", command=lambda: self.board.mult.set_mult_DL(cord))
-        self.menu.add_command(label="TL", command=lambda: self.board.mult.set_mult_TL(cord))
+        self.menu.add_command(label="DL", command=lambda: self.board.mult.set_mult_letter(cord, 2))
+        self.menu.add_command(label="TL", command=lambda: self.board.mult.set_mult_letter(cord, 3))
         self.menu.add_separator()
         self.menu.add_command(label="Remove bonus", command=lambda: self.board.mult.remove_mult())
 
@@ -128,12 +132,10 @@ class BoardEntry:
 
         self.entry: tk.Entry = tk.Entry(app.root, textvariable=stringvar, validate="key", highlightthickness=2)
         self.entry["borderwidth"] = "1px"
-        self.entry["font"] = Font(family='Times',size=18)
         self.entry["fg"] = "#333333"
         self.entry["justify"] = "center"
         self.entry['validatecommand'] = (self.entry.register(on_validate), '%P')
         self.entry.bind("<Button-3>", lambda event: menu.popup(event))
-        self.entry.configure(highlightbackground="black", highlightcolor="black", font=('Roboto', 18))
         self.entry.place(x=app.xoff+40*x, y=app.yoff+40*y, width=40, height=40)
 
     def focus(self) -> None:

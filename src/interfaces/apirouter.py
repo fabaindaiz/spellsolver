@@ -49,7 +49,7 @@ class SolverRouter(BaseRouter):
                 solver.gameboard.set_mult_letter(TL_cord, 3)
             
             results = solver.solve(data.swap)
-            sorted_data = results.sorted(api=True)
+            sorted_data = results.sorted_dict()
             response = {
                 "elapsed": results.timer.elapsed_millis(),
                 "results": sorted_data

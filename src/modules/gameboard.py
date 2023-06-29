@@ -1,4 +1,4 @@
-from src.utils.utils import letter_points, valid_word
+from src.utils.utils import get_coordinate, letter_points, valid_word
 
 
 class GameTile:
@@ -12,7 +12,7 @@ class GameTile:
         self.letter_mult: int = 1
         self.word_mult: int = 1
 
-        self.neighbors: list = []
+        self.neighbors: list[GameTile] = []
 
     def copy(self, letter: str) -> 'GameTile':
         """Makes a copy of a Gametile"""
@@ -21,7 +21,6 @@ class GameTile:
 
         node.letter_mult = self.letter_mult
         node.word_mult = self.word_mult
-
         return node
     
     def points(self) -> int:
@@ -44,13 +43,12 @@ class GameBoard:
     def load(self, gameboard: str) -> None:
         gameboard = gameboard.lower()
 
-        if (not valid_word(gameboard)) or (len(gameboard) != 25):
+        if not valid_word(gameboard) or len(gameboard) != 25:
             raise Exception("Gameboard init error")
 
         for aux, letter in enumerate(gameboard):
-            x = aux % 5
-            y = aux // 5
-            self.tiles[(x, y)] = GameTile(letter, (x, y))
+            cord = get_coordinate(aux)
+            self.tiles[cord] = GameTile(letter, cord)
         
         for node in self.tiles.values():
             node.init_neighbors(self.tiles)
