@@ -24,8 +24,7 @@ class TrieLeaf:
 
 class TrieNode:
     """Represents a node of a trie"""
-    def __init__(self, letter: str, leaf_class: TrieLeaf) -> None:
-        self.letter: str = letter
+    def __init__(self, leaf_class: TrieLeaf) -> None:
         self.childs: dict[str, TrieNode] = {}
 
         self.leaf_class: type = leaf_class
@@ -38,7 +37,11 @@ class TrieNode:
         
         next_letter = iter_word[0]
         next_word = iter_word[1:]
-        self.childs.setdefault(next_letter, TrieNode(next_letter, self.leaf_class)).insert(next_word, **kwargs)
+        self.childs.setdefault(next_letter, TrieNode(self.leaf_class)).insert(next_word, **kwargs)
+
+    def get_letter(self, letter: str) -> 'TrieNode':
+        """Get node representing a letter in the trie"""
+        return self.childs.get(letter, None)
 
     def get_node(self, word: str) -> 'TrieNode':
         """Get node representing a word in the trie"""
@@ -46,7 +49,7 @@ class TrieNode:
         for letter in word:
             if letter not in node.childs:
                 return None
-            node = node.childs[letter]
+            node = node.childs.get(letter, None)
         return node
     
     def get_leaf(self, recursive=False, **kwargs: dict) -> list[str]:
