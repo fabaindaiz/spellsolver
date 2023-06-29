@@ -1,20 +1,7 @@
-from src.modules.trie import TrieHeuristic, TrieLeaf, TrieNode
+from src.modules.trie import TrieLeaf, TrieNode
 from src.modules.wordlist import WordList
 from src.config import SWAP
 
-
-class ValidateHeuristic(TrieHeuristic):
-    """Implements TrieHeuristic interface to store heuristic values"""
-    def __init__(self) -> None:
-        pass
-
-    def insert(**kwargs: dict) -> None:
-        """Insert heuristic values in TrieHeuristic"""
-        pass
-
-    def get(**kwargs: dict) -> list['TrieNode']:
-        """Get kwargs heuristic values from TrieHeuristic"""
-        pass
 
 class ValidateLeaf(TrieLeaf):
     """Implements TrieLeaf interface to store words"""
@@ -23,35 +10,41 @@ class ValidateLeaf(TrieLeaf):
 
     def insert(self, **kwargs: dict) -> None:
         """Insert a word in the TrieLeaf"""
-        if "word" in kwargs:
-            self.words.append(kwargs.get("word"))
+        self.words.append(kwargs.get("word"))
     
     def get(self, **kwargs: dict) -> list[str]:
         """Get a list of words in the TrieLeaf"""
         return self.words
+
+    def heuristic(self, **kwargs: dict) -> any:
+        """Get heuristic values from TrieLeaf"""
+        pass
 
 class WordValidate:
     """Validate a word using a trie"""
     def __init__(self) -> None:
         self.wordlist = WordList()
         self.trie: TrieNode = TrieNode(ValidateLeaf)
+    
+    def _insert(self, iword: str, word: str) -> None:
+        self.trie.insert(ValidateLeaf, iword, word=word)
 
     def word0(self, word: str) -> None:
         """Insert a word as word0 in the trie"""
-        self.trie.insert(word, word=word)
+        self._insert(word, word)
 
     def word1(self, word: str) -> None:
         """Insert a word as word1 in the trie"""
         for pos in range(len(word)):
             iword = word[:pos] + "0" + word[pos+1:]
-            self.trie.insert(iword, word=word)
+            self._insert(iword, word)
     
     def word2(self, word: str) -> None:
         """Insert a word as word1 in the trie"""
         for pos2 in range(len(word)):
             for pos1 in range(pos2-1):
                 iword = word[:pos1] + "0" + word[pos1+1:pos2] + "0" + word[pos2+1:]
-                self.trie.insert(iword, word=word)
+                self._insert(iword, word)
 
     def load_wordlist(self) -> None:
         """Initialize the trie with all words from a file"""

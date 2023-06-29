@@ -1,43 +1,35 @@
 
 
-class TrieHeuristic:
-    """Interface that represent heuristic values of a TrieNode"""
-
-    def insert(**kwargs: dict) -> None:
-        """Insert heuristic values in TrieHeuristic"""
-        raise NotImplementedError()
-
-    def get(**kwargs: dict) -> list['TrieNode']:
-        """Get kwargs heuristic values from TrieHeuristic"""
-        raise NotImplementedError()
-
 class TrieLeaf:
     """Interface that represents a leaf of a trie"""
 
-    def insert(**kwargs: dict) -> None:
+    def insert(self, **kwargs: dict) -> None:
         """Insert kwargs value in TrieLeaf"""
         raise NotImplementedError()
 
-    def get(**kwargs: dict) -> list[str]:
+    def get(self, **kwargs: dict) -> any:
         """Get kwargs value from TrieLeaf"""
+        raise NotImplementedError()
+    
+    def heuristic(self, **kwargs: dict) -> any:
+        """Get heuristic values from TrieLeaf"""
         raise NotImplementedError()
 
 class TrieNode:
     """Represents a node of a trie"""
     def __init__(self, leaf_class: TrieLeaf) -> None:
         self.childs: dict[str, TrieNode] = {}
-
-        self.leaf_class: type = leaf_class
         self.leaf: TrieLeaf = leaf_class()
 
-    def insert(self, iter_word: str, **kwargs: dict) -> None:
+    def insert(self, leaf_class: type, iter_word: str, **kwargs: dict) -> None:
         """Insert a word recursively in the trie"""
         if iter_word == "":
             return self.leaf.insert(**kwargs)
         
         next_letter = iter_word[0]
         next_word = iter_word[1:]
-        self.childs.setdefault(next_letter, TrieNode(self.leaf_class)).insert(next_word, **kwargs)
+        child = self.childs.setdefault(next_letter, TrieNode(leaf_class))
+        child.insert(leaf_class, next_word, **kwargs)
 
     def get_letter(self, letter: str) -> 'TrieNode':
         """Get node representing a letter in the trie"""
@@ -52,7 +44,7 @@ class TrieNode:
             node = node.childs.get(letter, None)
         return node
     
-    def get_leaf(self, recursive=False, **kwargs: dict) -> list[str]:
+    def get_leaf(self, recursive=False, **kwargs: dict) -> any:
         """Get content from trie leaf using kwargs"""
         words = self.leaf.get(**kwargs)
         if recursive:
