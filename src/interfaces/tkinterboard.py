@@ -10,13 +10,15 @@ class TkinterBoard(Board):
 
     def button_command(self, swap: int) -> None:
         """Execute SpellSolver when a button is pressed"""
-        gameboard_string = "".join(tile.letter() for tile in self.tiles.values())
+        gameboard_string = "".join([tile.letter() for tile in self.tiles.values()])
         self.app.gameboard.load(gameboard_string)
 
         if self.mult.mult_cord != None:
             self.app.gameboard.set_mult_word(self.mult.mult_cord)
-        if self.mult.letter_cord != None:
-            self.app.gameboard.set_mult_letter(self.mult.letter_cord, self.mult.letter_mult)
+        if self.mult.DL_cord != None:
+            self.app.gameboard.set_mult_letter(self.mult.DL_cord, 2)
+        if self.mult.TL_cord != None:
+            self.app.gameboard.set_mult_letter(self.mult.TL_cord, 3)
         
         results = self.app.solve(swap)
         sorted = results.sorted(console=True)
@@ -28,39 +30,51 @@ class MultHandler:
         self.board: Board = board
 
         self.mult_cord: tuple = None
-        self.letter_mult: int = None
-        self.letter_cord: tuple = None
+        self.DL_cord: tuple = None
+        self.TL_cord: tuple = None
     
     def set_mult_word(self, cord: tuple) -> None:
         """Set a mult_word in a tile"""
         if self.mult_cord != None:
             self.board.tiles[self.mult_cord].multiplier("black")
-        
+
         self.mult_cord = cord
-        self.configure_mult()
+        self.board.tiles[self.mult_cord].multiplier("deep pink")
 
-    def set_mult_letter(self, cord: tuple, mult: int) -> None:
+    def set_mult_DL(self, cord: tuple) -> None:
+        """Set a mult_DL in a tile"""
+        if self.DL_cord != None:
+            self.board.tiles[self.DL_cord].multiplier("black")
+        
+        self.DL_cord = cord
+        self.board.tiles[self.DL_cord].multiplier("gold")
+
+    def set_mult_TL(self, cord: tuple) -> None:
         """Set a mult_TL in a tile"""
-        if self.letter_cord != None:
-            self.board.tiles[self.letter_cord].multiplier("black")
-
-        self.letter_mult = mult
-        self.letter_cord = cord
-        self.configure_mult()
+        if self.TL_cord != None:
+            self.board.tiles[self.TL_cord].multiplier("black")
+        
+        self.TL_cord = cord
+        self.board.tiles[self.TL_cord].multiplier("gold")
 
     def configure_mult(self) -> None:
         """Change colors of a tile based in the multipliers"""
-        if self.letter_cord != None:
-            self.board.tiles[self.letter_cord].multiplier("gold")
         if self.mult_cord != None:
             self.board.tiles[self.mult_cord].multiplier("deep pink")
+        if self.DL_cord != None:
+            self.board.tiles[self.DL_cord].multiplier("gold")
+        if self.TL_cord != None:
+            self.board.tiles[self.TL_cord].multiplier("gold")
         
     def remove_mult(self) -> None:
         """Remove colors of a tile"""
-        if self.letter_cord != None:
-            self.board.tiles[self.letter_cord].multiplier("black")
         if self.mult_cord != None:
             self.board.tiles[self.mult_cord].multiplier("black")
+        if self.DL_cord != None:
+            self.board.tiles[self.DL_cord].multiplier("black")
+        if self.TL_cord != None:
+            self.board.tiles[self.TL_cord].multiplier("black")
         
-        self.letter_cord = None
         self.mult_cord = None
+        self.DL_cord = None
+        self.TL_cord = None

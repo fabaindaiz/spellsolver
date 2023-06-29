@@ -1,6 +1,5 @@
 import tkinter as tk
 from tkinter.font import Font
-from typing import Callable
 from src.modules.resultlist import ResultWord
 from src.modules.gameboard import GameTile
 from src.interfaces.baseui import BaseUI
@@ -13,21 +12,22 @@ class Board:
     def __init__(self, app: BaseUI) -> None:
         self.app: BaseUI = app
 
-        self.tiles: dict[tuple[int], BoardTile] = {}
         self.buttons: list[BoardButton] = []
         self.labels: list[BoardLabel] = []
+        self.tiles: dict[tuple[int], BoardTile] = {}
 
-        self.double_swap: bool = "swap2" in SWAP
+        self.double_swap: bool = "word2" in SWAP
+
+        self.buttons += [BoardButton(self, 0, "Normal", lambda: self.button_command(swap=0))]
+        self.buttons += [BoardButton(self, 1, "1 Swap", lambda: self.button_command(swap=1))]
+        if self.double_swap:
+            self.buttons += [BoardButton(self, 2, "2 Swap", lambda: self.button_command(swap=2))]
+
+        for num in range(10):
+            self.labels += [BoardLabel(self, num)]
 
         for aux_cord in range(25):
             self.tiles[get_coordinate(aux_cord)] = BoardTile(self, aux_cord)
-
-        self.buttons.append(BoardButton(self, 0, "Normal", lambda: self.button_command(swap=0)))
-        self.buttons.append(BoardButton(self, 1, "1 Swap", lambda: self.button_command(swap=1)))
-        if self.double_swap:
-            self.buttons.append(BoardButton(self, 2, "2 Swap", lambda: self.button_command(swap=2)))
-
-        self.labels = [BoardLabel(self, num) for num in range(10)]
     
     def set_results(self, word_list: list[ResultWord]):
         """Set spellsolver result"""
@@ -52,10 +52,6 @@ class BoardTile:
         self.stringvar: tk.StringVar = tk.StringVar(app.root, value='')
         self.menu: BoardMenu = BoardMenu(self.board, aux_cord)
         self.entry: BoardEntry = BoardEntry(self.board, self.menu, self.stringvar, aux_cord)
-
-        self.entry.entry.configure(
-            highlightbackground="black", highlightcolor="black", background="white",
-            font=('Roboto', 18, tk.font.NORMAL), fg="black")
 
     def letter(self) -> str:
         """Get the letter of the tile in lower case"""
@@ -100,8 +96,8 @@ class BoardMenu:
 
         self.menu: tk.Menu = tk.Menu(app.root, tearoff = 0)
         self.menu.add_command(label="2X", command=lambda: self.board.mult.set_mult_word(cord))
-        self.menu.add_command(label="DL", command=lambda: self.board.mult.set_mult_letter(cord, 2))
-        self.menu.add_command(label="TL", command=lambda: self.board.mult.set_mult_letter(cord, 3))
+        self.menu.add_command(label="DL", command=lambda: self.board.mult.set_mult_DL(cord))
+        self.menu.add_command(label="TL", command=lambda: self.board.mult.set_mult_TL(cord))
         self.menu.add_separator()
         self.menu.add_command(label="Remove bonus", command=lambda: self.board.mult.remove_mult())
 
@@ -133,10 +129,12 @@ class BoardEntry:
 
         self.entry: tk.Entry = tk.Entry(app.root, textvariable=stringvar, validate="key", highlightthickness=2)
         self.entry["borderwidth"] = "1px"
+        self.entry["font"] = Font(family='Times',size=18)
         self.entry["fg"] = "#333333"
         self.entry["justify"] = "center"
         self.entry['validatecommand'] = (self.entry.register(on_validate), '%P')
         self.entry.bind("<Button-3>", lambda event: menu.popup(event))
+        self.entry.configure(highlightbackground="black", highlightcolor="black", font=('Roboto', 18))
         self.entry.place(x=app.xoff+40*x, y=app.yoff+40*y, width=40, height=40)
 
     def focus(self) -> None:
@@ -146,7 +144,7 @@ class BoardEntry:
 
 class BoardButton:
     """Represents a solve button"""
-    def __init__(self, board: Board, num: int, text: str, command: Callable) -> None:
+    def __init__(self, board: Board, num: int, text: str, command: callable) -> None:
         self.board: Board = board
         app = board.app
 

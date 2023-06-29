@@ -1,4 +1,3 @@
-from typing import Any
 from fastapi import FastAPI, APIRouter, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -10,7 +9,7 @@ class BaseRouter:
     def __init__(self, **kwargs: dict) -> None:
         self.router: APIRouter = APIRouter(**kwargs)
         
-    def error(self, response: Any) -> JSONResponse:
+    def error(self, response: object) -> JSONResponse:
         """Return a default error with a message"""
         return JSONResponse(
             status_code=status.HTTP_403_FORBIDDEN,

@@ -1,4 +1,3 @@
-from typing import Generator
 from src.modules.gameboard import GameTile
 
 
@@ -26,7 +25,15 @@ class Path:
             word_mult *= node.word_mult
         return word_points * word_mult + word_bonus
     
-    def swap_index(self, word: str, swaps: list[int]) -> 'Path':
+    def suggest_node(self) -> list[GameTile]:
+        """Get all nodes in neighbors that are not in path"""
+        nodes = []
+        for node in self.path[-1].neighbors:
+            if node not in self.path:
+                nodes += [node]
+        return nodes
+    
+    def swap_index(self, word: str, swaps: list[int]):
         """Get a new path with swap nodes replaced"""
         if swaps == []:
             return self

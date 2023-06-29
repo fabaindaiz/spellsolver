@@ -19,39 +19,41 @@ class ValidateHeuristic(TrieHeuristic):
 class ValidateLeaf(TrieLeaf):
     """Implements TrieLeaf interface to store words"""
     def __init__(self) -> None:
-        self.words: list[str] = []
+        self.words: dict[str, list[str]] = {}
 
     def insert(self, **kwargs: dict) -> None:
         """Insert a word in the TrieLeaf"""
-        if "word" in kwargs:
-            self.words.append(kwargs.get("word"))
+        for key, value in kwargs.items():
+            self.words.setdefault(key, []).append(value)
     
     def get(self, **kwargs: dict) -> list[str]:
         """Get a list of words in the TrieLeaf"""
-        return self.words
+        if "key" in kwargs:
+            key = kwargs.get("key")
+            return self.words.get(key, [])
 
 class WordValidate:
     """Validate a word using a trie"""
     def __init__(self) -> None:
         self.wordlist = WordList()
-        self.trie: TrieNode = TrieNode(ValidateLeaf)
+        self.trie: TrieNode = TrieNode('', ValidateLeaf)
 
     def word0(self, word: str) -> None:
         """Insert a word as word0 in the trie"""
-        self.trie.insert(word, word=word)
+        self.trie.insert(word, word0=word)
 
     def word1(self, word: str) -> None:
         """Insert a word as word1 in the trie"""
         for pos in range(len(word)):
             iword = word[:pos] + "0" + word[pos+1:]
-            self.trie.insert(iword, word=word)
+            self.trie.insert(iword, word1=word)
     
     def word2(self, word: str) -> None:
         """Insert a word as word1 in the trie"""
         for pos2 in range(len(word)):
             for pos1 in range(pos2-1):
                 iword = word[:pos1] + "0" + word[pos1+1:pos2] + "0" + word[pos2+1:]
-                self.trie.insert(iword, word=word)
+                self.trie.insert(iword, word2=word)
 
     def load_wordlist(self) -> None:
         """Initialize the trie with all words from a file"""
@@ -61,11 +63,11 @@ class WordValidate:
         with wordlist_file as file:
             for word in file.readlines():
                 word = word[:-1]
-                if "swap0" in SWAP:
+                if "word0" in SWAP:
                     self.word0(word)
-                if "swap1" in SWAP:
+                if "word1" in SWAP:
                     self.word1(word)
-                if "swap2" in SWAP:
+                if "word2" in SWAP:
                     self.word2(word)
 
 

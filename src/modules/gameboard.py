@@ -1,27 +1,25 @@
-from typing import Generator
-from src.utils.utils import get_coordinate, letter_points, valid_word
+from src.utils.utils import letter_points, valid_word
 
 
 class GameTile:
     """Respresents a Spellcast tile"""
-    def __init__(self, letter: str, cord: tuple[int]) -> None:
+    def __init__(self, letter, cord) -> None:
         self.letter: str = letter
         self.cord: tuple[int] = cord
         self.swap: bool = False
 
-        self.letter_points: int = letter_points(letter)
-        self.letter_mult: int = 1
         self.word_mult: int = 1
+        self.letter_mult: int = 1
+        self.letter_points: int = letter_points(letter)
 
-        self.neighbors: list[GameTile] = []
+        self.neighbors: list = []
 
     def copy(self, letter: str) -> 'GameTile':
         """Makes a copy of a Gametile"""
         node = GameTile(letter, self.cord)
         node.swap = True
-
-        node.letter_mult = self.letter_mult
         node.word_mult = self.word_mult
+        node.letter_mult = self.letter_mult
         return node
     
     def points(self) -> int:
@@ -31,14 +29,10 @@ class GameTile:
     def init_neighbors(self, tiles: dict[tuple[int], 'GameTile']) -> None:
         """Init neighbors of actual tile"""
         x, y = self.cord
-        cords = ((x-1,y-1), (x,y-1), (x+1,y-1), (x-1,y), (x+1,y), (x-1,y+1), (x,y+1), (x+1,y+1))
-        neighbors_cords = ((x, y) for x, y in cords if 0 <= x < 5 and 0 <= y < 5)
+        cords = [(x-1,y-1), (x,y-1), (x+1,y-1), (x-1,y), (x+1,y), (x-1,y+1), (x,y+1), (x+1,y+1)]
+        neighbors_cords = [(x, y) for x, y in cords if 0 <= x < 5 and 0 <= y < 5]
 
-        self.neighbors.extend(tiles[(x, y)] for x, y in neighbors_cords)
-    
-    def suggest_tile(self, path: list['GameTile']) -> Generator['GameTile', None, None]:
-        """Get all nodes in neighbors that are not in path"""
-        return (tile for tile in self.neighbors if tile not in path)
+        self.neighbors += [tiles[(x, y)] for x, y in neighbors_cords]
 
 class GameBoard:
     """Represents a Spellcast gameboard"""
@@ -48,12 +42,13 @@ class GameBoard:
     def load(self, gameboard: str) -> None:
         gameboard = gameboard.lower()
 
-        if not valid_word(gameboard) or len(gameboard) != 25:
+        if (not valid_word(gameboard)) or (len(gameboard) != 25):
             raise Exception("Gameboard init error")
 
         for aux, letter in enumerate(gameboard):
-            cord = get_coordinate(aux)
-            self.tiles[cord] = GameTile(letter, cord)
+            x = aux % 5
+            y = aux // 5
+            self.tiles[(x, y)] = GameTile(letter, (x, y))
         
         for node in self.tiles.values():
             node.init_neighbors(self.tiles)
@@ -75,7 +70,7 @@ if __name__ == "__main__":
 
     def print_gameboard(gameboard: GameBoard):
         """Return a string representation of a GameBoard"""
-        r = tuple(gameboard.tiles.values())
+        r = list(gameboard.tiles.values())
         return '\n'.join(' '.join(l.letter for l in r[i*5:(i+1)*5]) for i in range(5)) 
     
     print(print_gameboard(gameboard))
