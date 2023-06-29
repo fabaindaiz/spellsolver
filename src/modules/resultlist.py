@@ -1,4 +1,4 @@
-from typing import Generator
+from typing import Any, Generator
 from src.modules.gameboard import GameTile
 from src.utils.timer import Timer
 
@@ -23,7 +23,7 @@ class ResultList():
             print(f"[{sorted_list}]")
         return sorted_data
     
-    def sorted_dict(self) -> list[dict[str, object]]:
+    def sorted_dict(self) -> list[dict[str, Any]]:
         sorted_data = sorted(self.data.values(), reverse=True, key=lambda x: x.points)
         return [word.dict() for word in sorted_data[:10]]
 
@@ -48,7 +48,7 @@ class ResultWord:
         word = " | ".join(self._str())
         return f"({word})"
         
-    def dict(self) -> dict[str, object]:
+    def dict(self) -> dict[str, Any]:
         return {
             "points": self.points,
             "word": self.word,

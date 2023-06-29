@@ -61,11 +61,11 @@ class WordValidate:
         with wordlist_file as file:
             for word in file.readlines():
                 word = word[:-1]
-                if "word0" in SWAP:
+                if "swap0" in SWAP:
                     self.word0(word)
-                if "word1" in SWAP:
+                if "swap1" in SWAP:
                     self.word1(word)
-                if "word2" in SWAP:
+                if "swap2" in SWAP:
                     self.word2(word)
 
 

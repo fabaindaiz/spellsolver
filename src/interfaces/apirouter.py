@@ -1,3 +1,4 @@
+from typing import Any
 from pydantic import BaseModel
 from src.interfaces.baseapi import BaseRouter
 from src.interfaces.baseui import BaseUI
@@ -6,7 +7,7 @@ from src.interfaces.baseui import BaseUI
 class Response(BaseModel):
     successful: bool
     message: str
-    data: object
+    data: Any
 
 class SolverData(BaseModel):
     """Data model for spellsolver_solve endpoint"""
@@ -32,7 +33,7 @@ class SolverRouter(BaseRouter):
                 return self.error(response)
             return response
     
-    def solve(self, data: SolverData) -> dict[str, object]:
+    def solve(self, data: SolverData) -> dict[str, Any]:
         """Solve a spellsolver game"""
         try:
             solver = self.app.safesolver()

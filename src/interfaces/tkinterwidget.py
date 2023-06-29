@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter.font import Font
+from typing import Callable
 from src.modules.resultlist import ResultWord
 from src.modules.gameboard import GameTile
 from src.interfaces.baseui import BaseUI
@@ -16,7 +17,7 @@ class Board:
         self.buttons: list[BoardButton] = []
         self.labels: list[BoardLabel] = []
 
-        self.double_swap: bool = "word2" in SWAP
+        self.double_swap: bool = "swap2" in SWAP
 
         for aux_cord in range(25):
             self.tiles[get_coordinate(aux_cord)] = BoardTile(self, aux_cord)
@@ -145,7 +146,7 @@ class BoardEntry:
 
 class BoardButton:
     """Represents a solve button"""
-    def __init__(self, board: Board, num: int, text: str, command: callable) -> None:
+    def __init__(self, board: Board, num: int, text: str, command: Callable) -> None:
         self.board: Board = board
         app = board.app
 

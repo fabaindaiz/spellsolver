@@ -1,3 +1,4 @@
+from typing import Generator
 from src.utils.utils import get_coordinate, letter_points, valid_word
 
 
@@ -34,6 +35,10 @@ class GameTile:
         neighbors_cords = ((x, y) for x, y in cords if 0 <= x < 5 and 0 <= y < 5)
 
         self.neighbors.extend(tiles[(x, y)] for x, y in neighbors_cords)
+    
+    def suggest_tile(self, path: list['GameTile']) -> Generator['GameTile', None, None]:
+        """Get all nodes in neighbors that are not in path"""
+        return (tile for tile in self.neighbors if tile not in path)
 
 class GameBoard:
     """Represents a Spellcast gameboard"""

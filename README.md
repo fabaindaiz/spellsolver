@@ -3,8 +3,8 @@
 
 Spellsolver is a software that helps to search for the best possible word in Spellcast discord activity. Spellsolver uses a trie to store the valid words, and then iteratively tries all the possible combinations of letters on the board, discarding the ones that don't make valid words and keeping the ones that do.
 
-- Initialization of the trie structure to store valid words in single swap mode can take anywhere from 20 to 30 seconds and uses approximately 1.2 GB of ram memory, but allows almost all spellsolver queries to be executed in less than a second.
-- Double swap mode can be enabled in config.py, but it is not recommended as it significantly increases load times (2 minutes), ram usage (5.2 GB) and query time (up to 20 seconds)
+- Initialization of the trie structure to store valid words in single swap mode can take anywhere from 20 to 30 seconds and uses approximately 1 GB of ram memory, but allows almost all spellsolver queries to be executed in less than a second.
+- Double swap mode can be enabled in config.py, but it is not recommended as it significantly increases load times (100 seconds), ram usage (3.6 GB) and query time (up to 20 seconds)
 - In case the wordlist.txt file does not exist, a new file will be automatically generated from the sources folder when starting spellsolver using any interface
 
 A message like this will be printed on the screen while Spellsolver starts

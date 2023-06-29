@@ -26,10 +26,6 @@ class Path:
             word_mult *= node.word_mult
         return word_points * word_mult + word_bonus
     
-    def suggest_tile(self) -> Generator[GameTile, None, None]:
-        """Get all nodes in neighbors that are not in path"""
-        return (tile for tile in self.path[-1].neighbors if tile not in self.path)
-    
     def swap_index(self, word: str, swaps: list[int]) -> 'Path':
         """Get a new path with swap nodes replaced"""
         if swaps == []:
