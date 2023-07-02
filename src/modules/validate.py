@@ -45,12 +45,8 @@ class WordValidate:
         with wordlist_file as file:
             for word in file.readlines():
                 word = word[:-1]
-                if "swap0" in SWAP:
-                    self.insert(word, 0)
-                if "swap1" in SWAP:
-                    self.insert(word, 1)
-                if "swap2" in SWAP:
-                    self.insert(word, 2)
+                for num in range(SWAP+1):
+                    self.insert(word, num)
 
 
 if __name__ == "__main__":

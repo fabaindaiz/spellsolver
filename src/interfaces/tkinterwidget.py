@@ -17,14 +17,12 @@ class Board:
         self.buttons: list[BoardButton] = []
         self.labels: list[BoardLabel] = []
 
-        self.double_swap: bool = "swap2" in SWAP
-
         for aux_cord in range(25):
             self.tiles[get_coordinate(aux_cord)] = BoardTile(self, aux_cord)
 
         self.buttons.append(BoardButton(self, 0, "Normal", lambda: self.button_command(swap=0)))
         self.buttons.append(BoardButton(self, 1, "1 Swap", lambda: self.button_command(swap=1)))
-        if self.double_swap:
+        if SWAP >= 2:
             self.buttons.append(BoardButton(self, 2, "2 Swap", lambda: self.button_command(swap=2)))
 
         self.labels = [BoardLabel(self, num) for num in range(10)]

@@ -5,6 +5,7 @@ from src.modules.validate import WordValidate
 from src.modules.trie import TrieNode
 from src.modules.path import Path
 from src.utils.timer import Timer
+from src.config import SWAP
 
 
 class SpellSolver:
@@ -44,7 +45,7 @@ class SpellSolver:
     def word_list(self, swap: int, timer: Timer=None) -> ResultList:
         """Get a valid words list from a solver Spellcast game"""
         results = ResultList(timer=timer)
-        results.update(self.process_gameboard(swap=swap))
+        results.update(self.process_gameboard(swap=min(swap, SWAP)))
         return results
 
 
