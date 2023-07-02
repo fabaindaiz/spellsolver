@@ -37,7 +37,7 @@ class SpellSolver:
                 yield from self.process_path_aux(actual_tile, node, word, actual_path, swap-1, "0")
     
     def process_gameboard(self, swap: int) -> Generator[ResultWord, None, None]:
-        """"""
+        """Iterate over all the squares on the board to start processing the paths"""
         for tile in self.gameboard.tiles.values():
             yield from self.process_path(tile=tile, node=self.validate.trie, word="", path=[tile], swap=swap)
 

@@ -6,7 +6,7 @@ from src.config import SOURCES, WORDLIST
 
 
 class WordList:
-    """"""
+    """Represents a class that can generate and load a wordlist file for Spellsolver"""
     def __init__(self) -> None:
         self.source_path: str = SOURCES
         self.dest_path: str = WORDLIST

@@ -203,7 +203,7 @@ class LabelHover:
         """Handle hover event in the label"""
         for tile in self.path:
             self.board.tiles[tile.cord].hover(tile.letter, tile.swap)   
-        #self.label.label.focus_set()
+        self.label.label.focus_set()
 
     def _unhover(self) -> None:
         """handle unhover event in the label"""

@@ -1,3 +1,5 @@
+from typing import Generator
+from itertools import combinations, pairwise
 from src.modules.trie import TrieLeaf, TrieNode
 from src.modules.wordlist import WordList
 from src.config import SWAP
@@ -25,41 +27,30 @@ class WordValidate:
     def __init__(self) -> None:
         self.wordlist = WordList()
         self.trie: TrieNode = TrieNode(ValidateLeaf)
-    
-    def _insert(self, iword: str, word: str) -> None:
-        self.trie.insert(ValidateLeaf, iword, word=word)
 
-    def word0(self, word: str) -> None:
-        """Insert a word as word0 in the trie"""
-        self._insert(word, word)
+    def _word_iter(self, word, num):
+        for t in combinations(range(len(word)), num):
+            yield (-1, *t, len(word))
 
-    def word1(self, word: str) -> None:
-        """Insert a word as word1 in the trie"""
-        for pos in range(len(word)):
-            iword = word[:pos] + "0" + word[pos+1:]
-            self._insert(iword, word)
-    
-    def word2(self, word: str) -> None:
-        """Insert a word as word1 in the trie"""
-        for pos2 in range(len(word)):
-            for pos1 in range(pos2-1):
-                iword = word[:pos1] + "0" + word[pos1+1:pos2] + "0" + word[pos2+1:]
-                self._insert(iword, word)
+    def insert(self, word: str, num: int) -> None:
+        for t in (self._word_iter(word, num)):
+            iword = "0".join(word[i+1:j] for i, j in pairwise(t))
+            self.trie.insert(ValidateLeaf, iword, word=word)
 
     def load_wordlist(self) -> None:
         """Initialize the trie with all words from a file"""
         wordlist_file = self.wordlist.open_file()
         print("WordValidate is being initialized, this will take several seconds")
-        
+
         with wordlist_file as file:
             for word in file.readlines():
                 word = word[:-1]
                 if "swap0" in SWAP:
-                    self.word0(word)
+                    self.insert(word, 0)
                 if "swap1" in SWAP:
-                    self.word1(word)
+                    self.insert(word, 1)
                 if "swap2" in SWAP:
-                    self.word2(word)
+                    self.insert(word, 2)
 
 
 if __name__ == "__main__":
