@@ -1,0 +1,17 @@
+version: v1.9
+debug: false
+
+fastapi:
+    host: "127.0.0.1"
+    port: 8080
+
+heuristic:
+    active: false
+    mode: "insert"
+
+wordlist:
+    source: "assets/wordlist-english/sources"
+    wordlist: "assets/wordlist-english/wordlist.txt"
+
+spellsolver:
+    swaps: 1
