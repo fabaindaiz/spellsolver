@@ -1,24 +1,25 @@
-from typing import Generator
-from itertools import combinations, pairwise
+from typing import Any, List
+from itertools import combinations
 from src.modules.trie import TrieLeaf, TrieNode
 from src.modules.wordlist import WordList
+from src.utils.iter import pairwise
 from src.config import SWAP
 
 
 class ValidateLeaf(TrieLeaf):
     """Implements TrieLeaf interface to store words"""
     def __init__(self) -> None:
-        self.words: list[str] = []
+        self.words: List[str] = []
 
     def insert(self, **kwargs: dict) -> None:
         """Insert a word in the TrieLeaf"""
         self.words.append(kwargs.get("word"))
     
-    def get(self, **kwargs: dict) -> list[str]:
+    def get(self, **kwargs: dict) -> List[str]:
         """Get a list of words in the TrieLeaf"""
         return self.words
 
-    def heuristic(self, **kwargs: dict) -> any:
+    def heuristic(self, **kwargs: dict) -> Any:
         """Get heuristic values from TrieLeaf"""
         pass
 

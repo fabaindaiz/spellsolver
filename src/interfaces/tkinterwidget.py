@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter.font import Font
-from typing import Callable
+from typing import Callable, Dict, List, Tuple
 from src.modules.resultlist import ResultWord
 from src.modules.gameboard import GameTile
 from src.interfaces.baseui import BaseUI
@@ -13,21 +13,23 @@ class Board:
     def __init__(self, app: BaseUI) -> None:
         self.app: BaseUI = app
 
-        self.tiles: dict[tuple[int], BoardTile] = {}
-        self.buttons: list[BoardButton] = []
-        self.labels: list[BoardLabel] = []
+        self.tiles: Dict[Tuple[int], BoardTile] = {}
+        self.buttons: List[BoardButton] = []
+        self.labels: List[BoardLabel] = []
+        
+        self.double_swap: bool = SWAP >= 2
 
         for aux_cord in range(25):
             self.tiles[get_coordinate(aux_cord)] = BoardTile(self, aux_cord)
 
         self.buttons.append(BoardButton(self, 0, "Normal", lambda: self.button_command(swap=0)))
         self.buttons.append(BoardButton(self, 1, "1 Swap", lambda: self.button_command(swap=1)))
-        if SWAP >= 2:
+        if self.double_swap:
             self.buttons.append(BoardButton(self, 2, "2 Swap", lambda: self.button_command(swap=2)))
 
         self.labels = [BoardLabel(self, num) for num in range(10)]
     
-    def set_results(self, word_list: list[ResultWord]):
+    def set_results(self, word_list: List[ResultWord]):
         """Set spellsolver result"""
         if len(word_list) < 10:
             for label in self.labels:
@@ -182,17 +184,17 @@ class BoardLabel:
         self.hover: LabelHover = None
         self.label["text"] = self.text
     
-    def set_hover(self, text: str, path: list[GameTile]) -> None:
+    def set_hover(self, text: str, path: List[GameTile]) -> None:
         """Set hover & text value of the label"""
         self.hover = LabelHover(self.board, self, path)
         self.label["text"] = str(text)
 
 class LabelHover:
     """Represent a hover event handler for result labels"""
-    def __init__(self, board: Board, label: BoardLabel, path: list[GameTile]) -> None:
+    def __init__(self, board: Board, label: BoardLabel, path: List[GameTile]) -> None:
         self.board: Board = board
         self.label: BoardLabel = label
-        self.path: list[GameTile] = path
+        self.path: List[GameTile] = path
 
         self.label.label.bind('<Enter>', lambda _ : self._hover())
         self.label.label.bind('<Leave>', lambda _ : self._unhover())

@@ -18,7 +18,7 @@ WordValidate successfully initialized (elapsed time: 25.05 seconds)
 
 
 ### Requirements
-- python3
+- python3 (3.6 or later)
 - tk (tkinter for graphicui.py)
 - fastapi (for webapi.py)
 - uvicorn (for webapi.py)

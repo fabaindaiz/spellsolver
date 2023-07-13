@@ -1,3 +1,4 @@
+from typing import Any, Dict
 
 
 class TrieLeaf:
@@ -7,18 +8,18 @@ class TrieLeaf:
         """Insert kwargs value in TrieLeaf"""
         raise NotImplementedError()
 
-    def get(self, **kwargs: dict) -> any:
+    def get(self, **kwargs: dict) -> Any:
         """Get kwargs value from TrieLeaf"""
         raise NotImplementedError()
     
-    def heuristic(self, **kwargs: dict) -> any:
+    def heuristic(self, **kwargs: dict) -> Any:
         """Get heuristic values from TrieLeaf"""
         raise NotImplementedError()
 
 class TrieNode:
     """Represents a node of a trie"""
     def __init__(self, leaf_class: TrieLeaf) -> None:
-        self.childs: dict[str, TrieNode] = {}
+        self.childs: Dict[str, TrieNode] = {}
         self.leaf: TrieLeaf = leaf_class()
 
     def insert(self, leaf_class: type, iter_word: str, **kwargs: dict) -> None:
@@ -44,7 +45,7 @@ class TrieNode:
             node = node.childs.get(letter, None)
         return node
     
-    def get_leaf(self, recursive=False, **kwargs: dict) -> any:
+    def get_leaf(self, recursive=False, **kwargs: dict) -> Any:
         """Get content from trie leaf using kwargs"""
         words = self.leaf.get(**kwargs)
         if recursive:

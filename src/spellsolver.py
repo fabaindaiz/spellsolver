@@ -1,4 +1,4 @@
-from typing import Generator
+from typing import Generator, List
 from src.modules.resultlist import ResultList, ResultWord
 from src.modules.gameboard import GameBoard, GameTile
 from src.modules.validate import WordValidate
@@ -14,7 +14,7 @@ class SpellSolver:
         self.gameboard: GameBoard = gameboard
         self.validate: WordValidate = validate  
 
-    def process_node(self, node: TrieNode, actual_word: str, actual_path: list[GameTile]) -> Generator[ResultWord, None, None]:
+    def process_node(self, node: TrieNode, actual_word: str, actual_path: List[GameTile]) -> Generator[ResultWord, None, None]:
         """Recursively process a node to find posible valid words"""
         swaps = [i for i, letter in enumerate(actual_word) if letter == "0"]
         
@@ -22,14 +22,14 @@ class SpellSolver:
             path = Path(actual_path).swap_index(word, swaps=swaps)
             yield ResultWord(points=path.word_points(), word=word, path=path.path_tuple(), swaps=swaps)
 
-    def process_path_aux(self, tile: GameTile, node: TrieNode, word: str, path: list[GameTile], swap: int, letter: str) -> Generator[ResultWord, None, None]:
+    def process_path_aux(self, tile: GameTile, node: TrieNode, word: str, path: List[GameTile], swap: int, letter: str) -> Generator[ResultWord, None, None]:
         actual_node = node.get_letter(letter)
         if actual_node:
             actual_word = word + letter
             yield from self.process_node(actual_node, actual_word, path)
             yield from self.process_path(tile, actual_node, actual_word, path, swap)
 
-    def process_path(self, tile: GameTile, node: TrieNode, word: str, path: list[GameTile], swap: int) -> Generator[ResultWord, None, None]:
+    def process_path(self, tile: GameTile, node: TrieNode, word: str, path: List[GameTile], swap: int) -> Generator[ResultWord, None, None]:
         """Get all posible paths that complete a path using swap"""
         for actual_tile in tile.suggest_tile(path):
             actual_path = path + [actual_tile]

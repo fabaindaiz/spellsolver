@@ -1,13 +1,13 @@
-from typing import Generator
+from typing import List, Tuple
 from src.modules.gameboard import GameTile
 
 
 class Path:
     """Represents a path of GameTiles forming a word"""
-    def __init__(self, path: list[GameTile]) -> None:
-        self.path: list[GameTile] = path
+    def __init__(self, path: List[GameTile]) -> None:
+        self.path: List[GameTile] = path
     
-    def path_tuple(self) -> tuple[GameTile]:
+    def path_tuple(self) -> Tuple[GameTile]:
         """Get a tuple with the path nodes"""
         return tuple(self.path[1:])
 
@@ -26,7 +26,7 @@ class Path:
             word_mult *= node.word_mult
         return word_points * word_mult + word_bonus
     
-    def swap_index(self, word: str, swaps: list[int]) -> 'Path':
+    def swap_index(self, word: str, swaps: List[int]) -> 'Path':
         """Get a new path with swap nodes replaced"""
         if swaps == []:
             return self
