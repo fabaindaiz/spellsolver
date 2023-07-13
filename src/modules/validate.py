@@ -2,7 +2,7 @@ from typing import Any, List
 from itertools import combinations
 from src.modules.trie import TrieLeaf, TrieNode
 from src.modules.wordlist import WordList
-from src.utils.iter import pairwise
+from src.utils.itertools import pairwise
 from src.config import SWAP
 
 

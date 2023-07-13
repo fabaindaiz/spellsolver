@@ -24,6 +24,7 @@ WordValidate successfully initialized (elapsed time: 25.05 seconds)
 - uvicorn (for webapi.py)
 
 ### TODO
+- Add some spellsolver tests to avoid accidentally introducing new bugs
 - Add some heuristics to reduce the load and query time of double swap mode
 
 
@@ -89,6 +90,14 @@ options:
 
 example:
   python consoleui.py rslesrotvegifovxqmbabaaif --swap 1 --x2 23 --dl 23
+```
+
+### Run tests
+Some tests have been included to verify the correct working of spellsolver and all its modules
+To run the tests you can use the following command
+
+```bash
+python -m unittest discover -s tests -t .
 ```
 
 
