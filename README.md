@@ -9,7 +9,7 @@ Spellsolver is a software that helps to search for the best possible word in Spe
 
 A message like this will be printed on the screen while Spellsolver starts
 ```bash
-Spellsolver v1.8 - fabaindaiz
+Spellsolver v1.9 - fabaindaiz
 WordValidate is being initialized, this will take several seconds
 WordValidate successfully initialized (elapsed time: 25.05 seconds)
 ```
@@ -18,13 +18,13 @@ WordValidate successfully initialized (elapsed time: 25.05 seconds)
 
 
 ### Requirements
-- python3
+- python3 (3.6 or later)
 - tk (tkinter for graphicui.py)
 - fastapi (for webapi.py)
 - uvicorn (for webapi.py)
 
 ### TODO
-- Look for possible optimizations for the spellsolver algorithm
+- Add some spellsolver tests to avoid accidentally introducing new bugs
 - Add some heuristics to reduce the load and query time of double swap mode
 
 
@@ -71,7 +71,7 @@ Insert DL cord: 23
 Insert TL cord: 
 Use swap?: 1
 The following words have been found (elapsed time: 295.0 milliseconds)
-['(66 zoftig (2, 3) | z (2, 3)), (58 vomitory (4, 2) | y (0, 2)), (58 vomitous (4, 2) | u (0, 1)), (58 comfits (3, 3) | c (3, 3)), (58 jabots (2, 3) | j (2, 3)), (58 faqirs (2, 3) | f (2, 3)), (54 fimbria (2, 2) | r (4, 4)), (54 setiform (4, 0) | r (3, 3)), (54 comfit (3, 3) | c (3, 3)), (54 maxing (2, 3) | n (0, 1))']
+[(66 zoftig (2, 3) | z (2, 3)), (58 vomitory (4, 2) | y (0, 2)), (58 vomitous (4, 2) | u (0, 1)), (58 comfits (3, 3) | c (3, 3)), (58 jabots (2, 3) | j (2, 3)), (58 faqirs (2, 3) | f (2, 3)), (54 fimbria (2, 2) | r (4, 4)), (54 setiform (4, 0) | r (3, 3)), (54 comfit (3, 3) | c (3, 3)), (54 maxing (2, 3) | n (0, 1))]
 ```
 
 ### ConsoleUI using arguments
@@ -90,6 +90,14 @@ options:
 
 example:
   python consoleui.py rslesrotvegifovxqmbabaaif --swap 1 --x2 23 --dl 23
+```
+
+### Run tests
+Some tests have been included to verify the correct working of spellsolver and all its modules
+To run the tests you can use the following command
+
+```bash
+python -m unittest discover -s tests -t .
 ```
 
 

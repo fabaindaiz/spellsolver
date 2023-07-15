@@ -1,4 +1,4 @@
-from typing import Any, Generator
+from typing import Any, Dict, Generator, List, Tuple
 from src.modules.gameboard import GameTile
 from src.utils.timer import Timer
 
@@ -6,7 +6,7 @@ from src.utils.timer import Timer
 class ResultList():
     """Represents a result list"""
     def __init__(self, timer: Timer=None) -> None:
-        self.data: dict[str, ResultWord] = {}
+        self.data: Dict[str, ResultWord] = {}
         self.timer: Timer = timer
     
     def update(self, results: Generator['ResultWord', None, None]) -> None:
@@ -14,7 +14,7 @@ class ResultList():
         for res in results:
             self.data.update({(res.points, res.word): res})
     
-    def sorted(self, console: bool=False) -> list['ResultWord']:
+    def sorted(self, console: bool=False) -> List['ResultWord']:
         """Return result list sorted by points"""
         sorted_data = sorted(self.data.values(), reverse=True, key=lambda x: x.points)
         if console:
@@ -23,17 +23,17 @@ class ResultList():
             print(f"[{sorted_list}]")
         return sorted_data
     
-    def sorted_dict(self) -> list[dict[str, Any]]:
+    def sorted_dict(self) -> List[Dict[str, Any]]:
         sorted_data = sorted(self.data.values(), reverse=True, key=lambda x: x.points)
         return [word.dict() for word in sorted_data[:10]]
 
 class ResultWord:
     """Represents a spellsolver result"""
-    def __init__(self, points: int, word: str, path: tuple[GameTile], swaps: list[int]=[]) -> None:
+    def __init__(self, points: int, word: str, path: Tuple[GameTile], swaps: List[int]=[]) -> None:
         self.points: int = points
         self.word: str = word
-        self.path: tuple[GameTile] = path
-        self.swaps: list[int] = swaps
+        self.path: Tuple[GameTile] = path
+        self.swaps: List[int] = swaps
 
     def _str(self) -> Generator[str, None, None]:
         yield f"{self.points} {self.word} {self.path[0].cord}"
@@ -48,7 +48,7 @@ class ResultWord:
         word = " | ".join(self._str())
         return f"({word})"
         
-    def dict(self) -> dict[str, Any]:
+    def dict(self) -> Dict[str, Any]:
         return {
             "points": self.points,
             "word": self.word,

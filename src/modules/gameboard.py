@@ -1,19 +1,19 @@
-from typing import Generator
+from typing import Generator, Dict, List, Tuple
 from src.utils.utils import get_coordinate, letter_points, valid_word
 
 
 class GameTile:
     """Respresents a Spellcast tile"""
-    def __init__(self, letter: str, cord: tuple[int]) -> None:
+    def __init__(self, letter: str, cord: Tuple[int]) -> None:
         self.letter: str = letter
-        self.cord: tuple[int] = cord
+        self.cord: Tuple[int] = cord
         self.swap: bool = False
 
         self.letter_points: int = letter_points(letter)
         self.letter_mult: int = 1
         self.word_mult: int = 1
 
-        self.neighbors: list[GameTile] = []
+        self.neighbors: List[GameTile] = []
 
     def copy(self, letter: str) -> 'GameTile':
         """Makes a copy of a Gametile"""
@@ -28,7 +28,7 @@ class GameTile:
         """Gets points value of actual tile"""
         return self.letter_points * self.letter_mult
     
-    def init_neighbors(self, tiles: dict[tuple[int], 'GameTile']) -> None:
+    def init_neighbors(self, tiles: Dict[Tuple[int], 'GameTile']) -> None:
         """Init neighbors of actual tile"""
         x, y = self.cord
         cords = ((x-1,y-1), (x,y-1), (x+1,y-1), (x-1,y), (x+1,y), (x-1,y+1), (x,y+1), (x+1,y+1))
@@ -36,14 +36,14 @@ class GameTile:
 
         self.neighbors.extend(tiles[(x, y)] for x, y in neighbors_cords)
     
-    def suggest_tile(self, path: list['GameTile']) -> Generator['GameTile', None, None]:
+    def suggest_tile(self, path: List['GameTile']) -> Generator['GameTile', None, None]:
         """Get all nodes in neighbors that are not in path"""
         return (tile for tile in self.neighbors if tile not in path)
 
 class GameBoard:
     """Represents a Spellcast gameboard"""
     def __init__(self) -> None:
-        self.tiles: dict[tuple[int], GameTile] = {}
+        self.tiles: Dict[Tuple[int], GameTile] = {}
     
     def load(self, gameboard: str) -> None:
         gameboard = gameboard.lower()

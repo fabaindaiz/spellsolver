@@ -1,12 +1,12 @@
 import os
 from io import TextIOWrapper
-from typing import Generator
+from typing import Generator, Set
 from src.utils.utils import valid_word
 from src.config import SOURCES, WORDLIST
 
 
 class WordList:
-    """"""
+    """Represents a class that can generate and load a wordlist file for Spellsolver"""
     def __init__(self) -> None:
         self.source_path: str = SOURCES
         self.dest_path: str = WORDLIST
@@ -34,7 +34,7 @@ class WordList:
         with open(path) as file:
             return (word for word in (line[:-1].lower() for line in file.readlines()) if valid_word(word))
     
-    def write_dest_file(self, words: set[str], path: str) -> None:
+    def write_dest_file(self, words: Set[str], path: str) -> None:
         """Sorts valid words and writes them to a destination file"""
         words = sorted(words)
         with open(path, 'w') as f:

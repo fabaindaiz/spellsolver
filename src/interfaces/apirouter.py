@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Dict
 from pydantic import BaseModel
 from src.interfaces.baseapi import BaseRouter
 from src.interfaces.baseui import BaseUI
@@ -33,7 +33,7 @@ class SolverRouter(BaseRouter):
                 return self.error(response)
             return response
     
-    def solve(self, data: SolverData) -> dict[str, Any]:
+    def solve(self, data: SolverData) -> Dict[str, Any]:
         """Solve a spellsolver game"""
         try:
             solver = self.app.safesolver()
