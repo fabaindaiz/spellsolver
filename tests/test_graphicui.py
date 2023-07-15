@@ -1,12 +1,11 @@
 import unittest
-from graphicui import GraphicUI
+import graphicui
 
 
 class GraphicUI(unittest.TestCase):
     """"""
     def setUp(self) -> None:
-        pass
-        #self.graphicui: GraphicUI = GraphicUI()
+        self.graphicui: graphicui.GraphicUI = graphicui.GraphicUI()
     
-    def test_(self) -> None:
-        pass
+    def test_graphicui(self) -> None:
+        self.graphicui.root.destroy()
