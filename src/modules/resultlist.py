@@ -29,10 +29,10 @@ class ResultList():
 
 class ResultWord:
     """Represents a spellsolver result"""
-    def __init__(self, points: int, word: str, path: Tuple[GameTile], swaps: List[int]=[]) -> None:
+    def __init__(self, points: int, word: str, path: Tuple[GameTile, ...], swaps: List[int]=[]) -> None:
         self.points: int = points
         self.word: str = word
-        self.path: Tuple[GameTile] = path
+        self.path: Tuple[GameTile, ...] = path
         self.swaps: List[int] = swaps
 
     def _str(self) -> Generator[str, None, None]:
