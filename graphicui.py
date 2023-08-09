@@ -1,13 +1,14 @@
 import tkinter as tk
 from src.interfaces.tkinterboard import TkinterBoard
 from src.interfaces.baseui import BaseUI
-        
+
 
 class GraphicUI(BaseUI):
     """Graphic UI"""
+
     def __init__(self) -> None:
         super().__init__()
-        
+
         self.root: tk.Tk = tk.Tk()
         self.root.title("Spellsolver")
 
@@ -17,12 +18,17 @@ class GraphicUI(BaseUI):
         screenwidth = self.root.winfo_screenwidth()
         screenheight = self.root.winfo_screenheight()
 
-        alignstr = '%dx%d+%d+%d' % (width, height, (screenwidth - width) / 2, (screenheight - height) / 2)
+        alignstr = "%dx%d+%d+%d" % (
+            width,
+            height,
+            (screenwidth - width) / 2,
+            (screenheight - height) / 2,
+        )
         self.root.geometry(alignstr)
         self.root.resizable(width=False, height=False)
 
         self.board: TkinterBoard = TkinterBoard(self)
-    
+
     def mainloop(self) -> bool:
         """Mainloop of the Graphic UI"""
         self.root.mainloop()
@@ -31,7 +37,7 @@ class GraphicUI(BaseUI):
 
 if __name__ == "__main__":
     app = GraphicUI()
-    
+
     loop = True
-    while(loop):
+    while loop:
         loop = app.mainloop()
