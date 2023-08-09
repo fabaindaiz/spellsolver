@@ -8,7 +8,7 @@ class Path:
     def __init__(self, path: List[GameTile]) -> None:
         self.path: List[GameTile] = path
 
-    def path_tuple(self) -> Tuple[GameTile]:
+    def path_tuple(self) -> Tuple[GameTile, ...]:
         """Get a tuple with the path nodes"""
         return tuple(self.path[1:])
 
