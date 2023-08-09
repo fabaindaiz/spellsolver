@@ -5,9 +5,9 @@ from src.utils.utils import get_coordinate, letter_points, valid_word
 class GameTile:
     """Respresents a Spellcast tile"""
 
-    def __init__(self, letter: str, cord: Tuple[int]) -> None:
+    def __init__(self, letter: str, cord: Tuple[int, int]) -> None:
         self.letter: str = letter
-        self.cord: Tuple[int] = cord
+        self.cord: Tuple[int, int] = cord
         self.swap: bool = False
 
         self.letter_points: int = letter_points(letter)
@@ -29,7 +29,7 @@ class GameTile:
         """Gets points value of actual tile"""
         return self.letter_points * self.letter_mult
 
-    def init_neighbors(self, tiles: Dict[Tuple[int], "GameTile"]) -> None:
+    def init_neighbors(self, tiles: Dict[Tuple[int, int], "GameTile"]) -> None:
         """Init neighbors of actual tile"""
         x, y = self.cord
         cords = (
@@ -55,7 +55,7 @@ class GameBoard:
     """Represents a Spellcast gameboard"""
 
     def __init__(self) -> None:
-        self.tiles: Dict[Tuple[int], GameTile] = {}
+        self.tiles: Dict[Tuple[int, int], GameTile] = {}
 
     def load(self, gameboard: str) -> None:
         gameboard = gameboard.lower()
