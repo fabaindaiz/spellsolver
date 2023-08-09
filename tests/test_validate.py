@@ -5,10 +5,11 @@ from src.modules.trie import TrieNode
 
 class Validate(unittest.TestCase):
     """"""
+
     def setUp(self) -> None:
         self.validate: WordValidate = WordValidate()
         self.validate.load_wordlist()
-    
+
     def test_(self) -> None:
         """"""
         node = self.validate.trie.get_node("hello")

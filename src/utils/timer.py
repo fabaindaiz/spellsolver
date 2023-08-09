@@ -1,23 +1,57 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 class Timer:
-    """Represents a timer taht can measure elapsed times"""
+    """Represents a timer that can measure elapsed times.
+
+    This class provides functionality to measure elapsed time intervals using various time units.
+    It can be used to benchmark or profile code execution durations.
+
+    Attributes:
+        _start_time (datetime): The starting time of the timer.
+    """
+
     def __init__(self) -> None:
+        """Initialize a Timer instance.
+
+        Sets the initial starting time of the timer to the current time.
+        """
+        self._start_time = None
         self.reset_timer()
-    
+
     def reset_timer(self) -> None:
-        """Reset starting time to now"""
-        self.start_time = datetime.now()
-    
+        """Reset the timer's starting time.
+
+        Sets the starting time of the timer to the current time.
+        """
+        self._start_time = datetime.now()
+
+    def _elapsed_time(self, time_unit):
+        """Calculate elapsed time in the specified time unit.
+
+        Args:
+            time_unit (dict): A dictionary specifying the time unit to convert to.
+                Example: {"seconds": 1} for seconds, {"milliseconds": 1} for milliseconds.
+
+        Returns:
+            float: The elapsed time in the specified time unit.
+        """
+        return (datetime.now() - self._start_time) / timedelta(**time_unit)
+
     def elapsed_seconds(self) -> float:
-        """Get elapsed time in seconds"""
-        end_time = datetime.now()
-        elapsed_time = (end_time - self.start_time).total_seconds()
+        """Get the elapsed time in seconds.
+
+        Returns:
+            float: The elapsed time in seconds, rounded to 2 decimal places.
+        """
+        elapsed_time = self._elapsed_time({"seconds": 1})
         return round(elapsed_time, 2)
-    
+
     def elapsed_millis(self) -> float:
-        """Get elapsed time in milliseconds"""
-        end_time = datetime.now()
-        elapsed_time = (end_time - self.start_time).total_seconds() * 1000
+        """Get the elapsed time in milliseconds.
+
+        Returns:
+            float: The elapsed time in milliseconds, rounded to the nearest integer.
+        """
+        elapsed_time = self._elapsed_time({"milliseconds": 1})
         return round(elapsed_time, 0)
