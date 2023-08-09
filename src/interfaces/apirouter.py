@@ -9,8 +9,10 @@ class Response(BaseModel):
     message: str
     data: Any
 
+
 class SolverData(BaseModel):
     """Data model for spellsolver_solve endpoint"""
+
     gameboard: str
     mult: str | None = None
     DL: str | None = None
@@ -20,6 +22,7 @@ class SolverData(BaseModel):
 
 class SolverRouter(BaseRouter):
     """Represents a spellsolver fastapi router"""
+
     def __init__(self, app: BaseUI, **kwargs: dict):
         super().__init__(**kwargs)
         self.app: BaseUI = app
@@ -32,7 +35,7 @@ class SolverRouter(BaseRouter):
             if not response["successful"]:
                 return self.error(response)
             return response
-    
+
     def solve(self, data: SolverData) -> Dict[str, Any]:
         """Solve a spellsolver game"""
         try:
@@ -48,15 +51,22 @@ class SolverRouter(BaseRouter):
             if data.TL:
                 TL_cord = (int(data.TL[0]), int(data.TL[1]))
                 solver.gameboard.set_mult_letter(TL_cord, 3)
-            
+
             results = solver.solve(data.swap)
             sorted_data = results.sorted_dict()
             response = {
                 "elapsed": results.timer.elapsed_millis(),
-                "results": sorted_data
+                "results": sorted_data,
             }
             return {
-                "successful": True, "message": "Spellsolver successfully found a result", "data": response }
-    
+                "successful": True,
+                "message": "Spellsolver successfully found a result",
+                "data": response,
+            }
+
         except Exception as e:
-            return { "successful": False, "message": "Spellsolver cannot find a result", "data": e }
+            return {
+                "successful": False,
+                "message": "Spellsolver cannot find a result",
+                "data": e,
+            }

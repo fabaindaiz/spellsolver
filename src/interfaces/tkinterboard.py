@@ -4,6 +4,7 @@ from src.interfaces.baseui import BaseUI
 
 class TkinterBoard(Board):
     """Represents a board with his logic"""
+
     def __init__(self, app: BaseUI) -> None:
         super().__init__(app)
         self.mult: MultHandler = MultHandler(self)
@@ -16,26 +17,30 @@ class TkinterBoard(Board):
         if self.mult.mult_cord != None:
             self.app.gameboard.set_mult_word(self.mult.mult_cord)
         if self.mult.letter_cord != None:
-            self.app.gameboard.set_mult_letter(self.mult.letter_cord, self.mult.letter_mult)
-        
+            self.app.gameboard.set_mult_letter(
+                self.mult.letter_cord, self.mult.letter_mult
+            )
+
         results = self.app.solve(swap)
         sorted = results.sorted(console=True)
         self.set_results(sorted)
 
+
 class MultHandler:
     """Handle Spellcast word & letter multipliers"""
+
     def __init__(self, board: Board) -> None:
         self.board: Board = board
 
         self.mult_cord: tuple = None
         self.letter_mult: int = None
         self.letter_cord: tuple = None
-    
+
     def set_mult_word(self, cord: tuple) -> None:
         """Set a mult_word in a tile"""
         if self.mult_cord != None:
             self.board.tiles[self.mult_cord].multiplier("black")
-        
+
         self.mult_cord = cord
         self.configure_mult()
 
@@ -54,13 +59,13 @@ class MultHandler:
             self.board.tiles[self.letter_cord].multiplier("gold")
         if self.mult_cord != None:
             self.board.tiles[self.mult_cord].multiplier("deep pink")
-        
+
     def remove_mult(self) -> None:
         """Remove colors of a tile"""
         if self.letter_cord != None:
             self.board.tiles[self.letter_cord].multiplier("black")
         if self.mult_cord != None:
             self.board.tiles[self.mult_cord].multiplier("black")
-        
+
         self.letter_cord = None
         self.mult_cord = None
