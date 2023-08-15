@@ -27,6 +27,10 @@ WordValidate successfully initialized (elapsed time: 25.05 seconds)
 - Add some spellsolver tests to avoid accidentally introducing new bugs
 - Add some heuristics to reduce the load and query time of double swap mode
 
+### Notices for contributors
+- Thank you for your interest in contributing to spellsolver, any improvement will be welcome
+- Please keep using typing types to maintain compatibility with python 3.6
+
 
 ## instructions for use
 
