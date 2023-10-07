@@ -48,9 +48,8 @@ class WordList:
         """
         words = set()
         for file in os.listdir(self.source_path):
-            words.update(
-                self.read_source_file(path=os.path.join(self.source_path, file))
-            )
+            full_path = os.path.join(self.source_path, file)
+            words.update(self.read_source_file(path=full_path))
         return words
 
     @staticmethod

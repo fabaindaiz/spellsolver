@@ -34,12 +34,11 @@ class WordValidate:
 
     def _word_iter(self, word, num):
         for t in combinations(range(len(word)), num):
-            yield (-1, *t, len(word))
+            yield "".join("0" if i in t else word[i] for i in range(len(word)))
 
     def insert(self, word: str, num: int) -> None:
-        for t in self._word_iter(word, num):
-            iword = "0".join(word[i + 1 : j] for i, j in pairwise(t))
-            self.trie.insert(ValidateLeaf, iword, word=word)
+        for iword in self._word_iter(word, num):
+            self.trie.insert(iword, word=word)
 
     def load_wordlist(self) -> None:
         """Initialize the trie with all words from a file"""

@@ -12,7 +12,15 @@ class BaseRouter:
         self.router: APIRouter = APIRouter(**kwargs)
 
     def error(self, response: Any) -> JSONResponse:
-        """Return a default error with a message"""
+        """
+        Return a default error with a message.
+
+        Args:
+            response (Any): The error response content.
+
+        Returns:
+            JSONResponse: A FastAPI JSONResponse with an error status.
+        """
         return JSONResponse(
             status_code=status.HTTP_403_FORBIDDEN,
             content=jsonable_encoder(response),

@@ -1,4 +1,4 @@
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 from pydantic import BaseModel
 from src.interfaces.baseapi import BaseRouter
 from src.interfaces.baseui import BaseUI
@@ -14,10 +14,10 @@ class SolverData(BaseModel):
     """Data model for spellsolver_solve endpoint"""
 
     gameboard: str
-    mult: str | None = None
-    DL: str | None = None
-    TL: str | None = None
-    swap: int | None = None
+    mult: Optional[str] = None
+    DL: Optional[str] = None
+    TL: Optional[str] = None
+    swap: Optional[int] = None
 
 
 class SolverRouter(BaseRouter):

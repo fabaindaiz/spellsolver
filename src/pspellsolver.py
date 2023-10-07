@@ -19,7 +19,7 @@ class SpellSolver:
     def process_node(
         self, node: TrieNode, actual_word: str, actual_path: List[GameTile]
     ) -> Generator[ResultWord, None, None]:
-        """Recursively process a node to find posible valid words"""
+        """Recursively process a node to find possible valid words"""
         swaps = [i for i, letter in enumerate(actual_word) if letter == "0"]
 
         for word in node.get_leaf():
@@ -31,35 +31,23 @@ class SpellSolver:
                 swaps=swaps,
             )
 
-    def process_path_aux(
-        self,
-        tile: GameTile,
-        node: TrieNode,
-        word: str,
-        path: List[GameTile],
-        swap: int,
-        letter: str,
-    ) -> Generator[ResultWord, None, None]:
-        actual_node = node.get_letter(letter)
-        if actual_node:
-            actual_word = word + letter
-            yield from self.process_node(actual_node, actual_word, path)
-            yield from self.process_path(tile, actual_node, actual_word, path, swap)
-
     def process_path(
         self, tile: GameTile, node: TrieNode, word: str, path: List[GameTile], swap: int
     ) -> Generator[ResultWord, None, None]:
-        """Get all posible paths that complete a path using swap"""
+        """Get all possible paths that complete a path using swap"""
         for actual_tile in tile.suggest_tile(path):
             actual_path = path + [actual_tile]
-            yield from self.process_path_aux(
-                actual_tile, node, word, actual_path, swap, actual_tile.letter
-            )
+            actual_word = word + actual_tile.letter
+            next_node = node.get_node(actual_word)
+            
+            if next_node:
+                yield from self.process_node(next_node, actual_word, actual_path)
+                
             if swap:
-                yield from self.process_path_aux(
-                    actual_tile, node, word, actual_path, swap - 1, "0"
+                yield from self.process_path(
+                    actual_tile, node, word + "0", actual_path, swap - 1
                 )
-    
+
     def process_tile(self, tile: GameTile, swap: int) -> Generator[ResultWord, None, None]:
         """Process a single tile for valid words"""
         return self.process_path(

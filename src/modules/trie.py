@@ -24,15 +24,15 @@ class TrieNode:
         self.childs: Dict[str, TrieNode] = {}
         self.leaf: TrieLeaf = leaf_class()
 
-    def insert(self, leaf_class: type, iter_word: str, **kwargs: dict) -> None:
+    def insert(self, iter_word: str, **kwargs: dict) -> None:
         """Insert a word recursively in the trie"""
-        if iter_word == "":
+        if not iter_word:
             return self.leaf.insert(**kwargs)
 
         next_letter = iter_word[0]
         next_word = iter_word[1:]
-        child = self.childs.setdefault(next_letter, TrieNode(leaf_class))
-        child.insert(leaf_class, next_word, **kwargs)
+        child = self.childs.setdefault(next_letter, TrieNode(type(self.leaf)))
+        child.insert(next_word, **kwargs)
 
     def get_letter(self, letter: str) -> "TrieNode":
         """Get node representing a letter in the trie"""
@@ -42,9 +42,9 @@ class TrieNode:
         """Get node representing a word in the trie"""
         node = self
         for letter in word:
-            if letter not in node.childs:
+            node = node.child_nodes.get(letter)
+            if not node:
                 return None
-            node = node.childs.get(letter, None)
         return node
 
     def get_leaf(self, recursive=False, **kwargs: dict) -> Any:
