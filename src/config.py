@@ -1,4 +1,4 @@
-VERSION = "v1.9"
+VERSION = "v1.10"
 DEBUG = False
 
 # Wordlist settings
