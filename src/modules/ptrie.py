@@ -15,14 +15,17 @@ class TrieLeaf:
     def heuristic(self, **kwargs: dict) -> Any:
         """Get heuristic values from TrieLeaf"""
         raise NotImplementedError()
+    
+    def merge_leafs(self, leaf: "TrieLeaf") -> None:
+        """Merge other_leaf into main_leaf"""
+        raise NotImplementedError()
 
 
 class TrieNode:
     """Represents a node of a Patricia trie"""
 
-    def __init__(self, leaf_class: TrieLeaf, value: Optional[str] = None) -> None:
-        self.children: Dict[str, TrieNode] = {}
-        self.value: str = value or ""
+    def __init__(self, leaf_class: TrieLeaf) -> None:
+        self.childs: Dict[str, TrieNode] = {}
         self.leaf: TrieLeaf = leaf_class()
 
     def insert(self, iter_word: str, **kwargs: dict) -> None:
@@ -30,46 +33,45 @@ class TrieNode:
         if not iter_word:
             return self.leaf.insert(**kwargs)
 
-        # Find common prefix
-        i = 0
-        while i < len(iter_word) and i < len(self.value) and iter_word[i] == self.value[i]:
-            i += 1
-
-        # Split if needed
-        if i < len(self.value):
-            child = TrieNode(type(self.leaf), self.value[i:])
-            child.children, child.leaf, self.children, self.leaf = self.children, self.leaf, {self.value[i]: child}, type(self.leaf)()
-            
-        # Recursive insertion
-        if i < len(iter_word):
-            next_key = iter_word[i]
-            if next_key not in self.children:
-                self.children[next_key] = TrieNode(type(self.leaf), iter_word[i:])
-            else:
-                self.children[next_key].insert(iter_word[i:], **kwargs)
+        common_prefix = next((prefix for prefix in self.childs.keys() if iter_word.startswith(prefix)), None)
+        if common_prefix:
+            next_word = iter_word[len(common_prefix):]
+            child = self.childs[common_prefix]
         else:
-            self.leaf.insert(**kwargs)
+            common_prefix = iter_word[0]
+            next_word = iter_word[1:]
+            child = self.childs.setdefault(common_prefix, TrieNode(type(self.leaf)))
+
+        child.insert(next_word, **kwargs)
+
+    def get_key(self, letter: str) -> "TrieNode":
+        next((key for key in self.childs if key.startswith(letter)), None)
 
     def get_node(self, word: str) -> "TrieNode":
         """Get node representing a word in the trie"""
         node = self
         while word:
-            # If word is not a prefix of value, then node is not found
-            if not word.startswith(node.value):
+            prefix = next((p for p in node.childs.keys() if word.startswith(p)), None)
+            if not prefix:
                 return None
-            word = word[len(node.value):]
-            if not word:
-                return node
-            next_key = word[0]
-            if next_key not in node.children:
-                return None
-            node = node.children[next_key]
+            node = node.childs[prefix]
+            word = word[len(prefix):]
         return node
 
     def get_leaf(self, recursive=False, **kwargs: dict) -> Any:
         """Get content from trie leaf using kwargs"""
         words = self.leaf.get(**kwargs)
         if recursive:
-            for node in self.children.values():
+            for node in self.childs.values():
                 words += node.get_leaf(recursive=True, **kwargs)
         return words
+    
+    def merge_tries(self, trie: "TrieNode") -> None:
+        """Merge other_trie into main_trie"""
+        self.leaf.merge_leafs(trie.leaf)
+
+        for prefix, child in trie.childs.items():
+            if prefix in self.childs:
+                self.childs[prefix].merge_tries(child)
+            else:
+                self.childs[prefix] = child

@@ -5,13 +5,22 @@ DEBUG = False
 SOURCES = "assets/wordlist-english/sources"
 WORDLIST = "assets/wordlist-english/wordlist.txt"
 
-# Heuristic settings
-# Work in progress
-HEURISTIC = False
-
 # FastAPI settings
 HOST = "127.0.0.1"
 PORT = 8080
+
+# Heuristic settings
+HEURISTIC = False
+
+# Multiprocess settings
+# Use multiprocessing is slower than single process
+MULTIPROCESS = False
+
+# Trie settings
+# Use PATRICIA trie is slightly slower than PREFIX trie
+# TRIE = "PREFIX"
+# TRIE = "PATRICIA"
+TRIE = "PREFIX"
 
 # Swap mode settings
 # Make sure you have enough ram memory (and patience) for the selected swap modes

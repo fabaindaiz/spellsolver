@@ -15,6 +15,10 @@ class TrieLeaf:
     def heuristic(self, **kwargs: dict) -> Any:
         """Get heuristic values from TrieLeaf"""
         raise NotImplementedError()
+    
+    def merge_leafs(self, leaf: "TrieLeaf") -> None:
+        """Merge other_leaf into main_leaf"""
+        raise NotImplementedError()
 
 
 class TrieNode:
@@ -34,15 +38,16 @@ class TrieNode:
         child = self.childs.setdefault(next_letter, TrieNode(type(self.leaf)))
         child.insert(next_word, **kwargs)
 
-    def get_letter(self, letter: str) -> "TrieNode":
+    def get_key(self, letter: str) -> "TrieNode":
         """Get node representing a letter in the trie"""
-        return self.childs.get(letter, None)
+        if letter in self.childs:
+            return letter
 
     def get_node(self, word: str) -> "TrieNode":
         """Get node representing a word in the trie"""
         node = self
         for letter in word:
-            node = node.child_nodes.get(letter)
+            node = node.childs.get(letter)
             if not node:
                 return None
         return node
@@ -54,3 +59,13 @@ class TrieNode:
             for node in self.childs.values():
                 words += node.get_leaf(recursive=True, **kwargs)
         return words
+    
+    def merge_tries(self, trie: "TrieNode") -> None:
+        """Merge other_trie into main_trie"""
+        self.leaf.merge_leafs(trie.leaf)
+        
+        for letter, child in trie.childs.items():
+            if letter in self.childs:
+                self.childs[letter].merge_tries(child)
+            else:
+                self.childs[letter] = child
