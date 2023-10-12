@@ -13,7 +13,7 @@ class ResultList:
     def update(self, results: Generator["ResultWord", None, None]) -> None:
         """Update result list"""
         for res in results:
-            self.data.update({(res.points, res.word): res})
+            self.data[(res.points, res.word)] = res
 
     def sorted(self, console: bool = False) -> List["ResultWord"]:
         """Return result list sorted by points"""

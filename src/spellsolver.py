@@ -1,4 +1,5 @@
 from typing import Generator, List
+from concurrent.futures import ThreadPoolExecutor
 from src.modules.resultlist import ResultList, ResultWord
 from src.modules.gameboard import GameBoard, GameTile
 from src.modules.validate import WordValidate
@@ -18,7 +19,7 @@ class SpellSolver:
     def process_node(
         self, node: TrieNode, actual_word: str, actual_path: List[GameTile]
     ) -> Generator[ResultWord, None, None]:
-        """Recursively process a node to find posible valid words"""
+        """Recursively process a node to find possible valid words"""
         swaps = [i for i, letter in enumerate(actual_word) if letter == "0"]
 
         for word in node.get_leaf():
@@ -44,6 +45,21 @@ class SpellSolver:
             actual_word = word + letter
             yield from self.process_node(actual_node, actual_word, path)
             yield from self.process_path(tile, actual_node, actual_word, path, swap)
+    def process_path_aux(
+        self,
+        tile: GameTile,
+        node: TrieNode,
+        word: str,
+        path: List[GameTile],
+        swap: int,
+        letter: str,
+    ) -> Generator[ResultWord, None, None]:
+        child_key = node.get_key(letter)
+        if child_key:
+            actual_word = word + child_key
+            actual_node = node.childs[child_key]
+            yield from self.process_node(actual_node, actual_word, path)
+            yield from self.process_path(tile, actual_node, actual_word, path, swap)
 
     def process_path(
         self, tile: GameTile, node: TrieNode, word: str, path: List[GameTile], swap: int
@@ -58,13 +74,19 @@ class SpellSolver:
                 yield from self.process_path_aux(
                     actual_tile, node, word, actual_path, swap - 1, "0"
                 )
+    
+    def process_tile(self, tile: GameTile, swap: int) -> Generator[ResultWord, None, None]:
+        """Process a single tile for valid words"""
+        return self.process_path(
+            tile=tile, node=self.validate.trie, word="", path=[tile], swap=swap
+        )
 
     def process_gameboard(self, swap: int) -> Generator[ResultWord, None, None]:
         """Iterate over all the squares on the board to start processing the paths"""
-        for tile in self.gameboard.tiles.values():
-            yield from self.process_path(
-                tile=tile, node=self.validate.trie, word="", path=[tile], swap=swap
-            )
+        with ThreadPoolExecutor() as executor:
+            results = list(executor.map(self.process_tile, self.gameboard.tiles.values(), [swap] * len(self.gameboard.tiles)))
+            for tile_results in results:
+                yield from tile_results
 
     def word_list(self, swap: int, timer: Timer = None) -> ResultList:
         """Get a valid words list from a solver Spellcast game"""

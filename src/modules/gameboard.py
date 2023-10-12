@@ -1,6 +1,8 @@
 from typing import Generator, Dict, List, Tuple
 from src.utils.utils import get_coordinate, letter_points, valid_word
 
+NEIGHBOR_OFFSETS = [(-1, -1), (0, -1), (1, -1), (-1, 0), (1, 0), (-1, 1), (0, 1), (1, 1)]
+
 
 class GameTile:
     """Respresents a Spellcast tile"""
@@ -32,19 +34,10 @@ class GameTile:
     def init_neighbors(self, tiles: Dict[Tuple[int, int], "GameTile"]) -> None:
         """Init neighbors of actual tile"""
         x, y = self.cord
-        cords = (
-            (x - 1, y - 1),
-            (x, y - 1),
-            (x + 1, y - 1),
-            (x - 1, y),
-            (x + 1, y),
-            (x - 1, y + 1),
-            (x, y + 1),
-            (x + 1, y + 1),
+        neighbors_cords = (
+            (x + dx, y + dy) for dx, dy in NEIGHBOR_OFFSETS if 0 <= x + dx < 5 and 0 <= y + dy < 5
         )
-        neighbors_cords = ((x, y) for x, y in cords if 0 <= x < 5 and 0 <= y < 5)
-
-        self.neighbors.extend(tiles[(x, y)] for x, y in neighbors_cords)
+        self.neighbors.extend(tiles[cord] for cord in neighbors_cords)
 
     def suggest_tile(self, path: List["GameTile"]) -> Generator["GameTile", None, None]:
         """Get all nodes in neighbors that are not in path"""

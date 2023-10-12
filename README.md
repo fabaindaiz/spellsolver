@@ -9,7 +9,7 @@ Spellsolver is a software that helps to search for the best possible word in Spe
 
 A message like this will be printed on the screen while Spellsolver starts
 ```bash
-Spellsolver v1.9 - fabaindaiz
+Spellsolver v1.10 - fabaindaiz
 WordValidate is being initialized, this will take several seconds
 WordValidate successfully initialized (elapsed time: 25.05 seconds)
 ```

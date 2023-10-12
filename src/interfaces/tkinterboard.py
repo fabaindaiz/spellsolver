@@ -14,9 +14,9 @@ class TkinterBoard(Board):
         gameboard_string = "".join(tile.letter() for tile in self.tiles.values())
         self.app.gameboard.load(gameboard_string)
 
-        if self.mult.mult_cord != None:
+        if self.mult.mult_cord is not None:
             self.app.gameboard.set_mult_word(self.mult.mult_cord)
-        if self.mult.letter_cord != None:
+        if self.mult.letter_cord is not None:
             self.app.gameboard.set_mult_letter(
                 self.mult.letter_cord, self.mult.letter_mult
             )
@@ -38,7 +38,7 @@ class MultHandler:
 
     def set_mult_word(self, cord: tuple) -> None:
         """Set a mult_word in a tile"""
-        if self.mult_cord != None:
+        if self.mult_cord is not None:
             self.board.tiles[self.mult_cord].multiplier("black")
 
         self.mult_cord = cord
@@ -46,7 +46,7 @@ class MultHandler:
 
     def set_mult_letter(self, cord: tuple, mult: int) -> None:
         """Set a mult_TL in a tile"""
-        if self.letter_cord != None:
+        if self.letter_cord is not None:
             self.board.tiles[self.letter_cord].multiplier("black")
 
         self.letter_mult = mult
