@@ -40,20 +40,6 @@ class SpellSolver:
         swap: int,
         letter: str,
     ) -> Generator[ResultWord, None, None]:
-        actual_node = node.get_letter(letter)
-        if actual_node:
-            actual_word = word + letter
-            yield from self.process_node(actual_node, actual_word, path)
-            yield from self.process_path(tile, actual_node, actual_word, path, swap)
-    def process_path_aux(
-        self,
-        tile: GameTile,
-        node: TrieNode,
-        word: str,
-        path: List[GameTile],
-        swap: int,
-        letter: str,
-    ) -> Generator[ResultWord, None, None]:
         child_key = node.get_key(letter)
         if child_key:
             actual_word = word + child_key
