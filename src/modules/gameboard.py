@@ -1,7 +1,20 @@
 from typing import Generator, Dict, List, Tuple
-from src.utils.utils import get_coordinate, letter_points, valid_word
+from src.utils.utils import (
+    auxiliary_coordinate_to_indices,
+    get_letter_point_value,
+    is_valid_word,
+)
 
-NEIGHBOR_OFFSETS = [(-1, -1), (0, -1), (1, -1), (-1, 0), (1, 0), (-1, 1), (0, 1), (1, 1)]
+NEIGHBOR_OFFSETS = [
+    (-1, -1),
+    (0, -1),
+    (1, -1),
+    (-1, 0),
+    (1, 0),
+    (-1, 1),
+    (0, 1),
+    (1, 1),
+]
 
 
 class GameTile:
@@ -12,7 +25,7 @@ class GameTile:
         self.cord: Tuple[int, int] = cord
         self.swap: bool = False
 
-        self.letter_points: int = letter_points(letter)
+        self.letter_points: int = get_letter_point_value(letter)
         self.letter_mult: int = 1
         self.word_mult: int = 1
 
@@ -35,7 +48,9 @@ class GameTile:
         """Init neighbors of actual tile"""
         x, y = self.cord
         neighbors_cords = (
-            (x + dx, y + dy) for dx, dy in NEIGHBOR_OFFSETS if 0 <= x + dx < 5 and 0 <= y + dy < 5
+            (x + dx, y + dy)
+            for dx, dy in NEIGHBOR_OFFSETS
+            if 0 <= x + dx < 5 and 0 <= y + dy < 5
         )
         self.neighbors.extend(tiles[cord] for cord in neighbors_cords)
 
@@ -53,11 +68,11 @@ class GameBoard:
     def load(self, gameboard: str) -> None:
         gameboard = gameboard.lower()
 
-        if not valid_word(gameboard) or len(gameboard) != 25:
+        if not is_valid_word(gameboard) or len(gameboard) != 25:
             raise Exception("Gameboard init error")
 
         for aux, letter in enumerate(gameboard):
-            cord = get_coordinate(aux)
+            cord = auxiliary_coordinate_to_indices(aux)
             self.tiles[cord] = GameTile(letter, cord)
 
         for node in self.tiles.values():
