@@ -4,7 +4,7 @@ from typing import Callable, Dict, List, Tuple
 from src.modules.resultlist import ResultWord
 from src.modules.gameboard import GameTile
 from src.interfaces.baseui import BaseUI
-from src.utils.utils import get_coordinate
+from src.utils.utils import auxiliary_coordinate_to_indices
 from src.config import SWAP
 
 
@@ -21,7 +21,9 @@ class Board:
         self.double_swap: bool = SWAP >= 2
 
         for aux_cord in range(25):
-            self.tiles[get_coordinate(aux_cord)] = BoardTile(self, aux_cord)
+            self.tiles[auxiliary_coordinate_to_indices(aux_cord)] = BoardTile(
+                self, aux_cord
+            )
 
         self.buttons.append(
             BoardButton(self, 0, "Normal", lambda: self.button_command(swap=0))
@@ -58,7 +60,7 @@ class BoardTile:
 
         self.backup_letter: str = None
 
-        self.stringvar: tk.StringVar = tk.StringVar(app.root, value="")
+        self.stringvar: tk.StringVar = tk.StringVar(app.window, value="")
         self.menu: BoardMenu = BoardMenu(self.board, aux_cord)
         self.entry: BoardEntry = BoardEntry(
             self.board, self.menu, self.stringvar, aux_cord
@@ -121,9 +123,9 @@ class BoardMenu:
         self.board: Board = board
         app = board.app
 
-        cord = get_coordinate(aux_cord)
+        cord = auxiliary_coordinate_to_indices(aux_cord)
 
-        self.menu: tk.Menu = tk.Menu(app.root, tearoff=0)
+        self.menu: tk.Menu = tk.Menu(app.window, tearoff=0)
         self.menu.add_command(
             label="2X", command=lambda: self.board.mult.set_mult_word(cord)
         )
@@ -155,8 +157,8 @@ class BoardEntry:
         self.board: Board = board
         app = board.app
 
-        cord = get_coordinate(aux_cord)
-        next = get_coordinate(aux_cord + 1)
+        cord = auxiliary_coordinate_to_indices(aux_cord)
+        next = auxiliary_coordinate_to_indices(aux_cord + 1)
         x, y = cord
 
         def on_validate(input: str) -> bool:
@@ -169,14 +171,22 @@ class BoardEntry:
             return True
 
         self.entry: tk.Entry = tk.Entry(
-            app.root, textvariable=stringvar, validate="key", highlightthickness=2
+            app.window,
+            textvariable=stringvar,
+            validate="key",
+            highlightthickness=2,
         )
         self.entry["borderwidth"] = "1px"
         self.entry["fg"] = "#333333"
         self.entry["justify"] = "center"
         self.entry["validatecommand"] = (self.entry.register(on_validate), "%P")
         self.entry.bind("<Button-3>", lambda event: menu.popup(event))
-        self.entry.place(x=app.xoff + 40 * x, y=app.yoff + 40 * y, width=40, height=40)
+        self.entry.place(
+            x=app.HORIZONTAL_PADDING + 40 * x,
+            y=app.VERTICAL_PADDING + 40 * y,
+            width=40,
+            height=40,
+        )
 
     def focus(self) -> None:
         """Set the focus on the entry"""
@@ -191,7 +201,7 @@ class BoardButton:
         self.board: Board = board
         app = board.app
 
-        self.button: tk.Button = tk.Button(app.root)
+        self.button: tk.Button = tk.Button(app.window)
         self.button["bg"] = "#e9e9ed"
         self.button["font"] = Font(family="Times", size=12)
         self.button["fg"] = "#000000"
@@ -201,11 +211,17 @@ class BoardButton:
 
         if self.board.double_swap:
             self.button.place(
-                x=app.xoff + 67 * num, y=app.yoff + 210, width=67, height=30
+                x=app.HORIZONTAL_PADDING + 67 * num,
+                y=app.VERTICAL_PADDING + 210,
+                width=67,
+                height=30,
             )
         else:
             self.button.place(
-                x=app.xoff + 100 * num, y=app.yoff + 210, width=100, height=30
+                x=app.HORIZONTAL_PADDING + 100 * num,
+                y=app.VERTICAL_PADDING + 210,
+                width=100,
+                height=30,
             )
 
 
@@ -219,7 +235,7 @@ class BoardLabel:
         self.text: str = text
         self.hover: LabelHover = None
 
-        self.label: tk.Label = tk.Label(app.root)
+        self.label: tk.Label = tk.Label(app.window)
         self.label["borderwidth"] = "1px"
         self.label["font"] = Font(family="Times", size=18)
         self.label["fg"] = "#333333"
