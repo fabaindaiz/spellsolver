@@ -1,7 +1,7 @@
 import os
 from typing import Generator, Set, TextIO
 from src.config import SOURCES, WORDLIST
-from src.utils.utils import valid_word
+from src.utils.utils import is_valid_word
 
 
 class WordList:
@@ -37,7 +37,7 @@ class WordList:
         Generate a wordlist file from multiple files in a source folder.
         """
         words = self.fetch_words_from_files()
-        self.write_words_to_file(words, path=self.dest_path)
+        write_words_to_file(words, path=self.dest_path)
 
     def fetch_words_from_files(self) -> Set[str]:
         """
@@ -49,36 +49,34 @@ class WordList:
         words = set()
         for file in os.listdir(self.source_path):
             full_path = os.path.join(self.source_path, file)
-            words.update(self.read_source_file(path=full_path))
+            words.update(read_source_file(path=full_path))
         return words
 
-    @staticmethod
-    def read_source_file(path: str) -> Generator[str, None, None]:
-        """
-        Read valid words from a source file.
 
-        Args:
-            path (str): The path to the source file.
+def write_words_to_file(words: set, path: str) -> None:
+    """
+    Sort and write a set of valid words to a destination file.
+    Args:
+        words (set): A set of valid words to be written to the file.
+        path (str): The path to the destination file.
+    """
+    sorted_words = sorted(words)
+    with open(path, "w") as file:
+        file.writelines(f"{word}\n" for word in sorted_words)
 
-        Yields:
-            Generator[str, None, None]: A generator yielding valid words from the source file.
-        """
-        with open(path) as file:
-            for line in file.readlines():
-                word = line.strip().lower()
-                if valid_word(word):
-                    yield word
 
-    @staticmethod
-    def write_words_to_file(words: Set[str], path: str) -> None:
-        """
-        Sort valid words and write them to a destination file.
+def read_source_file(path: str) -> Generator[str, None, None]:
+    """
+    Read valid words from a source file.
 
-        Args:
-            words (Set[str]): A set of valid words to be written to the file.
-            path (str): The path to the destination file.
-        """
-        words = sorted(words)
-        with open(path, "w") as f:
-            for word in words:
-                f.write("%s\n" % word)
+    Args:
+        path (str): The path to the source file.
+
+    Yields:
+        Generator[str, None, None]: A generator yielding valid words from the source file.
+    """
+    with open(path) as file:
+        for line in file:
+            word = line.strip().lower()
+            if is_valid_word(word):
+                yield word

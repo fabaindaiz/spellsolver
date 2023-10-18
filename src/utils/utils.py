@@ -32,7 +32,7 @@ POINTS = {
 }
 
 
-def get_coordinate(aux_cord: int) -> Tuple[int, int]:
+def auxiliary_coordinate_to_indices(aux_cord: int) -> Tuple[int, int]:
     """
     Converts an auxiliary coordinate to a tuple of row and column indices.
 
@@ -46,7 +46,7 @@ def get_coordinate(aux_cord: int) -> Tuple[int, int]:
     return aux_cord % 5, aux_cord // 5
 
 
-def valid_word(word: str) -> bool:
+def is_valid_word(word: str) -> bool:
     """
     Checks if a given word consists of valid characters.
 
@@ -59,7 +59,7 @@ def valid_word(word: str) -> bool:
     return all(letter in CHARS for letter in word)
 
 
-def letter_points(letter: str) -> int:
+def get_letter_point_value(letter: str) -> int:
     """
     Retrieves the point value of a letter.
 
