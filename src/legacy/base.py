@@ -25,47 +25,55 @@ class TrieNode:
     """Represents a node of a trie"""
 
     def __init__(self, leaf_class: TrieLeaf) -> None:
-        self.childs: Dict[str, TrieNode] = {}
-        self.leaf: TrieLeaf = leaf_class()
+        raise NotImplementedError()
 
     def insert(self, iter_word: str, **kwargs: dict) -> None:
         """Insert a word recursively in the trie"""
-        if not iter_word:
-            return self.leaf.insert(**kwargs)
-
-        next_letter = iter_word[0]
-        next_word = iter_word[1:]
-        child = self.childs.setdefault(next_letter, TrieNode(type(self.leaf)))
-        child.insert(next_word, **kwargs)
+        raise NotImplementedError()
+    
+    def finish_insert(self) -> None:
+        """Finish insertions in the trie"""
+        pass
 
     def get_key(self, letter: str) -> "TrieNode":
         """Get node representing a letter in the trie"""
-        if letter in self.childs:
-            return letter
+        raise NotImplementedError()
 
     def get_node(self, word: str) -> "TrieNode":
         """Get node representing a word in the trie"""
-        node = self
-        for letter in word:
-            node = node.childs.get(letter)
-            if not node:
-                return None
-        return node
+        raise NotImplementedError()
 
     def get_leaf(self, recursive=False, **kwargs: dict) -> Any:
         """Get content from trie leaf using kwargs"""
-        words = self.leaf.get(**kwargs)
-        if recursive:
-            for node in self.childs.values():
-                words += node.get_leaf(recursive=True, **kwargs)
-        return words
+        raise NotImplementedError()
     
     def merge_tries(self, trie: "TrieNode") -> None:
         """Merge other_trie into main_trie"""
-        self.leaf.merge_leafs(trie.leaf)
-        
-        for letter, child in trie.childs.items():
-            if letter in self.childs:
-                self.childs[letter].merge_tries(child)
-            else:
-                self.childs[letter] = child
+        raise NotImplementedError()
+
+class Trie:
+
+    def insert(self, word: str) -> None:
+        """Insert a word in the trie"""
+        raise NotImplementedError()
+    
+    def finish_insert(self) -> None:
+        """Finish insertions in the trie"""
+        raise NotImplementedError()
+    
+    def get_key(self, letter: str) -> "TrieNode":
+        """Get node representing a letter in the trie"""
+        raise NotImplementedError()
+
+    def get_node(self, word: str) -> "TrieNode":
+        """Get node representing a word in the trie"""
+        raise NotImplementedError()
+
+    def get_leaf(self, recursive=False, **kwargs: dict) -> Any:
+        """Get content from trie leaf using kwargs"""
+        raise NotImplementedError()
+    
+    def merge_tries(self, trie: "TrieNode") -> None:
+        """Merge other_trie into main_trie"""
+        raise NotImplementedError()
+    

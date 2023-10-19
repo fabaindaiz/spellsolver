@@ -1,8 +1,9 @@
 from typing import Generator, List
+from concurrent.futures import ThreadPoolExecutor
 from src.modules.resultlist import ResultList, ResultWord
 from src.modules.gameboard import GameBoard, GameTile
 from src.modules.validate import WordValidate
-from src.tries.base import TrieNode, TrieLeaf
+from src.modules.trie import TrieNode
 from src.modules.path import Path
 from src.utils.timer import Timer
 from src.config import SWAP
@@ -15,8 +16,8 @@ class SpellSolver:
         self.gameboard: GameBoard = gameboard
         self.validate: WordValidate = validate
 
-    def process_word(
-        self,  actual_word: str, actual_path: List[GameTile]
+    def process_node(
+        self, node: TrieNode, actual_word: str, actual_path: List[GameTile]
     ) -> Generator[ResultWord, None, None]:
         """Recursively process a node to find possible valid words"""
         swaps = [i for i, letter in enumerate(actual_word) if letter == "0"]
@@ -59,18 +60,25 @@ class SpellSolver:
                 yield from self.process_path_aux(
                     actual_tile, node, word, actual_path, swap - 1, "0"
                 )
+    
+    def process_tile(self, tile: GameTile, swap: int) -> Generator[ResultWord, None, None]:
+        """Process a single tile for valid words"""
+        return self.process_path(
+            tile=tile, node=self.validate.trie, word="", path=[tile], swap=swap
+        )
 
     def process_gameboard(self, swap: int) -> Generator[ResultWord, None, None]:
         """Iterate over all the squares on the board to start processing the paths"""
-        for tile in self.gameboard.tiles.values():
-            yield from self.process_path(
-                tile=tile, node=self.validate.trie, word="", path=[tile], swap=swap
-            )
+        with ThreadPoolExecutor() as executor:
+            results = list(executor.map(self.process_tile, self.gameboard.tiles.values(), [swap] * len(self.gameboard.tiles)))
+            for tile_results in results:
+                yield from tile_results
 
     def word_list(self, swap: int, timer: Timer = None) -> ResultList:
         """Get a valid words list from a solver Spellcast game"""
-        results = self.process_gameboard(swap=min(swap, SWAP))
-        return ResultList(timer=timer, results=results)
+        results = ResultList(timer=timer)
+        results.update(self.process_gameboard(swap=min(swap, SWAP)))
+        return results
 
 
 if __name__ == "__main__":

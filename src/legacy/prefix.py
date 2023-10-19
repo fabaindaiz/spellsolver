@@ -1,7 +1,8 @@
-from typing import Any, Dict, Optional
+from typing import Any, Dict
+from src.tries.base import TrieLeaf, TrieNode
 
 
-class TrieLeaf:
+class PrefixLeaf(TrieLeaf):
     """Interface that represents a leaf of a trie"""
 
     def insert(self, **kwargs: dict) -> None:
@@ -21,8 +22,8 @@ class TrieLeaf:
         raise NotImplementedError()
 
 
-class TrieNode:
-    """Represents a node of a Patricia trie"""
+class PrefixNode(TrieNode):
+    """Represents a node of a trie"""
 
     def __init__(self, leaf_class: TrieLeaf) -> None:
         self.childs: Dict[str, TrieNode] = {}
@@ -33,29 +34,23 @@ class TrieNode:
         if not iter_word:
             return self.leaf.insert(**kwargs)
 
-        common_prefix = next((prefix for prefix in self.childs.keys() if iter_word.startswith(prefix)), None)
-        if common_prefix:
-            next_word = iter_word[len(common_prefix):]
-            child = self.childs[common_prefix]
-        else:
-            common_prefix = iter_word[0]
-            next_word = iter_word[1:]
-            child = self.childs.setdefault(common_prefix, TrieNode(type(self.leaf)))
-
+        next_letter = iter_word[0]
+        next_word = iter_word[1:]
+        child = self.childs.setdefault(next_letter, TrieNode(type(self.leaf)))
         child.insert(next_word, **kwargs)
 
     def get_key(self, letter: str) -> "TrieNode":
-        next((key for key in self.childs if key.startswith(letter)), None)
+        """Get node representing a letter in the trie"""
+        if letter in self.childs:
+            return letter
 
     def get_node(self, word: str) -> "TrieNode":
         """Get node representing a word in the trie"""
         node = self
-        while word:
-            prefix = next((p for p in node.childs.keys() if word.startswith(p)), None)
-            if not prefix:
+        for letter in word:
+            node = node.childs.get(letter)
+            if not node:
                 return None
-            node = node.childs[prefix]
-            word = word[len(prefix):]
         return node
 
     def get_leaf(self, recursive=False, **kwargs: dict) -> Any:
@@ -69,9 +64,9 @@ class TrieNode:
     def merge_tries(self, trie: "TrieNode") -> None:
         """Merge other_trie into main_trie"""
         self.leaf.merge_leafs(trie.leaf)
-
-        for prefix, child in trie.childs.items():
-            if prefix in self.childs:
-                self.childs[prefix].merge_tries(child)
+        
+        for letter, child in trie.childs.items():
+            if letter in self.childs:
+                self.childs[letter].merge_tries(child)
             else:
-                self.childs[prefix] = child
+                self.childs[letter] = child

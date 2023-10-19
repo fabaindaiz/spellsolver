@@ -1,16 +1,24 @@
-from typing import Any, List
+from typing import Any, List, Tuple
 from itertools import combinations
 from collections import defaultdict
 from multiprocessing import Pool, cpu_count
+from src.tries.base import Trie
 from src.modules.wordlist import WordList
 from src.config import MULTIPROCESS, SWAP, TRIE
 
-if TRIE == "PREFIX":
-    from src.modules.trie import TrieLeaf, TrieNode
-elif TRIE == "PATRICIA":
-    from src.modules.ptrie import TrieLeaf, TrieNode
-else:
-    raise NotImplementedError()
+
+def get_trie() -> Tuple[Trie]:
+    if TRIE == "PREFIX":
+        from src.tries.prefix import PrefixTrie
+        return PrefixTrie
+    elif TRIE == "PATRICIA":
+        from src.tries.patricia import PatriciaTrie
+        return PatriciaTrie
+    elif TRIE == "MARISA":
+        from src.tries.marisa import MarisaTrie
+        return MarisaTrie
+    else:
+        raise NotImplementedError()
 
 
 class ValidateLeaf(TrieLeaf):
@@ -43,7 +51,8 @@ class WordValidate:
 
     def __init__(self) -> None:
         self.wordlist = WordList()
-        self.trie: TrieNode = TrieNode(ValidateLeaf)
+        self.trie_class = get_trie()
+        self.trie: TrieNode = self.trie_class(ValidateLeaf)
 
     def _word_iter(self, word, num):
         for t in combinations(range(len(word)), num):
@@ -58,6 +67,8 @@ class WordValidate:
         for word in words:
             for num in range(SWAP + 1):
                 self.insert(word, num)
+        
+        self.trie.finish_insert()
         return self.trie
     
     def chunk_process(self, words: List[str]) -> None:

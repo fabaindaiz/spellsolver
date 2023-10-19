@@ -1,4 +1,4 @@
-VERSION = "v2.0"
+VERSION = "v1.10"
 DEBUG = False
 
 # Wordlist settings
@@ -8,6 +8,19 @@ WORDLIST = "assets/wordlist-english/wordlist.txt"
 # FastAPI settings
 HOST = "127.0.0.1"
 PORT = 8080
+
+# Heuristic settings
+HEURISTIC = False
+
+# Multiprocess settings
+# Use multiprocessing is slower than single process
+MULTIPROCESS = False
+
+# Trie settings
+# Use PATRICIA trie is slightly slower than PREFIX trie
+# TRIE = "PREFIX"
+# TRIE = "PATRICIA"
+TRIE = "PREFIX"
 
 # Swap mode settings
 # Make sure you have enough ram memory (and patience) for the selected swap modes
