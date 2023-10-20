@@ -4,7 +4,7 @@ from typing import Callable, Dict, List, Tuple
 from src.modules.resultlist import ResultWord
 from src.modules.gameboard import GameTile
 from src.interfaces.baseui import BaseUI
-from src.utils.utils import auxiliary_coordinate_to_indices
+from src.utils.utils import aux_to_indices
 from src.config import SWAP
 
 
@@ -21,9 +21,7 @@ class Board:
         self.double_swap: bool = SWAP >= 2
 
         for aux_cord in range(25):
-            self.tiles[auxiliary_coordinate_to_indices(aux_cord)] = BoardTile(
-                self, aux_cord
-            )
+            self.tiles[aux_to_indices(aux_cord)] = BoardTile(self, aux_cord)
 
         self.buttons.append(
             BoardButton(self, 0, "Normal", lambda: self.button_command(swap=0))
@@ -123,7 +121,7 @@ class BoardMenu:
         self.board: Board = board
         app = board.app
 
-        cord = auxiliary_coordinate_to_indices(aux_cord)
+        cord = aux_to_indices(aux_cord)
 
         self.menu: tk.Menu = tk.Menu(app.window, tearoff=0)
         self.menu.add_command(
@@ -157,8 +155,8 @@ class BoardEntry:
         self.board: Board = board
         app = board.app
 
-        cord = auxiliary_coordinate_to_indices(aux_cord)
-        next = auxiliary_coordinate_to_indices(aux_cord + 1)
+        cord = aux_to_indices(aux_cord)
+        next = aux_to_indices(aux_cord + 1)
         x, y = cord
 
         def on_validate(input: str) -> bool:
