@@ -32,18 +32,19 @@ POINTS = {
 }
 
 
-def auxiliary_coordinate_to_indices(aux_cord: int) -> Tuple[int, int]:
+def aux_to_indices(coordination: int) -> Tuple[int, int]:
     """
     Converts an auxiliary coordinate to a tuple of row and column indices.
 
     Args:
-        aux_cord (int): The auxiliary coordinate to convert.
+        coordination (int): The auxiliary coordinate to convert.
 
     Returns:
         Tuple[int, int]: A tuple containing row and column indices.
     """
-    aux_cord = aux_cord % 25
-    return aux_cord % 5, aux_cord // 5
+    coordination = coordination % 25
+
+    return coordination % 5, coordination // 5
 
 
 def is_valid_word(word: str) -> bool:

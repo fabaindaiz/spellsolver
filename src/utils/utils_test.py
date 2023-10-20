@@ -1,13 +1,13 @@
 import unittest
-from utils import auxiliary_coordinate_to_indices, is_valid_word, get_letter_point_value
+from utils import aux_to_indices, is_valid_word, get_letter_point_value
 
 
 class TestFunctions(unittest.TestCase):
     def test_get_coordinate(self):
-        self.assertEqual(auxiliary_coordinate_to_indices(0), (0, 0))
-        self.assertEqual(auxiliary_coordinate_to_indices(5), (0, 1))
-        self.assertEqual(auxiliary_coordinate_to_indices(24), (4, 4))
-        self.assertEqual(auxiliary_coordinate_to_indices(26), (1, 0))
+        self.assertEqual(aux_to_indices(0), (0, 0))
+        self.assertEqual(aux_to_indices(5), (0, 1))
+        self.assertEqual(aux_to_indices(24), (4, 4))
+        self.assertEqual(aux_to_indices(26), (1, 0))
 
     def test_valid_word(self):
         self.assertTrue(is_valid_word("hello"))
