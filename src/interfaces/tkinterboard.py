@@ -1,4 +1,4 @@
-from src.interfaces.tkinterwidget import Board
+from src.interfaces.board import Board
 from src.interfaces.baseui import BaseUI
 
 
