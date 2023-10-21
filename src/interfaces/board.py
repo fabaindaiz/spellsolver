@@ -21,17 +21,6 @@ class Board:
         buttons (List[BoardButton]): A list of board buttons.
         labels (List[BoardLabel]): A list of board labels.
         tiles (Dict[Tuple[int, int], BoardTile]): A dictionary mapping coordinates to board tiles.
-
-    Methods:
-        initialize_components(): Initialize buttons, tiles, and labels on the board.
-        initialize_buttons(): Initialize board buttons based on the value of SWAP.
-        create_button(swap_count: int) -> BoardButton: Create a board button for a specific swap count.
-        initialize_tiles(): Initialize board tiles.
-        initialize_labels(): Initialize board labels.
-        set_results(word_list: List[ResultWord]): Set results on the board labels.
-        reset_labels(): Reset the text on all board labels.
-        update_labels(word_list: List[ResultWord]): Update the text and paths on board labels.
-        button_command(swap: int): Handle a button click action, to be implemented in subclasses.
     """
 
     def __init__(self, app: BaseUI) -> None:
@@ -40,6 +29,7 @@ class Board:
         Args:
             app (BaseUI): The base user interface for the board.
         """
+
         self.app: BaseUI = app
         self.double_swap: bool = SWAP >= 2
 
@@ -51,12 +41,14 @@ class Board:
 
     def initialize_components(self) -> None:
         """Initialize the components of the board: buttons, tiles, and labels."""
+
         self.initialize_buttons()
         self.initialize_tiles()
         self.initialize_labels()
 
     def initialize_buttons(self) -> None:
         """Initialize board buttons based on the value of SWAP."""
+
         swap_options = [0, 1]
 
         if self.double_swap:
@@ -76,17 +68,17 @@ class Board:
         Returns:
             BoardButton: The created board button.
         """
-        label_text = f"{swap_count} Swap"
 
         return BoardButton(
-            board=self,
-            num=swap_count,
-            text=label_text,
+            parent=self.app,
+            double_swap=self.double_swap,
+            swap_count=swap_count,
             command=lambda: self.button_command(swap_count),
         )
 
     def initialize_tiles(self) -> None:
         """Initialize board tiles on the board."""
+
         for tile_index in range(25):
             coord_index = aux_to_indices(tile_index)
 
@@ -94,6 +86,7 @@ class Board:
 
     def initialize_labels(self) -> None:
         """Initialize board labels on the board."""
+
         for label_index in range(10):
             label = BoardLabel(self, label_index)
 
@@ -105,11 +98,13 @@ class Board:
         Args:
             word_list (List[ResultWord]): A list of result words to be displayed on the labels.
         """
+
         self.reset_labels()
         self.update_labels(word_list)
 
     def reset_labels(self) -> None:
         """Reset the text on all board labels."""
+
         for label in self.labels:
             label.reset()
 
@@ -119,6 +114,7 @@ class Board:
         Args:
             word_list (List[ResultWord]): A list of result words to be displayed on the labels.
         """
+
         for label, result in zip(self.labels, word_list):
             text = result.text()
             path = result.path
@@ -131,4 +127,5 @@ class Board:
         Args:
             swap (int): The number of swaps represented by the clicked button.
         """
+
         raise NotImplementedError()
