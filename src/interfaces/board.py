@@ -69,12 +69,10 @@ class Board:
             BoardButton: The created board button.
         """
 
-        label_text = f"{swap_count} Swap"
-
         return BoardButton(
-            board=self,
-            num=swap_count,
-            text=label_text,
+            parent=self.app,
+            double_swap=self.double_swap,
+            swap_count=swap_count,
             command=lambda: self.button_command(swap_count),
         )
 
