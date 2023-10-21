@@ -1,6 +1,6 @@
 from typing import Generator, Dict, List, Tuple
 from src.utils.utils import (
-    auxiliary_coordinate_to_indices,
+    aux_to_indices,
     get_letter_point_value,
     is_valid_word,
 )
@@ -65,7 +65,7 @@ class GameBoard:
             raise Exception("Gameboard init error")
 
         for aux, letter in enumerate(gameboard):
-            cord = auxiliary_coordinate_to_indices(aux)
+            cord = aux_to_indices(aux)
             self.tiles[cord] = GameTile(letter, cord)
 
         for node in self.tiles.values():
