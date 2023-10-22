@@ -1,5 +1,5 @@
 from marisa_trie import RecordTrie
-from typing import Generator, List, Tuple
+from typing import Any, Generator, List, Tuple
 from src.modules.trie.base import Trie, TrieQuery
 from src.modules.wordlist.wordlist import WordList
 from src.modules.trie.loader import word_iter
@@ -33,10 +33,13 @@ class MarisaTrieQuery(TrieQuery):
 
     def __init__(self, trie: Trie) -> None:
         self.trie: MarisaTrie = trie
+    
+    def get_status(self) -> Any:
+        return None
 
-    def get_key(self, word: str) -> str:
-        return self.trie.trie.has_keys_with_prefix(word)
+    def get_key(self, status: Any, word: str) -> Tuple[Any, str]:
+        return status, self.trie.trie.has_keys_with_prefix(word)
 
-    def get_leaf(self, word: str) -> Generator[str, None, None]:
+    def get_leaf(self, status: Any, word: str) -> Generator[str, None, None]:
         for i in self.trie.trie.get(word, []):
             yield self.trie.words[i[0]]

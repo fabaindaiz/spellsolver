@@ -5,6 +5,12 @@ from src.config import SWAP, TRIE
 if TRIE == "MARISA":
     from src.modules.trie.marisa import MarisaTrie
     trie = MarisaTrie()
+elif TRIE == "PREFIX":
+    from src.modules.trie.prefix import PrefixTrie
+    trie = PrefixTrie()
+elif TRIE == "PATRICIA":
+    from src.modules.trie.patricia import PatriciaTrie
+    trie = PatriciaTrie()
 else:
     raise NotImplementedError()
 

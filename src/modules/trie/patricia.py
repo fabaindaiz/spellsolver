@@ -1,4 +1,5 @@
-from typing import Any, Dict, Optional
+from typing import Any, Dict
+from src.modules.trie.base import Trie
 
 
 class TrieLeaf:
@@ -21,11 +22,11 @@ class TrieLeaf:
         raise NotImplementedError()
 
 
-class TrieNode:
+class PatriciaTrie(Trie):
     """Represents a node of a Patricia trie"""
 
     def __init__(self, leaf_class: TrieLeaf) -> None:
-        self.childs: Dict[str, TrieNode] = {}
+        self.childs: Dict[str, PatriciaTrie] = {}
         self.leaf: TrieLeaf = leaf_class()
 
     def insert(self, iter_word: str, **kwargs: dict) -> None:
@@ -40,14 +41,14 @@ class TrieNode:
         else:
             common_prefix = iter_word[0]
             next_word = iter_word[1:]
-            child = self.childs.setdefault(common_prefix, TrieNode(type(self.leaf)))
+            child = self.childs.setdefault(common_prefix, PatriciaTrie(type(self.leaf)))
 
         child.insert(next_word, **kwargs)
 
-    def get_key(self, letter: str) -> "TrieNode":
+    def get_key(self, letter: str) -> "PatriciaTrie":
         next((key for key in self.childs if key.startswith(letter)), None)
 
-    def get_node(self, word: str) -> "TrieNode":
+    def get_node(self, word: str) -> "PatriciaTrie":
         """Get node representing a word in the trie"""
         node = self
         while word:
@@ -66,7 +67,7 @@ class TrieNode:
                 words += node.get_leaf(recursive=True, **kwargs)
         return words
     
-    def merge_tries(self, trie: "TrieNode") -> None:
+    def merge_tries(self, trie: "PatriciaTrie") -> None:
         """Merge other_trie into main_trie"""
         self.leaf.merge_leafs(trie.leaf)
 

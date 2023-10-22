@@ -1,17 +1,14 @@
-version: v1.10
+version: v1.11
 debug: false
-
-fastapi:
-    host: "127.0.0.1"
-    port: 8080
-
-heuristic:
-    active: false
-    mode: "insert"
 
 wordlist:
     source: "assets/wordlist-english/sources"
     wordlist: "assets/wordlist-english/wordlist.txt"
 
+fastapi:
+    host: "127.0.0.1"
+    port: 8080
+
 spellsolver:
+    trie: "MARISA"
     swaps: 1
