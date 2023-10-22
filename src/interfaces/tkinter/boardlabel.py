@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter.font import Font
 from typing import List
 
-from src.modules.gameboard import GameTile
+from src.modules.gameboard.gameboard import GameTile
 
 
 class BoardLabel:

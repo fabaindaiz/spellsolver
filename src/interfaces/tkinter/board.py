@@ -2,10 +2,10 @@ from typing import List, Tuple, Dict
 
 from src.config import SWAP
 from src.interfaces.baseui import BaseUI
-from src.interfaces.boardbutton import BoardButton
-from src.interfaces.boardlabel import BoardLabel
-from src.interfaces.boardtile import BoardTile
-from src.modules.resultlist import ResultWord
+from src.interfaces.tkinter.boardbutton import BoardButton
+from src.interfaces.tkinter.boardlabel import BoardLabel
+from src.interfaces.tkinter.boardtile import BoardTile
+from src.modules.gameboard.resultlist import ResultWord
 from src.utils.utils import aux_to_indices
 
 
