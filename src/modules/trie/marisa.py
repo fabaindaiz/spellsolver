@@ -34,12 +34,13 @@ class MarisaTrieQuery(TrieQuery):
     def __init__(self, trie: Trie) -> None:
         self.trie: MarisaTrie = trie
     
-    def get_status(self) -> Any:
-        return None
+    def get_root(self) -> str:
+        return ""
 
-    def get_key(self, status: Any, word: str) -> Tuple[Any, str]:
-        return status, self.trie.trie.has_keys_with_prefix(word)
+    def get_key(self, node: str, letter: str) -> Tuple[Any, str]:
+        word = node + letter
+        return word, letter if self.trie.trie.has_keys_with_prefix(word) else None
 
-    def get_leaf(self, status: Any, word: str) -> Generator[str, None, None]:
-        for i in self.trie.trie.get(word, []):
+    def get_leaf(self, node: str) -> Generator[str, None, None]:
+        for i in self.trie.trie.get(node, []):
             yield self.trie.words[i[0]]

@@ -13,11 +13,11 @@ class Trie:
 
 class TrieQuery:
 
-    def get_status(self) -> Any:
+    def get_root(self) -> Any:
         return NotImplementedError()
     
-    def get_key(self, status: Any, word: str) -> Tuple[Any, str]:
+    def get_key(self, node: Any, word: str) -> Tuple[Any, str]:
         raise NotImplementedError()
 
-    def get_leaf(self, status: Any, word: str) -> Generator[str, None, None]:
+    def get_leaf(self, node: Any, word: str) -> Generator[str, None, None]:
         raise NotImplementedError()

@@ -1,3 +1,4 @@
+import multiprocessing
 from typing import Any, Generator, List
 from src.modules.wordlist.validate import WordValidate
 from src.modules.gameboard.gameboard import GameBoard, GameTile
@@ -20,7 +21,7 @@ class SpellSolver:
         """Recursively process a node to find possible valid words"""
         swaps = [i for i, letter in enumerate(word) if letter == "0"]
 
-        for actual_word in self.validate.get_trie().get_leaf(node, word):
+        for actual_word in self.validate.get_trie().get_leaf(node):
             actual_path = Path(path).swap_index(actual_word, swaps=swaps)
             yield ResultWord(
                 points=actual_path.word_points(),
@@ -38,9 +39,9 @@ class SpellSolver:
         swap: int,
         letter: str,
     ) -> Generator[ResultWord, None, None]:
-        actual_word = word + letter
-        actual_node, actual_child = self.validate.get_trie().get_key(node, actual_word)
-        if actual_child:
+        actual_node, child_key = self.validate.get_trie().get_key(node, letter)
+        if child_key:
+            actual_word = word + child_key
             yield from self.process_node(actual_node, actual_word, path)
             yield from self.process_path(tile, actual_node, actual_word, path, swap)
 
@@ -62,7 +63,7 @@ class SpellSolver:
         """Iterate over all the squares on the board to start processing the paths"""
         for tile in self.gameboard.tiles.values():
             yield from self.process_path(
-                tile=tile, node=self.validate.get_trie().get_status(), word="", path=[tile], swap=swap
+                tile=tile, node=self.validate.get_trie().get_root(), word="", path=[tile], swap=swap
             )
 
     def word_list(self, swap: int, timer: Timer = None) -> ResultList:
