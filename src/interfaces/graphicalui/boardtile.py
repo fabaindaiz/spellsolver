@@ -1,7 +1,7 @@
 import tkinter as tk
 
-from src.interfaces.tkinter.boardentry import BoardEntry
-from src.interfaces.tkinter.boardmenu import BoardMenu
+from src.interfaces.graphicalui.boardentry import BoardEntry
+from src.interfaces.graphicalui.boardmenu import BoardMenu
 
 
 class BoardTile:

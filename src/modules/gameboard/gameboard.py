@@ -1,4 +1,5 @@
 from typing import Generator, Dict, List, Tuple
+
 from src.utils.utils import (
     aux_to_indices,
     get_letter_point_value,

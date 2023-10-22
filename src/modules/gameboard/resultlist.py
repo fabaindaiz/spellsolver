@@ -1,4 +1,5 @@
 from typing import Any, Dict, Generator, List, Tuple
+
 from src.modules.gameboard.gameboard import GameTile
 from src.utils.timer import Timer
 
