@@ -1,4 +1,4 @@
-from typing import Generator, List
+from typing import Generator
 from src.modules.wordlist.wordlist import WordList
 
 
@@ -13,4 +13,8 @@ class Trie:
 
 class TrieQuery:
     
-    pass
+    def get_key(self, word: str) -> str:
+        raise NotImplementedError()
+
+    def get_leaf(self, word: str) -> Generator[str, None, None]:
+        raise NotImplementedError()

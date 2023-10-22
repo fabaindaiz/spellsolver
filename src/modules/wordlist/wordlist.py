@@ -41,3 +41,4 @@ class WordList:
         file = self.open_file()
         for line in file:
             yield line.strip().lower()
+        file.close()

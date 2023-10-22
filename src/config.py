@@ -1,4 +1,4 @@
-VERSION = "v1.10"
+VERSION = "v1.11"
 DEBUG = False
 
 # Wordlist settings
@@ -10,8 +10,6 @@ HOST = "127.0.0.1"
 PORT = 8080
 
 # Trie settings
-# TRIE = "PREFIX"
-# TRIE = "PATRICIA"
 # TRIE = "MARISA"
 TRIE = "MARISA"
 
@@ -19,6 +17,5 @@ TRIE = "MARISA"
 # Make sure you have enough ram memory (and patience) for the selected swap modes
 # SWAP = 0  (no swap) - Memory:  36 MB - Load:  1 sec - Query:    50 ms (mean)
 # SWAP = 1 (one swap) - Memory: 150 MB - Load:  5 sec - Query:  2000 ms (mean)
-# SWAP = 2 (two swap) - Memory: 650 MB - Load: 25 sec - Query: 15000 ms (mean)
+# SWAP = 2 (two swap) - Memory: 650 MB - Load: 25 sec - Query: 30000 ms (mean)
 SWAP = 1
-# notice: it is recommended not to activate double swap (SWAP = 2)

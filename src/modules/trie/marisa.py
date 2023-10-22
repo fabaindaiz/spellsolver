@@ -1,4 +1,4 @@
-import marisa_trie
+from marisa_trie import RecordTrie
 from typing import Generator, List, Tuple
 from src.modules.trie.base import Trie, TrieQuery
 from src.modules.wordlist.wordlist import WordList
@@ -8,7 +8,7 @@ from src.modules.trie.loader import word_iter
 class MarisaTrie(Trie):
 
     def __init__(self) -> None:
-        self.trie: marisa_trie.RecordTrie = None
+        self.trie: RecordTrie = None
         self.words: List[str] = []
 
     def insert_trie(self, loader: WordList) -> None:
@@ -23,7 +23,7 @@ class MarisaTrie(Trie):
 
             self.words.append(word)
             ind += 1
-        self.trie = marisa_trie.RecordTrie("<i", zip(trie_keys, trie_data))
+        self.trie = RecordTrie("<i", zip(trie_keys, trie_data))
     
     def query_trie(self) -> TrieQuery:
         return MarisaTrieQuery(self)

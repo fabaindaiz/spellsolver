@@ -29,9 +29,11 @@ def fetch_multiple_files(path: str) -> Generator[str, None, None]:
     Yields:
         Generator[str, None, None]: A generator yielding valid words from source files.
     """
+    words = set()
     for file in os.listdir(path):
         full_path = os.path.join(path, file)
-        yield from fetch_single_file(path=full_path, validate=is_valid_word)
+        words.update(fetch_single_file(path=full_path, validate=is_valid_word))
+    yield from words
 
 def write_words_to_file(path: str, words: Generator[str, None, None], sort=False) -> None:
     """
@@ -53,5 +55,5 @@ def generate_wordlist(source: str, destination: str) -> None:
         destination (str): The path to the destination file.
     """
     words = fetch_multiple_files(path=source)
-    write_words_to_file(path=destination, words=words)
+    write_words_to_file(path=destination, words=words, sort=True)
     print("Wordlist file successfully generated from sources")

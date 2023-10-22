@@ -1,5 +1,5 @@
 from typing import Generator, List
-from src.modules.spellsolver.validate import WordValidate
+from src.modules.wordlist.validate import WordValidate
 from src.modules.gameboard.gameboard import GameBoard, GameTile
 from src.modules.gameboard.resultlist import ResultList, ResultWord
 from src.modules.gameboard.path import Path
@@ -70,17 +70,3 @@ class SpellSolver:
         results = ResultList(timer=timer)
         results.update(self.process_gameboard(swap=min(swap, SWAP)))
         return results
-
-
-if __name__ == "__main__":
-    gameboard = GameBoard()
-    validate = WordValidate()
-    validate.load_wordlist()
-
-    while True:
-        gameboard_string = input("Insert a gameboard: ")
-        gameboard.load(gameboard_string)
-        spellsolver = SpellSolver(validate, gameboard)
-
-        swap = input("Use swap?: ")
-        spellsolver.word_list(swap=int(swap))
