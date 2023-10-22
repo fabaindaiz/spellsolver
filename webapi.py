@@ -1,7 +1,8 @@
 import uvicorn
 from fastapi import FastAPI
-from src.interfaces.baseapi import BaseAPI, BaseRouter
-from src.interfaces.apirouter import SolverRouter
+
+from src.interfaces.webapi.baseapi import BaseAPI, BaseRouter
+from src.interfaces.webapi.apirouter import SolverRouter
 from src.interfaces.baseui import BaseUI
 from src.config import VERSION, HOST, PORT
 

@@ -1,11 +1,12 @@
 from typing import Any, Dict, Generator, List, Tuple
+
 from src.modules.trie.base import Trie, TrieQuery
 from src.modules.wordlist.wordlist import WordList
 from src.modules.trie.loader import word_iter
 
 
 class PatriciaNode:
-    """Represents a node of a Patricia trie"""
+    """Represents a node of a Patricia Trie"""
 
     def __init__(self) -> None:
         self.childs: Dict[str, PatriciaNode] = {}
@@ -61,30 +62,37 @@ class PatriciaNode:
 
 
 class PatriciaTrie(Trie):
+    """Represents a Patricia Trie"""
 
     def __init__(self) -> None:
         self.node: PatriciaNode = PatriciaNode()
 
     def insert_trie(self, loader: WordList) -> None:
+        """Insert the words from the loader into the trie"""
         for word in loader.get_words():
             for iword in word_iter(word):
                 self.node.insert(iword, word)
     
     def query_trie(self) -> "TrieQuery":
+        """Obtains an object that allows queries to be made to the trie"""
         return PatriciaTrieQuery(self)
     
 
 class PatriciaTrieQuery(TrieQuery):
+    """Represents a Patricia Trie Query"""
 
     def __init__(self, trie: Trie) -> None:
         self.trie: PatriciaTrie = trie
     
     def get_root(self) -> PatriciaNode:
+        """Obtains a representation of the base node of the trie"""
         return self.trie.node
 
     def get_key(self, node: PatriciaNode, letter: str) -> Tuple[Any, str]:
+        """Obtains the key associated with a letter from a node"""
         child_key = node.get_key(letter)
         return node.childs[child_key] if child_key else None, child_key
 
     def get_leaf(self, node: PatriciaNode) -> Generator[str, None, None]:
+        """Gets the words associated with a node"""
         yield from node.get_leaf()

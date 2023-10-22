@@ -1,5 +1,6 @@
-from typing import List, Generator
+from typing import Generator
 from itertools import combinations
+
 from src.config import SWAP
 
     

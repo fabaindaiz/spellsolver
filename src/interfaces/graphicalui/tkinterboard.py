@@ -1,6 +1,6 @@
 from src.interfaces.baseui import BaseUI
-from src.interfaces.tkinter.multhandler import MultHandler
-from src.interfaces.tkinter.board import Board
+from src.interfaces.graphicalui.multhandler import MultHandler
+from src.interfaces.graphicalui.board import Board
 
 
 class TkinterBoard(Board):

@@ -1,11 +1,12 @@
 from typing import Any, Dict, Generator, List, Tuple
+
 from src.modules.trie.base import Trie, TrieQuery
 from src.modules.wordlist.wordlist import WordList
 from src.modules.trie.loader import word_iter
 
 
 class PrefixNode:
-    """Represents a node of a trie"""
+    """Represents a node of a Patricia Trie"""
 
     def __init__(self) -> None:
         self.childs: Dict[str, PrefixNode] = {}
@@ -55,30 +56,37 @@ class PrefixNode:
 
 
 class PrefixTrie(Trie):
+    """Represents a Prefix Trie"""
 
     def __init__(self) -> None:
         self.node: PrefixNode = PrefixNode()
 
     def insert_trie(self, loader: WordList) -> None:
+        """Insert the words from the loader into the trie"""
         for word in loader.get_words():
             for iword in word_iter(word):
                 self.node.insert(iword, word)
     
     def query_trie(self) -> "PrefixTrieQuery":
+        """Obtains an object that allows queries to be made to the trie"""
         return PrefixTrieQuery(self)
 
 
 class PrefixTrieQuery(TrieQuery):
+    """Represents a Patricia Trie Query"""
 
     def __init__(self, trie: Trie) -> None:
         self.trie: PrefixTrie = trie
     
     def get_root(self) -> PrefixNode:
+        """Obtains a representation of the base node of the trie"""
         return self.trie.node
 
     def get_key(self, node: PrefixNode, letter: str) -> Tuple[Any, str]:
+        """Obtains the key associated with a letter from a node"""
         child_key = node.get_key(letter)
         return node.childs[child_key] if child_key else None, child_key
 
     def get_leaf(self, node: PrefixNode) -> Generator[str, None, None]:
+        """Gets the words associated with a node"""
         yield from node.get_leaf()
