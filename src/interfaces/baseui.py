@@ -1,7 +1,7 @@
+from src.modules.wordlist.validate import WordValidate
+from src.modules.gameboard.resultlist import ResultList
+from src.modules.gameboard.gameboard import GameBoard
 from src.spellsolver import SpellSolver
-from src.modules.resultlist import ResultList
-from src.modules.validate import WordValidate
-from src.modules.gameboard import GameBoard
 from src.utils.timer import Timer
 from src.config import VERSION
 
@@ -35,7 +35,7 @@ class BaseUI:
 
         print(f"Spellsolver {VERSION} - fabaindaiz")
         self.timer.reset_timer()
-        self.validate.load_wordlist()
+        self.validate.init_trie()
         print(
             f"WordValidate successfully initialized (elapsed time: {self.timer.elapsed_seconds()} seconds)"
         )

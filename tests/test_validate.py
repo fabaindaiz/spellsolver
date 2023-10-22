@@ -1,6 +1,6 @@
 import unittest
-from src.modules.validate import WordValidate
-from src.modules.trie import TrieNode
+from src.modules.wordlist.validate import WordValidate
+from src.modules.trie.marisa import MarisaTrie
 
 
 class Validate(unittest.TestCase):
@@ -8,9 +8,10 @@ class Validate(unittest.TestCase):
 
     def setUp(self) -> None:
         self.validate: WordValidate = WordValidate()
-        self.validate.load_wordlist()
+        self.validate.init_trie()
 
     def test_(self) -> None:
         """"""
-        node = self.validate.trie.get_node("hello")
-        self.assertEqual(type(node), TrieNode)
+        trie = self.validate.trie.query_trie()
+        self.assertTrue(trie.get_key("epidemic"))
+        self.assertFalse(trie.get_key("abcdefg"))
