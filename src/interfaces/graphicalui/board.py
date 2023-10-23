@@ -1,3 +1,4 @@
+from abc import abstractmethod
 from typing import List, Tuple, Dict
 
 from src.interfaces.baseui import BaseUI
@@ -121,6 +122,7 @@ class Board:
 
             label.set_hover(text, path)
 
+    @abstractmethod
     def button_command(self, swap: int) -> None:
         """Handle a button click action, to be implemented in subclasses.
 
@@ -128,4 +130,4 @@ class Board:
             swap (int): The number of swaps represented by the clicked button.
         """
 
-        raise NotImplementedError()
+        pass
