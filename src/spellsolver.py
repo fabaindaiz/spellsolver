@@ -1,11 +1,13 @@
 from typing import Generator, List
-from src.modules.wordlist.validate import WordValidate
-from src.modules.gameboard.gameboard import GameBoard, GameTile
-from src.modules.gameboard.resultlist import ResultList, ResultWord
-from src.modules.gameboard.path import Path
-from src.modules.trie.base import TrieQuery
-from src.utils.timer import Timer
+
 from src.config import SWAP
+from src.modules.gameboard.gameboard import GameBoard
+from src.modules.gameboard.gametile import GameTile
+from src.modules.gameboard.path import Path
+from src.modules.gameboard.resultlist import ResultList, ResultWord
+from src.modules.trie.base import TrieQuery
+from src.modules.wordlist.validate import WordValidate
+from src.utils.timer import Timer
 
 
 class SpellSolver:
@@ -45,7 +47,12 @@ class SpellSolver:
             yield from self.process_path(tile, trie, actual_word, path, swap)
 
     def process_path(
-        self, tile: GameTile, trie: TrieQuery, word: str, path: List[GameTile], swap: int
+        self,
+        tile: GameTile,
+        trie: TrieQuery,
+        word: str,
+        path: List[GameTile],
+        swap: int,
     ) -> Generator[ResultWord, None, None]:
         """Get all posible paths that complete a path using swap"""
         for actual_tile in tile.suggest_tile(path):
@@ -62,7 +69,11 @@ class SpellSolver:
         """Iterate over all the squares on the board to start processing the paths"""
         for tile in self.gameboard.tiles.values():
             yield from self.process_path(
-                tile=tile, trie=self.validate.get_trie(), word="", path=[tile], swap=swap
+                tile=tile,
+                trie=self.validate.get_trie(),
+                word="",
+                path=[tile],
+                swap=swap,
             )
 
     def word_list(self, swap: int, timer: Timer = None) -> ResultList:
