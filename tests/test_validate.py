@@ -1,6 +1,6 @@
 import unittest
+
 from src.modules.wordlist.validate import WordValidate
-from src.modules.trie.marisa import MarisaTrie
 
 
 class Validate(unittest.TestCase):

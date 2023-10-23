@@ -1,7 +1,7 @@
 import tkinter as tk
 from typing import Tuple
 
-from src.interfaces.tkinter.tkinterboard import TkinterBoard
+from src.interfaces.graphicalui.tkinterboard import TkinterBoard
 from src.interfaces.baseui import BaseUI
 
 

@@ -1,6 +1,6 @@
 from typing import List, Tuple
 
-from src.modules.gameboard.gametile import GameTile
+from src.modules.gameboard.gameboard import GameTile
 
 
 class Path:

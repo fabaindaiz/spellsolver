@@ -1,4 +1,5 @@
 from tkinter import ttk
+
 from typing import Callable
 
 

@@ -1,13 +1,13 @@
 from abc import abstractmethod
 from typing import List, Tuple, Dict
 
-from src.config import SWAP
 from src.interfaces.baseui import BaseUI
-from src.interfaces.tkinter.boardbutton import BoardButton
-from src.interfaces.tkinter.boardlabel import BoardLabel
-from src.interfaces.tkinter.boardtile import BoardTile
+from src.interfaces.graphicalui.boardbutton import BoardButton
+from src.interfaces.graphicalui.boardlabel import BoardLabel
+from src.interfaces.graphicalui.boardtile import BoardTile
 from src.modules.gameboard.resultlist import ResultWord
 from src.utils.utils import aux_to_indices
+from src.config import SWAP
 
 
 class Board:

@@ -1,4 +1,4 @@
-from src.interfaces.tkinter.board import Board
+from src.interfaces.graphicalui.board import Board
 
 
 class MultHandler:
