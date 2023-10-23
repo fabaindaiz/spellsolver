@@ -1,7 +1,7 @@
-from src.modules.wordlist.validate import WordValidate
+from src.modules.validate.validate import WordValidate
 from src.modules.gameboard.resultlist import ResultList
 from src.modules.gameboard.gameboard import GameBoard
-from src.spellsolver import SpellSolver
+from src.modules.spellsolver import SpellSolver
 from src.utils.timer import Timer
 from src.config import VERSION
 

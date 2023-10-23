@@ -2,7 +2,7 @@ from marisa_trie import RecordTrie
 from typing import Any, Generator, List, Tuple
 
 from src.modules.trie.base import Trie, TrieQuery
-from src.modules.wordlist.wordlist import WordList
+from src.modules.validate.wordlist import WordList
 from src.modules.trie.loader import word_iter
 
 

@@ -13,7 +13,6 @@ def word_points(path: Tuple[GameTile]) -> int:
         word_mult *= node.word_mult
     return word_points * word_mult + word_bonus
 
-
 def get_path(path: Tuple[GameTile], word: str, swaps: List[int]) -> Tuple[GameTile]:
     """Get a new path with swap nodes replaced"""
     if not swaps:

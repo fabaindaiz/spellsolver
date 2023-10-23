@@ -1,24 +1,8 @@
-from typing import Any, Dict, Optional
-from pydantic import BaseModel
+from typing import Any, Dict
 
+from src.interfaces.webapi.interfaces import Response, SolverData
 from src.interfaces.webapi.baseapi import BaseRouter
 from src.interfaces.baseui import BaseUI
-
-
-class Response(BaseModel):
-    successful: bool
-    message: str
-    data: Any
-
-
-class SolverData(BaseModel):
-    """Data model for spellsolver_solve endpoint"""
-
-    gameboard: str
-    mult: Optional[str] = None
-    DL: Optional[str] = None
-    TL: Optional[str] = None
-    swap: Optional[int] = None
 
 
 class SolverRouter(BaseRouter):

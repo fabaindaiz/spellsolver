@@ -1,6 +1,6 @@
 from typing import Any, Generator, Tuple
 
-from src.modules.wordlist.wordlist import WordList
+from src.modules.validate.wordlist import WordList
 
 
 class Trie:

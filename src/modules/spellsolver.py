@@ -1,11 +1,11 @@
-import concurrent.futures
-from concurrent.futures import ProcessPoolExecutor
 from functools import lru_cache
 from typing import Any, Generator, List, Tuple
 
-from src.modules.wordlist.validate import WordValidate
-from src.modules.gameboard.gameboard import GameBoard, GameTile
-from src.modules.gameboard.resultlist import ResultList, ResultWord
+from src.modules.validate.validate import WordValidate
+from src.modules.gameboard.gameboard import GameBoard
+from src.modules.gameboard.gametile import GameTile
+from src.modules.gameboard.resultlist import ResultList
+from src.modules.gameboard.resultword import ResultWord
 from src.modules.gameboard.path import get_path, word_points
 from src.utils.timer import Timer
 from src.config import SWAP
@@ -18,7 +18,6 @@ class SpellSolver:
         self.gameboard: GameBoard = gameboard
         self.validate: WordValidate = validate
 
-    #@lru_cache(maxsize=None)
     def process_node(
         self, node: Any, word: str, path: Tuple[GameTile]
     ) -> Generator[ResultWord, None, None]:
@@ -65,10 +64,12 @@ class SpellSolver:
 
     def process_gameboard(self, swap: int) -> Generator[ResultWord, None, None]:
         """Iterate over all the squares on the board to start processing the paths"""
-        for tile in self.gameboard.tiles.values():
-            yield from self.process_path(
-                tile=tile, node=self.validate.get_trie().get_root(), word="", path=[tile], swap=swap
-            )
+        base_tile = GameTile("0", (-1, -1))
+        base_tile.neighbors = list(self.gameboard.tiles.values())
+
+        yield from self.process_path(
+            tile=base_tile, node=self.validate.get_trie().get_root(), word="", path=[base_tile], swap=swap
+        )
 
     def word_list(self, swap: int, timer: Timer = None) -> ResultList:
         """Get a valid words list from a solver Spellcast game"""
