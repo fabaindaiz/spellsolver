@@ -34,6 +34,7 @@ class BaseUI:
         self.validate: WordValidate = WordValidate()
 
         print(f"Spellsolver {VERSION} - fabaindaiz")
+        print("WordValidate is being initialized, this will take several seconds")
         self.timer.reset_timer()
         self.validate.init_trie()
         print(
