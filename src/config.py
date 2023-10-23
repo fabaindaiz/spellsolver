@@ -11,7 +11,7 @@ PORT = 8080
 
 # Spellsolver settings
 TRIE = "MARISA"
-SWAP = 1
+SWAP = 2
 
 # Make sure you have enough ram memory (and patience) for the selected trie and swap mode
 

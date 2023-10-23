@@ -1,9 +1,12 @@
-from typing import Any, Generator, List
+import concurrent.futures
+from concurrent.futures import ProcessPoolExecutor
+from functools import lru_cache
+from typing import Any, Generator, List, Tuple
 
 from src.modules.wordlist.validate import WordValidate
 from src.modules.gameboard.gameboard import GameBoard, GameTile
 from src.modules.gameboard.resultlist import ResultList, ResultWord
-from src.modules.gameboard.path import Path
+from src.modules.gameboard.path import get_path, word_points
 from src.utils.timer import Timer
 from src.config import SWAP
 
@@ -15,18 +18,19 @@ class SpellSolver:
         self.gameboard: GameBoard = gameboard
         self.validate: WordValidate = validate
 
+    #@lru_cache(maxsize=None)
     def process_node(
-        self, node: Any, word: str, path: List[GameTile]
+        self, node: Any, word: str, path: Tuple[GameTile]
     ) -> Generator[ResultWord, None, None]:
         """Recursively process a node to find possible valid words"""
         swaps = [i for i, letter in enumerate(word) if letter == "0"]
 
         for actual_word in self.validate.get_trie().get_leaf(node):
-            actual_path = Path(path).swap_index(actual_word, swaps=swaps)
+            actual_path = get_path(path[1:], actual_word, swaps)
             yield ResultWord(
-                points=actual_path.word_points(),
+                points=word_points(actual_path),
                 word=actual_word,
-                path=actual_path.path_tuple(),
+                path=actual_path,
                 swaps=swaps,
             )
 
@@ -42,7 +46,7 @@ class SpellSolver:
         actual_node, child_key = self.validate.get_trie().get_key(node, letter)
         if child_key:
             actual_word = word + child_key
-            yield from self.process_node(actual_node, actual_word, path)
+            yield from self.process_node(actual_node, actual_word, tuple(path))
             yield from self.process_path(tile, actual_node, actual_word, path, swap)
 
     def process_path(
