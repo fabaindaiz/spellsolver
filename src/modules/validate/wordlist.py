@@ -1,8 +1,20 @@
 import os
+import sys
 from typing import Generator, TextIO
 
 from src.modules.validate.generate import generate_wordlist
 from src.config import SOURCES, WORDLIST
+
+
+def resource_path(relative_path: str) -> str:
+    """Obtener la ruta absoluta al recurso en el sistema de archivos."""
+    try:
+        # PyInstaller crea un archivo temporal y lo coloca en _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+    
+    return os.path.join(base_path, relative_path)
 
 
 class WordList:
@@ -18,8 +30,8 @@ class WordList:
         """
         Initialize a WordList object with source and destination paths.
         """
-        self.source = SOURCES
-        self.destination = WORDLIST
+        self.source = resource_path(SOURCES)
+        self.destination = resource_path(WORDLIST)
 
     def open_file(self) -> TextIO:
         """

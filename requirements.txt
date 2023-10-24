@@ -1,6 +1,4 @@
 tk
-trie
-eth-hash[pycryptodome]
 marisa-trie
 fastapi
 uvicorn
