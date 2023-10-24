@@ -34,6 +34,12 @@ class GameBoard:
         """Set a mult_letter in a tile"""
         self.tiles[mult_cord].letter_mult = mult
 
+    def get_base_tile(self) -> GameTile:
+        """Get the base tile"""
+        base_tile = GameTile("0", (-1, -1))
+        base_tile.neighbors = list(self.tiles.values())
+        return base_tile
+
 
 if __name__ == "__main__":
     gameboard = GameBoard()

@@ -25,7 +25,7 @@ class SpellSolver:
         swaps = [i for i, letter in enumerate(word) if letter == "0"]
 
         for actual_word in self.validate.get_trie().get_leaf(node):
-            actual_path = get_path(path[1:], actual_word, swaps)
+            actual_path = get_path(path, actual_word, swaps)
             yield ResultWord(
                 points=word_points(actual_path),
                 word=actual_word,
@@ -64,11 +64,10 @@ class SpellSolver:
 
     def process_gameboard(self, swap: int) -> Generator[ResultWord, None, None]:
         """Iterate over all the squares on the board to start processing the paths"""
-        base_tile = GameTile("0", (-1, -1))
-        base_tile.neighbors = list(self.gameboard.tiles.values())
-
+        base_tile = self.gameboard.get_base_tile()
+        base_node=self.validate.get_trie().get_root()
         yield from self.process_path(
-            tile=base_tile, node=self.validate.get_trie().get_root(), word="", path=[base_tile], swap=swap
+            tile=base_tile, node=base_node, word="", path=[], swap=swap
         )
 
     def word_list(self, swap: int, timer: Timer = None) -> ResultList:
