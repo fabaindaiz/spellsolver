@@ -5,7 +5,7 @@ from src.interfaces.baseui import BaseUI
 from src.interfaces.graphicalui.boardbutton import BoardButton
 from src.interfaces.graphicalui.boardlabel import BoardLabel
 from src.interfaces.graphicalui.boardtile import BoardTile
-from src.modules.gameboard.resultlist import ResultWord
+from src.modules.gameboard.resultword import ResultWord
 from src.utils.utils import aux_to_indices
 from src.config import SWAP
 

@@ -1,7 +1,7 @@
 import os
 from typing import Generator, TextIO
 
-from src.modules.wordlist.generate import generate_wordlist
+from src.modules.validate.generate import generate_wordlist
 from src.config import SOURCES, WORDLIST
 
 
