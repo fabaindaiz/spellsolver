@@ -3,6 +3,7 @@ from typing import Tuple
 
 from src.interfaces.graphicalui.tkinterboard import TkinterBoard
 from src.interfaces.baseui import BaseUI
+from src.config import VERSION
 
 
 class GraphicalUI(BaseUI):
@@ -19,7 +20,7 @@ class GraphicalUI(BaseUI):
         VERTICAL_PADDING (int): Vertical padding for the application window.
     """
 
-    WINDOW_TITLE: str = "Spellsolver"
+    WINDOW_TITLE: str = f"Spellsolver {VERSION}"
     WINDOW_WIDTH: int = 600
     WINDOW_HEIGHT: int = 300
 
