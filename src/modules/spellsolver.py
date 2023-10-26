@@ -5,7 +5,7 @@ from src.modules.gameboard.gameboard import GameBoard
 from src.modules.gameboard.gametile import GameTile
 from src.modules.gameboard.resultlist import ResultList
 from src.modules.gameboard.resultword import ResultWord
-from src.modules.gameboard.path import get_path, word_points
+from src.modules.gameboard.path import Path
 from src.utils.timer import Timer
 from src.config import SWAP
 
@@ -18,15 +18,16 @@ class SpellSolver:
         self.validate: WordValidate = validate
 
     def process_node(
-        self, node: Any, word: str, path: Tuple[GameTile]
+        self, node: Any, word: str, path: Tuple[GameTile, ...]
     ) -> Generator[ResultWord, None, None]:
         """Recursively process a node to find possible valid words"""
-        swaps = [i for i, letter in enumerate(word) if letter == "0"]
+        swaps = tuple(i for i, letter in enumerate(word) if letter == "0")
 
         for actual_word in self.validate.get_trie().get_leaf(node):
-            actual_path = get_path(path, actual_word, swaps)
+            actual_path = Path.get_path(path, actual_word, swaps)
             yield ResultWord(
-                points=word_points(actual_path),
+                points=Path.word_points(actual_path),
+                gems=Path.word_gems(actual_path),
                 word=actual_word,
                 path=actual_path,
                 swaps=swaps,

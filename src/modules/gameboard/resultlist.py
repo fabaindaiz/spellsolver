@@ -1,4 +1,4 @@
-from typing import Any, Dict, Generator, List
+from typing import Any, Dict, Generator, List, Tuple
 
 from src.modules.gameboard.resultword import ResultWord
 from src.utils.timer import Timer
@@ -8,7 +8,7 @@ class ResultList:
     """Represents a result list"""
 
     def __init__(self, timer: Timer = None) -> None:
-        self.data: Dict[str, ResultWord] = {}
+        self.data: Dict[Tuple[int, str], ResultWord] = {}
         self.timer: Timer = timer
 
     def update(self, results: Generator["ResultWord", None, None]) -> None:

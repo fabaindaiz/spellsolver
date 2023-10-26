@@ -64,4 +64,4 @@ class BoardTile:
             fg="black",
         )
         self.stringvar.set(self.backup_letter)
-        self.board.mult.configure_mult()
+        self.board.menu.configure_mult()

@@ -14,6 +14,7 @@ class GameTile:
         self.swap: bool = False
 
         self.letter_points: int = get_letter_point_value(letter)
+        self.letter_gems: int = 0
         self.letter_mult: int = 1
         self.word_mult: int = 1
 
@@ -29,6 +30,9 @@ class GameTile:
 
     def points(self) -> int:
         return self.letter_points * self.letter_mult
+    
+    def gems(self) -> int:
+        return self.letter_gems
 
     def init_neighbors(self, tiles: Dict[Tuple[int, int], "GameTile"]) -> None:
         x, y = self.cord

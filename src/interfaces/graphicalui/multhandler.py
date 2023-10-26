@@ -1,13 +1,16 @@
+from typing import List, Tuple
+
 from src.interfaces.graphicalui.board import Board
 
 
-class MultHandler:
+class MenuHandler:
     def __init__(self, board: Board) -> None:
         self.board: Board = board
 
-        self.mult_cord: tuple = None
-        self.letter_mult: int = None
-        self.letter_cord: tuple = None
+        self.mult_cord: Tuple[int, int] = None
+        self.letter_mult: Tuple[int, int] = None
+        self.letter_cord: Tuple[int, int] = None
+        self.letter_gems: List[Tuple[int, int]] = None
 
     def set_mult_word(self, cord: tuple) -> None:
         if self.mult_cord is not None:
@@ -30,7 +33,7 @@ class MultHandler:
         if self.mult_cord is not None:
             self.board.tiles[self.mult_cord].multiplier("deep pink")
 
-    def remove_mult(self) -> None:
+    def remove_mult(self, cord: tuple) -> None:
         if self.letter_cord is not None:
             self.board.tiles[self.letter_cord].multiplier("black")
         if self.mult_cord is not None:
@@ -38,3 +41,12 @@ class MultHandler:
 
         self.letter_cord = None
         self.mult_cord = None
+    
+    def set_gems_letter(self) -> None:
+        pass
+    
+    def configure_gems(self) -> None:
+        pass
+
+    def remove_gems(self, cord: tuple) -> None:
+        pass

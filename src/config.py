@@ -5,13 +5,16 @@ DEBUG = False
 SOURCES = "assets/wordlist-english/sources"
 WORDLIST = "assets/wordlist-english/wordlist.txt"
 
+# Executable settings
+SCRIPT = "graphicalui.py"
+
 # FastAPI settings
 HOST = "127.0.0.1"
 PORT = 8080
 
 # Spellsolver settings
 TRIE = "MARISA"
-SWAP = 2
+SWAP = 1
 
 # Make sure you have enough ram memory (and patience) for the selected trie and swap mode
 

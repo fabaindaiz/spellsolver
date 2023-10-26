@@ -14,17 +14,24 @@ class BoardMenu:
 
         self.menu: tk.Menu = tk.Menu(app.window, tearoff=0)
         self.menu.add_command(
-            label="2X", command=lambda: self.board.mult.set_mult_word(cord)
+            label="2X", command=lambda: self.board.menu.set_mult_word(cord)
         )
         self.menu.add_command(
-            label="DL", command=lambda: self.board.mult.set_mult_letter(cord, 2)
+            label="DL", command=lambda: self.board.menu.set_mult_letter(cord, 2)
         )
         self.menu.add_command(
-            label="TL", command=lambda: self.board.mult.set_mult_letter(cord, 3)
+            label="TL", command=lambda: self.board.menu.set_mult_letter(cord, 3)
         )
         self.menu.add_separator()
         self.menu.add_command(
-            label="Remove bonus", command=lambda: self.board.mult.remove_mult()
+            label="Remove bonus", command=lambda: self.board.menu.remove_mult(cord)
+        )
+        self.menu.add_command(
+            label="Remove all bonus", command=lambda: self.board.menu.remove_mult()
+        )
+        self.menu.add_separator()
+        self.menu.add_command(
+            label="Remove bonus", command=lambda: self.board.menu.remove_mult()
         )
 
     def popup(self, event) -> None:
