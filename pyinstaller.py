@@ -11,6 +11,7 @@ PyInstaller.__main__.run([
     '--distpath=dist',              # Directorio de salida
     '--workpath=build',             # Directorio de trabajo
     '--noconfirm',                  # Sobrescribir sin preguntar
-    #'--icon=icono.ico',             # Icono del ejecutable
+    '--icon=spellsolver.ico',       # Icono del ejecutable
     #'--debug=all',                  # Información de depuración
+    '--clean',                      # Limpiar archivos temporales
 ])

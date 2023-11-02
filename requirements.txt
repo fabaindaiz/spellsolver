@@ -1,4 +1,5 @@
 tk
+pyinstaller
 marisa-trie
 fastapi
 uvicorn
