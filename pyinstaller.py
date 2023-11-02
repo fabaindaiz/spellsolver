@@ -1,7 +1,9 @@
 import PyInstaller.__main__
+from src.config import SCRIPT
+
 
 PyInstaller.__main__.run([
-    'graphicalui.py',               # Ruta al script principal
+    SCRIPT,                         # Ruta al script principal
     '--onefile',                    # Compilar a un solo archivo
     #'--windowed',                   # Modo ventana (sin consola)
     '--name=spellsolver',           # Nombre del ejecutable
@@ -9,6 +11,6 @@ PyInstaller.__main__.run([
     '--distpath=dist',              # Directorio de salida
     '--workpath=build',             # Directorio de trabajo
     '--noconfirm',                  # Sobrescribir sin preguntar
-    #'--icon=icono.ico',             # Icono del ejecutable (opcional)
+    #'--icon=icono.ico',             # Icono del ejecutable
     #'--debug=all',                  # Información de depuración
 ])

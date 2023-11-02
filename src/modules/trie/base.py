@@ -6,7 +6,7 @@ from src.modules.validate.wordlist import WordList
 class Trie:
     """Represents a Patricia Trie"""
 
-    def insert_trie(self, loader: WordList) -> None:
+    def insert_trie(self, loader: WordList, swap: int = 2) -> None:
         """Insert the words from the loader into the trie"""
         raise NotImplementedError()
     

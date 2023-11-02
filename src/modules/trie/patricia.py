@@ -67,10 +67,10 @@ class PatriciaTrie(Trie):
     def __init__(self) -> None:
         self.node: PatriciaNode = PatriciaNode()
 
-    def insert_trie(self, loader: WordList) -> None:
+    def insert_trie(self, loader: WordList, swap: int) -> None:
         """Insert the words from the loader into the trie"""
         for word in loader.get_words():
-            for iword in word_iter(word):
+            for iword in word_iter(word, swap):
                 self.node.insert(iword, word)
     
     def query_trie(self) -> "TrieQuery":

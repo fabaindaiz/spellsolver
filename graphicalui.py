@@ -3,6 +3,7 @@ from typing import Tuple
 
 from src.interfaces.graphicalui.tkinterboard import TkinterBoard
 from src.interfaces.baseui import BaseUI
+from src.config import SWAP, VERSION
 
 
 class GraphicalUI(BaseUI):
@@ -19,7 +20,7 @@ class GraphicalUI(BaseUI):
         VERTICAL_PADDING (int): Vertical padding for the application window.
     """
 
-    WINDOW_TITLE: str = "Spellsolver"
+    WINDOW_TITLE: str = f"Spellsolver {VERSION}"
     WINDOW_WIDTH: int = 600
     WINDOW_HEIGHT: int = 300
 
@@ -35,10 +36,10 @@ class GraphicalUI(BaseUI):
         Returns:
             None
         """
-
         super().__init__()
 
         self.window: tk.Tk = tk.Tk()
+        self.loading: tk.Label = None
 
         self.window.resizable(width=False, height=False)
         self.window.title(self.WINDOW_TITLE)
@@ -46,7 +47,28 @@ class GraphicalUI(BaseUI):
         alignment_string = self.get_alignment_string()
         self.window.geometry(alignment_string)
 
+        self.loading_screen()
+        self.init_spellsolver(swap=SWAP)
+
+        self.loading.destroy()
         self.interface_board: TkinterBoard = TkinterBoard(self)
+    
+    def loading_screen(self) -> None:
+        """
+        Initialize the loading screen.
+
+        This method initializes the loading screen for the application.
+
+        Returns:
+            None
+        """
+        self.loading = tk.Label(
+            self.window,
+            text="Loading spellsolver, this will take several seconds...",
+            font=("Helvetica", 16)
+        )
+        self.loading.pack(pady=100, padx=20)
+        self.window.update()
 
     def get_alignment_string(self) -> str:
         """

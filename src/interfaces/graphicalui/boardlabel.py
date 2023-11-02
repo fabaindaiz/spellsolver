@@ -17,15 +17,19 @@ class BoardLabel:
 
         self.label: tk.Label = tk.Label(app.window)
         self.label["borderwidth"] = "1px"
-        self.label["font"] = Font(family="Times", size=18)
+        self.label["font"] = Font(family="Consolas", size=16)
         self.label["fg"] = "#333333"
         self.label["justify"] = "center"
         self.label["text"] = self.text
-        self.label.place(x=300, y=20 + num * 25, width=250, height=25)
+        self.label.place(x=250, y=16 + num * 24, width=350, height=24)
 
     def reset(self) -> None:
         self.hover: LabelHover = None
         self.label["text"] = self.text
+
+    def set_text(self, text: str) -> None:
+        """Set text value of the label"""
+        self.label["text"] = str(text)
 
     def set_hover(self, text: str, path: List[GameTile]) -> None:
         """Set hover & text value of the label"""

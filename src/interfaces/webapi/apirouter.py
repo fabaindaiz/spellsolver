@@ -36,12 +36,18 @@ class SolverRouter(BaseRouter):
             if data.TL:
                 TL_cord = (int(data.TL[0]), int(data.TL[1]))
                 solver.gameboard.set_mult_letter(TL_cord, 3)
+            if data.gems:
+                gem_cord = tuple(
+                    (int(gem[0]), int(gem[1])) for gem in data.gems
+                )
+                solver.gameboard.set_gems(gem_cord)
 
             results = solver.solve(data.swap)
-            sorted_data = results.sorted_dict()
+            sorted_words = results.sorted_words()
+            sorted_dict = results.words_to_dict(sorted_words[:10])
             response = {
                 "elapsed": results.timer.elapsed_millis(),
-                "results": sorted_data,
+                "results": sorted_dict,
             }
             return {
                 "successful": True,

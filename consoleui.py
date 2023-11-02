@@ -1,6 +1,8 @@
 from argparse import ArgumentParser, Namespace
 
+from src.modules.gameboard.resultlist import ResultList
 from src.interfaces.baseui import BaseUI
+from src.config import SWAP
 
 
 class ConsoleUI(BaseUI):
@@ -32,6 +34,9 @@ class ConsoleUI(BaseUI):
 
         self.opt = self.parser.parse_args()
 
+        swap = self.opt.swap if self.opt.swap else SWAP
+        self.init_spellsolver(swap=swap)
+
     def set_multipliers(self, mult_string: str, DL_string: str, TL_string: str) -> None:
         """Set values for multipliers"""
         if mult_string != "":
@@ -51,8 +56,7 @@ class ConsoleUI(BaseUI):
         self.load(opt.game)
         self.set_multipliers(opt.x2, opt.dl, opt.tl)
         results = self.solve(opt.swap)
-
-        results.sorted(console=True)
+        self.print_results(results)
 
     def maininput(self) -> None:
         """Main loop of the Console UI using inputs"""
@@ -66,7 +70,7 @@ class ConsoleUI(BaseUI):
 
         swap = input("Use swap?: ")
         results = self.solve(swap)
-        results.sorted(console=True)
+        self.print_results(results)
 
     def mainloop(self) -> bool:
         """Main loop of the Console UI"""
@@ -80,6 +84,14 @@ class ConsoleUI(BaseUI):
             print("Exception:", e)
 
         return True
+    
+    @staticmethod
+    def print_results(results: ResultList) -> None:
+        """Print results to console"""
+        sorted_words = results.sorted_words()
+        sorted_text = results.words_to_text(sorted_words[:10])
+        results.print_timer()
+        print(f"[{sorted_text}]")
 
 
 if __name__ == "__main__":
