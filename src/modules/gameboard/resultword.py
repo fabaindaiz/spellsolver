@@ -26,7 +26,7 @@ class ResultWord:
     def text(self, console: bool = False) -> str:
         """Get text representation of result"""
         if not console:
-            return f"{self.points} {self.word}"
+            return f"{self.word.ljust(12)} {self.points}★ {self.gems}💎"
 
         # Console prints
         word = " | ".join(self._str())

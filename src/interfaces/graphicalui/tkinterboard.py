@@ -12,12 +12,14 @@ class TkinterBoard(Board):
         gameboard_string = "".join(tile.letter() for tile in self.tiles.values())
         self.app.gameboard.load(gameboard_string)
 
-        if self.menu.mult_cord is not None:
-            self.app.gameboard.set_mult_word(self.menu.mult_cord)
+        if self.menu.word_cord is not None:
+            self.app.gameboard.set_mult_word(self.menu.word_cord)
         if self.menu.letter_cord is not None:
             self.app.gameboard.set_mult_letter(
                 self.menu.letter_cord, self.menu.letter_mult
             )
+        if self.menu.letter_gems is not None:
+            self.app.gameboard.set_gems(self.menu.letter_gems)
 
         results = self.app.solve(swap)
         sorted = results.sorted(console=True)

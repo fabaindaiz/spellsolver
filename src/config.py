@@ -12,9 +12,14 @@ SCRIPT = "graphicalui.py"
 HOST = "127.0.0.1"
 PORT = 8080
 
+
+# Sortings settings
+WORD_MULT = 1
+GEMS_MULT = 3
+
 # Spellsolver settings
 TRIE = "MARISA"
-SWAP = 1
+SWAP = 2
 
 # Make sure you have enough ram memory (and patience) for the selected trie and swap mode
 

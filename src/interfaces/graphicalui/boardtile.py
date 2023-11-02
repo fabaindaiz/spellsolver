@@ -64,4 +64,4 @@ class BoardTile:
             fg="black",
         )
         self.stringvar.set(self.backup_letter)
-        self.board.menu.configure_mult()
+        self.board.menu.unhover_tiles()

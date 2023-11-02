@@ -24,14 +24,17 @@ class BoardMenu:
         )
         self.menu.add_separator()
         self.menu.add_command(
-            label="Remove bonus", command=lambda: self.board.menu.remove_mult(cord)
+            label="Remove bonus", command=lambda: self.board.menu.remove_mult_cord(cord)
         )
         self.menu.add_command(
-            label="Remove all bonus", command=lambda: self.board.menu.remove_mult()
+            label="Remove all bonus", command=lambda: self.board.menu.remove_mult_all()
         )
         self.menu.add_separator()
         self.menu.add_command(
-            label="Remove bonus", command=lambda: self.board.menu.remove_mult()
+            label="Add gem", command=lambda: self.board.menu.set_gem_letter(cord)
+        )
+        self.menu.add_command(
+            label="Remove all gems", command=lambda: self.board.menu.remove_gem_all()
         )
 
     def popup(self, event) -> None:

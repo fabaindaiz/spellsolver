@@ -34,6 +34,11 @@ class GameBoard:
         """Set a mult_letter in a tile"""
         self.tiles[mult_cord].letter_mult = mult
 
+    def set_gems(self, gem_cord: Tuple[Tuple[int, int], ...]) -> None:
+        """Set a list of gems in the board"""
+        for cord in gem_cord:
+            self.tiles[cord].letter_gems = 1
+
     def get_base_tile(self) -> GameTile:
         """Get the base tile"""
         base_tile = GameTile("0", (-1, -1))

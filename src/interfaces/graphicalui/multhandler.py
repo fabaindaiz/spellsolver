@@ -7,46 +7,63 @@ class MenuHandler:
     def __init__(self, board: Board) -> None:
         self.board: Board = board
 
-        self.mult_cord: Tuple[int, int] = None
-        self.letter_mult: Tuple[int, int] = None
+        self.word_cord: Tuple[int, int] = None
         self.letter_cord: Tuple[int, int] = None
-        self.letter_gems: List[Tuple[int, int]] = None
+        self.letter_mult: int = None
+
+        self.letter_gems: List[Tuple[int, int]] = []
 
     def set_mult_word(self, cord: tuple) -> None:
-        if self.mult_cord is not None:
-            self.board.tiles[self.mult_cord].multiplier("black")
+        self.remove_mult_cord(cord)
+        if self.word_cord is not None:
+            self.board.tiles[self.word_cord].multiplier("black")
 
-        self.mult_cord = cord
-        self.configure_mult()
+        self.word_cord = cord
+        self.board.tiles[cord].multiplier("deep pink")
 
     def set_mult_letter(self, cord: tuple, mult: int) -> None:
+        self.remove_mult_cord(cord)
         if self.letter_cord is not None:
             self.board.tiles[self.letter_cord].multiplier("black")
 
         self.letter_mult = mult
         self.letter_cord = cord
-        self.configure_mult()
+        self.board.tiles[cord].multiplier("gold")
 
-    def configure_mult(self) -> None:
-        if self.letter_cord is not None:
-            self.board.tiles[self.letter_cord].multiplier("gold")
-        if self.mult_cord is not None:
-            self.board.tiles[self.mult_cord].multiplier("deep pink")
-
-    def remove_mult(self, cord: tuple) -> None:
+    def remove_mult_cord(self, cord: tuple) -> None:
+        if self.word_cord == cord:
+            self.board.tiles[cord].multiplier("black")
+            self.word_cord = None
+        if self.letter_cord == cord:
+            self.board.tiles[cord].multiplier("black")
+            self.letter_cord = None
+    
+    def remove_mult_all(self) -> None:
+        if self.word_cord is not None:
+            self.board.tiles[self.word_cord].multiplier("black")
+            self.word_cord = None
         if self.letter_cord is not None:
             self.board.tiles[self.letter_cord].multiplier("black")
-        if self.mult_cord is not None:
-            self.board.tiles[self.mult_cord].multiplier("black")
-
-        self.letter_cord = None
-        self.mult_cord = None
+            self.letter_cord = None
     
-    def set_gems_letter(self) -> None:
-        pass
     
-    def configure_gems(self) -> None:
-        pass
+    def set_gem_letter(self, cord: tuple) -> None:
+        self.remove_mult_cord(cord)
 
-    def remove_gems(self, cord: tuple) -> None:
-        pass
+        self.letter_gems.append(cord)
+        self.board.tiles[cord].multiplier("blue")
+
+    def remove_gem_all(self) -> None:
+        for tile in self.letter_gems:
+            self.board.tiles[tile].multiplier("black")
+
+        self.letter_gems = []
+
+
+    def unhover_tiles(self) -> None:
+        if self.word_cord is not None:
+            self.board.tiles[self.word_cord].multiplier("deep pink")
+        if self.letter_cord is not None:
+            self.board.tiles[self.letter_cord].multiplier("gold")
+        for tile in self.letter_gems:
+            self.board.tiles[tile].multiplier("blue")
