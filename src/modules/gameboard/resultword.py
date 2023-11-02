@@ -22,15 +22,14 @@ class ResultWord:
 
         if DEBUG:
             yield str([tile.__str__() for tile in self.path])
-
-    def text(self, console: bool = False) -> str:
+    
+    def label(self, console: bool = False) -> str:
+        """Get label representation of result"""
+        return f"{self.word.ljust(12)} {self.points}★ {self.gems}💎"
+    
+    def text(self) -> str:
         """Get text representation of result"""
-        if not console:
-            return f"{self.word.ljust(12)} {self.points}★ {self.gems}💎"
-
-        # Console prints
-        word = " | ".join(self._str())
-        return f"({word})"
+        return f"({' | '.join(self._str())})"
 
     def dict(self) -> Dict[str, Any]:
         return {

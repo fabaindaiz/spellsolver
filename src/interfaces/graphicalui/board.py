@@ -35,6 +35,7 @@ class Board:
         self.double_swap: bool = SWAP >= 2
 
         self.buttons: List[BoardButton] = []
+        self.timer: BoardLabel = None
         self.labels: List[BoardLabel] = []
         self.tiles: Dict[Tuple[int, int], BoardTile] = {}
 
@@ -88,10 +89,22 @@ class Board:
     def initialize_labels(self) -> None:
         """Initialize board labels on the board."""
 
+        self.timer = BoardLabel(self, 10)
+
         for label_index in range(10):
             label = BoardLabel(self, label_index)
 
             self.labels.append(label)
+
+    def set_timer(self, elapsed_millis: int) -> None:
+        """Set the elapsed time on the timer label.
+
+        Args:
+            elapsed_millis (int): The elapsed time in milliseconds.
+        """
+
+        self.update_timer(elapsed_millis)
+
 
     def set_results(self, word_list: List[ResultWord]) -> None:
         """Set results on the board labels.
@@ -108,6 +121,15 @@ class Board:
 
         for label in self.labels:
             label.reset()
+    
+    def update_timer(self, elapsed_millis: int) -> None:
+        """Update the elapsed time on the timer label.
+
+        Args:
+            elapsed_millis (int): The elapsed time in milliseconds.
+        """
+
+        self.timer.set_text(f"elapsed time: {elapsed_millis} ms")
 
     def update_labels(self, word_list: List[ResultWord]) -> None:
         """Update the text and paths on board labels.
@@ -117,7 +139,7 @@ class Board:
         """
 
         for label, result in zip(self.labels, word_list):
-            text = result.text()
+            text = result.label()
             path = result.path
 
             label.set_hover(text, path)

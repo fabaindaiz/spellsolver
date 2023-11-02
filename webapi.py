@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from src.interfaces.webapi.baseapi import BaseAPI, BaseRouter
 from src.interfaces.webapi.apirouter import SolverRouter
 from src.interfaces.baseui import BaseUI
-from src.config import VERSION, HOST, PORT
+from src.config import HOST, PORT, VERSION
 
 
 class WebAPI(BaseUI):
@@ -12,6 +12,7 @@ class WebAPI(BaseUI):
 
     def __init__(self) -> None:
         super().__init__()
+        self.init_spellsolver()
 
         self.app: BaseAPI = BaseAPI(version=VERSION)
         self.api: FastAPI = self.app.api

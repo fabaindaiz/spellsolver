@@ -3,7 +3,7 @@ from src.modules.gameboard.resultlist import ResultList
 from src.modules.gameboard.gameboard import GameBoard
 from src.modules.spellsolver import SpellSolver
 from src.utils.timer import Timer
-from src.config import DEBUG, VERSION
+from src.config import DEBUG, SWAP, VERSION
 
 
 class ThreadSolver:
@@ -30,14 +30,18 @@ class BaseUI:
 
     def __init__(self) -> None:
         self.timer: Timer = Timer()
-        self.gameboard: GameBoard = GameBoard()
-        self.validate: WordValidate = WordValidate()
+        self.gameboard: GameBoard = None
+        self.validate: WordValidate = None
+
+    def init_spellsolver(self, swap: int = SWAP) -> None:
+        self.gameboard = GameBoard()
+        self.validate = WordValidate()
 
         if not DEBUG:
             print(f"Spellsolver {VERSION} - fabaindaiz")
             print("WordValidate is being initialized, this will take several seconds")
         self.timer.reset_timer()
-        self.validate.init_trie()
+        self.validate.init_trie(swap=swap)
         if not DEBUG:
             print(
                 f"WordValidate successfully initialized (elapsed time: {self.timer.elapsed_seconds()} seconds)"

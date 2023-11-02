@@ -21,11 +21,15 @@ class BoardLabel:
         self.label["fg"] = "#333333"
         self.label["justify"] = "center"
         self.label["text"] = self.text
-        self.label.place(x=250, y=20 + num * 25, width=350, height=25)
+        self.label.place(x=250, y=16 + num * 24, width=350, height=24)
 
     def reset(self) -> None:
         self.hover: LabelHover = None
         self.label["text"] = self.text
+
+    def set_text(self, text: str) -> None:
+        """Set text value of the label"""
+        self.label["text"] = str(text)
 
     def set_hover(self, text: str, path: List[GameTile]) -> None:
         """Set hover & text value of the label"""

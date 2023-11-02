@@ -22,5 +22,6 @@ class TkinterBoard(Board):
             self.app.gameboard.set_gems(self.menu.letter_gems)
 
         results = self.app.solve(swap)
-        sorted = results.sorted(console=True)
-        self.set_results(sorted)
+        sorted_words = results.sorted_words()
+        self.set_timer(results.timer.elapsed_millis())
+        self.set_results(sorted_words[:10])

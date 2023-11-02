@@ -22,8 +22,8 @@ class WordValidate:
         self.wordlist: WordList = WordList()
         self.trie: Trie = trie
     
-    def init_trie(self) -> None:
-        self.trie.insert_trie(self.wordlist)
+    def init_trie(self, swap: int) -> None:
+        self.trie.insert_trie(self.wordlist, swap)
 
     def get_trie(self) -> TrieQuery:
         return self.trie.query_trie()

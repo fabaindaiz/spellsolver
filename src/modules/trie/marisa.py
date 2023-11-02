@@ -12,9 +12,9 @@ class MarisaTrie(Trie):
         self.trie: RecordTrie = None
         self.words: List[str] = []
 
-    def insert_trie(self, loader: WordList) -> None:
+    def insert_trie(self, loader: WordList, swap: int) -> None:
         self.words = list(loader.get_words())
-        self.trie = RecordTrie("<i", pair_iter(self.words))
+        self.trie = RecordTrie("<i", pair_iter(self.words, swap))
     
     def query_trie(self) -> TrieQuery:
         return MarisaTrieQuery(self)
