@@ -1,9 +1,7 @@
 from typing import Any, Dict, Generator, List, Tuple
 
 from src.modules.gameboard.resultword import ResultWord
-from src.modules.gameboard.gametile import GameTile
 from src.utils.timer import Timer
-from src.config import GEMS_MULT, WORD_MULT
 
 
 class ResultList:
@@ -39,6 +37,6 @@ class ResultList:
         return [word.dict() for word in sorted_words[:10]]
     
     @staticmethod
-    def sort_tile(tile: GameTile) -> int:
+    def sort_tile(tile: ResultWord) -> int:
         """Sort tiles by gems & points"""
-        return tile.gems * GEMS_MULT + tile.points * WORD_MULT
+        return tile.order()

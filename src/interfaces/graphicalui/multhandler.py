@@ -53,11 +53,15 @@ class MenuHandler:
         self.letter_gems.append(cord)
         self.board.tiles[cord].multiplier("blue")
 
+    def remove_gem_cord(self, cord: tuple) -> None:
+        if cord in self.letter_gems:
+            self.letter_gems.remove(cord)
+            self.board.tiles[cord].multiplier("black")
+
     def remove_gem_all(self) -> None:
+        self.letter_gems = []
         for tile in self.letter_gems:
             self.board.tiles[tile].multiplier("black")
-
-        self.letter_gems = []
 
 
     def unhover_tiles(self) -> None:

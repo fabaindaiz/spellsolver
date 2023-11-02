@@ -3,6 +3,7 @@ from typing import Tuple
 
 from src.interfaces.graphicalui.tkinterboard import TkinterBoard
 from src.interfaces.baseui import BaseUI
+from src.utils.resources import resource_path
 from src.config import SWAP, VERSION
 
 
@@ -39,7 +40,7 @@ class GraphicalUI(BaseUI):
         super().__init__()
 
         self.window: tk.Tk = tk.Tk()
-        self.loading: tk.Label = None
+        self.window.iconphoto(True, tk.PhotoImage(file=resource_path("assets/spellsolver.png")))
 
         self.window.resizable(width=False, height=False)
         self.window.title(self.WINDOW_TITLE)
@@ -47,10 +48,12 @@ class GraphicalUI(BaseUI):
         alignment_string = self.get_alignment_string()
         self.window.geometry(alignment_string)
 
+        self.loading: tk.Label = None
         self.loading_screen()
-        self.init_spellsolver(swap=SWAP)
 
+        self.init_spellsolver(swap=SWAP)
         self.loading.destroy()
+
         self.interface_board: TkinterBoard = TkinterBoard(self)
     
     def loading_screen(self) -> None:
