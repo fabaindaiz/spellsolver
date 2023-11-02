@@ -35,6 +35,7 @@ class ResultWord:
     def dict(self) -> Dict[str, Any]:
         return {
             "points": self.points,
+            "gems": self.gems,
             "word": self.word,
             "path": [node.cord for node in self.path],
             "swap": self.swaps,

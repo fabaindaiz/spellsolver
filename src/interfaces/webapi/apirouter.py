@@ -36,6 +36,11 @@ class SolverRouter(BaseRouter):
             if data.TL:
                 TL_cord = (int(data.TL[0]), int(data.TL[1]))
                 solver.gameboard.set_mult_letter(TL_cord, 3)
+            if data.gems:
+                gem_cord = tuple(
+                    (int(gem[0]), int(gem[1])) for gem in data.gems
+                )
+                solver.gameboard.set_gems(gem_cord)
 
             results = solver.solve(data.swap)
             sorted_data = results.sorted_dict()

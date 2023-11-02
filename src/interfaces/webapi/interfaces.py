@@ -1,4 +1,4 @@
-from typing import Any, Optional
+from typing import Any, Optional, Tuple
 from pydantic import BaseModel
 
 
@@ -17,3 +17,4 @@ class SolverData(BaseModel):
     DL: Optional[str] = None
     TL: Optional[str] = None
     swap: Optional[int] = None
+    gems: Optional[Tuple[str, ...]] = None
