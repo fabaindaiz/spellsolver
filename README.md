@@ -42,7 +42,7 @@ WordValidate successfully initialized (elapsed time: 4.8 seconds)
 1. From this folder execute webapi.py
 2. Navigate to localhost:8080/docs to test the endpoints
 
-![api image](assets/readme/api1.png?raw=true "API")
+![api image](docs/readme/api1.png?raw=true "API")
 
 ```bash
 # Example solve request body
@@ -60,8 +60,8 @@ WordValidate successfully initialized (elapsed time: 4.8 seconds)
 3. Use the right click to select letter modifiers or to delete them
 4. Click on one of the buttons to search for words according to the amount of swap you want to use
 
-![gui image](assets/readme/gui1.png?raw=true "GUI")
-![gui image](assets/readme/gui2.png?raw=true "GUI")
+![gui image](docs/readme/gui1.png?raw=true "GUI")
+![gui image](docs/readme/gui2.png?raw=true "GUI")
 
 ### ConsoleUI using inputs
 1. From this folder execute consoleui.py

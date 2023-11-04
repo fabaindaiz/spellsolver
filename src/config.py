@@ -1,4 +1,5 @@
 VERSION = "v1.14"
+CONSOLE = True
 DEBUG = False
 
 # Wordlist settings
@@ -11,7 +12,6 @@ SCRIPT = "graphicalui.py"
 # FastAPI settings
 HOST = "127.0.0.1"
 PORT = 8080
-
 
 # Sortings settings
 WORD_MULT = 1

@@ -14,6 +14,9 @@ class BoardMenu:
 
         self.menu: tk.Menu = tk.Menu(app.window, tearoff=0)
         self.menu.add_command(
+            label="Add gem", command=lambda: self.board.menu.set_gem_letter(cord)
+        )
+        self.menu.add_command(
             label="2X", command=lambda: self.board.menu.set_mult_word(cord)
         )
         self.menu.add_command(
@@ -24,17 +27,10 @@ class BoardMenu:
         )
         self.menu.add_separator()
         self.menu.add_command(
-            label="Remove bonus", command=lambda: self.board.menu.remove_mult_cord(cord)
+            label="Remove gems", command=lambda: self.board.menu.remove_gem_all()
         )
         self.menu.add_command(
-            label="Remove all bonus", command=lambda: self.board.menu.remove_mult_all()
-        )
-        self.menu.add_separator()
-        self.menu.add_command(
-            label="Add gem", command=lambda: self.board.menu.set_gem_letter(cord)
-        )
-        self.menu.add_command(
-            label="Remove all gems", command=lambda: self.board.menu.remove_gem_all()
+            label="Remove bonus", command=lambda: self.board.menu.remove_mult_all()
         )
 
     def popup(self, event) -> None:

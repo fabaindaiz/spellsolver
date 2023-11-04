@@ -1,7 +1,7 @@
 from typing import Any, Dict, Generator, Tuple
 
 from src.modules.gameboard.gameboard import GameTile
-from src.config import DEBUG
+from src.config import CONSOLE, DEBUG, GEMS_MULT, WORD_MULT
 
 
 class ResultWord:
@@ -15,6 +15,10 @@ class ResultWord:
         self.word: str = word
         self.path: Tuple[GameTile, ...] = path
         self.swaps: Tuple[int] = swaps
+    
+    def order(self) -> int:
+        """Order result by points & gems"""
+        return self.points * WORD_MULT + self.gems * GEMS_MULT
 
     def _str(self) -> Generator[str, None, None]:
         yield f"{self.points} {self.word} {self.path[0].cord}"
@@ -23,7 +27,7 @@ class ResultWord:
         if DEBUG:
             yield str([tile.__str__() for tile in self.path])
     
-    def label(self, console: bool = False) -> str:
+    def label(self) -> str:
         """Get label representation of result"""
         return f"{self.word.ljust(12)} {self.points}★ {self.gems}💎"
     
