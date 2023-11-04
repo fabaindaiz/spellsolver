@@ -2,6 +2,7 @@ from typing import Any, Dict, Generator, List, Tuple
 
 from src.modules.gameboard.resultword import ResultWord
 from src.utils.timer import Timer
+from src.config import CONSOLE
 
 
 class ResultList:
@@ -22,9 +23,13 @@ class ResultList:
             f"The following words have been found (elapsed time: {self.timer.elapsed_millis()} milliseconds)"
         )
     
-    def sorted_words(self) -> List[ResultWord]:
+    def sorted_words(self, console: bool = False) -> List[ResultWord]:
         """Return sorted list with result words"""
-        return sorted(self.data.values(), reverse=True, key=self.sort_tile)
+        sorted_words = sorted(self.data.values(), reverse=True, key=self.sort_tile)
+        if CONSOLE or console:
+            self.print_timer()
+            print(f"[{self.words_to_text(sorted_words[:10])}]")
+        return sorted_words
     
     @staticmethod
     def words_to_text(sorted_words: List[ResultWord]) -> str:

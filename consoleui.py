@@ -88,10 +88,7 @@ class ConsoleUI(BaseUI):
     @staticmethod
     def print_results(results: ResultList) -> None:
         """Print results to console"""
-        sorted_words = results.sorted_words()
-        sorted_text = results.words_to_text(sorted_words[:10])
-        results.print_timer()
-        print(f"[{sorted_text}]")
+        results.sorted_words(console=True)
 
 
 if __name__ == "__main__":

@@ -1,7 +1,7 @@
 from typing import Any, Dict, Generator, Tuple
 
 from src.modules.gameboard.gameboard import GameTile
-from src.config import DEBUG, GEMS_MULT, WORD_MULT
+from src.config import CONSOLE, DEBUG, GEMS_MULT, WORD_MULT
 
 
 class ResultWord:
@@ -27,7 +27,7 @@ class ResultWord:
         if DEBUG:
             yield str([tile.__str__() for tile in self.path])
     
-    def label(self, console: bool = False) -> str:
+    def label(self) -> str:
         """Get label representation of result"""
         return f"{self.word.ljust(12)} {self.points}★ {self.gems}💎"
     
