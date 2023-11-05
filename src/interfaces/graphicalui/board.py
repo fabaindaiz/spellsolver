@@ -1,36 +1,33 @@
-from abc import abstractmethod
 from typing import List, Tuple, Dict
 
+from src.config import SWAP
 from src.interfaces.baseui import BaseUI
 from src.interfaces.graphicalui.boardbutton import BoardButton
 from src.interfaces.graphicalui.boardlabel import BoardLabel
 from src.interfaces.graphicalui.boardtile import BoardTile
+from src.interfaces.graphicalui.multhandler import MenuHandler
 from src.modules.gameboard.resultword import ResultWord
 from src.utils.utils import aux_to_indices
-from src.config import SWAP
 
 
 class Board:
-    """Represents an abstract board
+    """
+    The `Board` class represents the graphical user interface for a word game.
 
     Args:
-        app (BaseUI): The base user interface for the board.
+        app (BaseUI): The parent application's user interface.
 
     Attributes:
-        app (BaseUI): The base user interface for the board.
-        double_swap (bool): A boolean indicating whether SWAP is greater than or equal to 2.
-        buttons (List[BoardButton]): A list of board buttons.
-        labels (List[BoardLabel]): A list of board labels.
-        tiles (Dict[Tuple[int, int], BoardTile]): A dictionary mapping coordinates to board tiles.
+        app (BaseUI): The parent application's user interface.
+        double_swap (bool): A boolean indicating if double swapping is allowed.
+        buttons (List[BoardButton]): List of swap buttons for different swap options.
+        timer (BoardLabel): Label to display the elapsed time.
+        labels (List[BoardLabel]): List of labels to display word results.
+        tiles (Dict[Tuple[int, int], BoardTile]): Dictionary of game tiles on the board.
+        menu (MenuHandler): Handler for menu options.
     """
 
     def __init__(self, app: BaseUI) -> None:
-        """Initialize the Board with a BaseUI instance.
-
-        Args:
-            app (BaseUI): The base user interface for the board.
-        """
-
         self.app: BaseUI = app
         self.double_swap: bool = SWAP >= 2
 
@@ -38,19 +35,22 @@ class Board:
         self.timer: BoardLabel = None
         self.labels: List[BoardLabel] = []
         self.tiles: Dict[Tuple[int, int], BoardTile] = {}
+        self.menu: MenuHandler = MenuHandler(self)
 
         self.initialize_components()
 
     def initialize_components(self) -> None:
-        """Initialize the components of the board: buttons, tiles, and labels."""
-
+        """
+        Initialize UI components: buttons, tiles, labels, and menu handler.
+        """
         self.initialize_buttons()
         self.initialize_tiles()
         self.initialize_labels()
 
     def initialize_buttons(self) -> None:
-        """Initialize board buttons based on the value of SWAP."""
-
+        """
+        Initialize swap buttons based on the swap options available.
+        """
         swap_options = [0, 1]
 
         if self.double_swap:
@@ -62,15 +62,15 @@ class Board:
             self.buttons.append(button)
 
     def create_button(self, swap_count: int) -> BoardButton:
-        """Create a board button for a specific swap count.
+        """
+        Create a swap button.
 
         Args:
-            swap_count (int): The number of swaps represented by the button.
+            swap_count (int): The number of swaps associated with the button.
 
         Returns:
-            BoardButton: The created board button.
+            BoardButton: The created swap button.
         """
-
         return BoardButton(
             parent=self.app,
             double_swap=self.double_swap,
@@ -79,16 +79,18 @@ class Board:
         )
 
     def initialize_tiles(self) -> None:
-        """Initialize board tiles on the board."""
-
+        """
+        Initialize game tiles on the board.
+        """
         for tile_index in range(25):
             coord_index = aux_to_indices(tile_index)
 
             self.tiles[coord_index] = BoardTile(self, tile_index)
 
     def initialize_labels(self) -> None:
-        """Initialize board labels on the board."""
-
+        """
+        Initialize labels for displaying word results and the timer.
+        """
         self.timer = BoardLabel(self, 10)
 
         for label_index in range(10):
@@ -97,59 +99,73 @@ class Board:
             self.labels.append(label)
 
     def set_timer(self, elapsed_millis: int) -> None:
-        """Set the elapsed time on the timer label.
+        """
+        Set and update the timer label with the elapsed time.
 
         Args:
             elapsed_millis (int): The elapsed time in milliseconds.
         """
-
         self.update_timer(elapsed_millis)
 
-
     def set_results(self, word_list: List[ResultWord]) -> None:
-        """Set results on the board labels.
+        """
+        Set and update the word result labels.
 
         Args:
-            word_list (List[ResultWord]): A list of result words to be displayed on the labels.
+            word_list (List[ResultWord]): List of word results to display.
         """
-
         self.reset_labels()
         self.update_labels(word_list)
 
     def reset_labels(self) -> None:
-        """Reset the text on all board labels."""
-
+        """
+        Reset word result labels.
+        """
         for label in self.labels:
             label.reset()
-    
+
     def update_timer(self, elapsed_millis: int) -> None:
-        """Update the elapsed time on the timer label.
+        """
+        Update the timer label with the elapsed time.
 
         Args:
             elapsed_millis (int): The elapsed time in milliseconds.
         """
-
         self.timer.set_text(f"elapsed time: {elapsed_millis} ms")
 
     def update_labels(self, word_list: List[ResultWord]) -> None:
-        """Update the text and paths on board labels.
+        """
+        Update word result labels with word text and paths.
 
         Args:
-            word_list (List[ResultWord]): A list of result words to be displayed on the labels.
+            word_list (List[ResultWord]): List of word results to display.
         """
-
         for label, result in zip(self.labels, word_list):
             text = result.label()
             path = result.path
 
             label.set_hover(text, path)
 
-    @abstractmethod
     def button_command(self, swap: int) -> None:
-        """Handle a button click action, to be implemented in subclasses.
+        """
+        Handle button click event and perform game actions based on the selected swap option.
 
         Args:
-            swap (int): The number of swaps represented by the clicked button.
+            swap (int): The number of swaps to perform.
         """
+        gameboard_string = "".join(tile.letter() for tile in self.tiles.values())
+        self.app.gameboard.load(gameboard_string)
 
-        pass
+        if self.menu.word_cord is not None:
+            self.app.gameboard.set_mult_word(self.menu.word_cord)
+        if self.menu.letter_cord is not None:
+            self.app.gameboard.set_mult_letter(
+                self.menu.letter_cord, self.menu.letter_mult
+            )
+        if self.menu.letter_gems is not None:
+            self.app.gameboard.set_gems(self.menu.letter_gems)
+
+        results = self.app.solve(swap)
+        sorted_words = results.sorted_words()
+        self.set_timer(results.timer.elapsed_millis())
+        self.set_results(sorted_words[:10])
