@@ -1,67 +1,119 @@
 import tkinter as tk
-
 from src.interfaces.graphicalui.entry import Entry
 from src.interfaces.graphicalui.menu import Menu
 
 
 class Tile:
-    """Represents a tile from the board with its logic"""
+    """
+    Represents a tile in a game board.
 
-    def __init__(self, board, aux_cord):
+    Attributes:
+        FONT_HOVER (tuple): The font style for hover state.
+    """
+
+    FONT_HOVER = ("Roboto", 24, tk.font.BOLD)
+
+    def __init__(self, board, aux_cord: int):
+        """
+        Initialize a Tile instance.
+
+        Args:
+            board (Board): The game board this tile belongs to.
+            aux_cord (int): The auxiliary coordinates of the tile.
+
+        Initializes the Tile with a reference to the board and auxiliary coordinates.
+        Also sets up a StringVar for the tile's content, a menu, and an entry.
+
+        """
         self.board = board
         app = board.app
 
         self.backup_letter = None
 
-        self.stringvar = tk.StringVar(app.window, value="")
+        self.string_var = tk.StringVar(app.window, value="")
         self.menu = Menu(self.board, aux_cord)
-        self.entry = Entry(self.board, self.menu, self.stringvar, aux_cord)
+        self.entry = Entry(self.board, self.menu, self.string_var, aux_cord)
 
+        self._configure_style()
+
+    @property
+    def letter(self) -> str:
+        """
+        Get the letter on the tile.
+
+        Returns:
+            str: The letter on the tile in lowercase.
+        """
+        return self.string_var.get().lower()
+
+    def _configure_style(
+        self,
+        font: tuple[str, int, str] = ("Roboto", 18, tk.font.NORMAL),
+        background: str = "white",
+        foreground: str = "black",
+        highlight_background: str = "black",
+        highlight_color: str = "black",
+    ) -> None:
+        """
+        Configure the visual style of the tile entry widget.
+
+        Args:
+            font (tuple): A tuple containing font details.
+            background (str): The background color.
+            foreground (str): The text color.
+            highlight_background (str): The background color for highlighting.
+            highlight_color (str): The text color for highlighting.
+        """
         self.entry.entry.configure(
-            highlightbackground="black",
-            highlightcolor="black",
-            background="white",
-            font=("Roboto", 18, tk.font.NORMAL),
-            fg="black",
+            font=font,
+            background=background,
+            fg=foreground,
+            highlightbackground=highlight_background,
+            highlightcolor=highlight_color,
         )
 
-    def letter(self):
-        """Get the letter of the tile in lower case"""
-        return self.stringvar.get().lower()
+    def multiplier(self, color) -> None:
+        """
+        Apply a multiplier effect to the tile.
 
-    def multiplier(self, color):
-        """Set multiplier color in tile"""
-        font_config = {
-            "highlightbackground": color,
-            "highlightcolor": color,
-            "background": "white",
-            "font": ("Roboto", 18, tk.font.NORMAL),
-            "fg": "black",
-        }
-        self.entry.entry.configure(**font_config)
+        Args:
+            color (str): The color of the multiplier effect.
 
-    def hover(self, letter, swap):
-        """Handle hover event on the tile"""
-        self.backup_letter = self.letter()
-        self.stringvar.set(letter)
+        Applies a multiplier effect to the tile, changing its style based on the given color.
+        """
+        self._configure_style(
+            highlight_background=color,
+            highlight_color=color,
+        )
+
+    def hover(self, letter, swap) -> None:
+        """
+        Handle hover state of the tile.
+
+        Args:
+            letter (str): The letter to display on hover.
+            swap (bool): Whether to swap the tile content.
+
+        Handles the hover state of the tile, changing its style and content based on the input parameters.
+        """
+        self.backup_letter = self.letter
+        self.string_var.set(letter)
 
         color = "red" if swap else "blue"
-        self.entry.entry.configure(
-            highlightbackground=color,
-            highlightcolor=color,
+        self._configure_style(
+            font=self.FONT_HOVER,
             background=color,
-            font=("Roboto", 24, tk.font.BOLD),
-            fg="white",
+            foreground="white",
+            highlight_background=color,
+            highlight_color=color,
         )
 
-    def unhover(self):
-        """Handle unhover event on the tile"""
-        self.entry.entry.configure(
-            highlightbackground="black",
-            highlightcolor="black",
-            background="white",
-            font=("Roboto", 18, tk.font.NORMAL),
-            fg="black",
-        )
-        self.stringvar.set(self.backup_letter)
+    def unhover(self) -> None:
+        """
+        Handle when the tile is unhovered.
+
+        Restores the tile's original style and content after being hovered.
+        """
+        self._configure_style()
+        self.string_var.set(self.backup_letter)
         self.board.menu.unhover_tiles()

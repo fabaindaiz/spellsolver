@@ -153,7 +153,7 @@ class Board:
         Args:
             swap (int): The number of swaps to perform.
         """
-        gameboard_string = "".join(tile.letter() for tile in self.tiles.values())
+        gameboard_string = "".join(tile.letter for tile in self.tiles.values())
         self.app.gameboard.load(gameboard_string)
 
         if self.menu.word_cord is not None:
