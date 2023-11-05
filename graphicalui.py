@@ -1,10 +1,10 @@
 import tkinter as tk
 from typing import Tuple
 
-from src.interfaces.graphicalui.tkinterboard import TkinterBoard
-from src.interfaces.baseui import BaseUI
-from src.utils.resources import resource_path
 from src.config import SWAP, VERSION
+from src.interfaces.baseui import BaseUI
+from src.interfaces.graphicalui.board import Board
+from src.utils.resources import resource_path
 
 
 class GraphicalUI(BaseUI):
@@ -40,7 +40,9 @@ class GraphicalUI(BaseUI):
         super().__init__()
 
         self.window: tk.Tk = tk.Tk()
-        self.window.iconphoto(True, tk.PhotoImage(file=resource_path("assets/spellsolver.png")))
+        self.window.iconphoto(
+            True, tk.PhotoImage(file=resource_path("assets/spellsolver.png"))
+        )
 
         self.window.resizable(width=False, height=False)
         self.window.title(self.WINDOW_TITLE)
@@ -54,8 +56,8 @@ class GraphicalUI(BaseUI):
         self.init_spellsolver(swap=SWAP)
         self.loading.destroy()
 
-        self.interface_board: TkinterBoard = TkinterBoard(self)
-    
+        self.interface_board: Board = Board(self)
+
     def loading_screen(self) -> None:
         """
         Initialize the loading screen.
@@ -68,7 +70,7 @@ class GraphicalUI(BaseUI):
         self.loading = tk.Label(
             self.window,
             text="Loading spellsolver, this will take several seconds...",
-            font=("Helvetica", 16)
+            font=("Helvetica", 16),
         )
         self.loading.pack(pady=100, padx=20)
         self.window.update()
