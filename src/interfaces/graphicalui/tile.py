@@ -44,7 +44,7 @@ class Tile:
         Returns:
             str: The letter on the tile in lowercase.
         """
-        return self.string_var.get().lower()
+        return self.string_var.get()
 
     def _configure_style(
         self,

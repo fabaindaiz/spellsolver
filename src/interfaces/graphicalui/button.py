@@ -11,12 +11,6 @@ class Button:
         INITIAL_VERTICAL_POSITION (int): The initial vertical position for buttons.
         DOUBLE_SWAP_HORIZONTAL_POSITION (int): The horizontal position for buttons when double swapping.
         BUTTON_HEIGHT (int): The height of the button.
-
-    Args:
-        parent: The parent widget that contains the button.
-        double_swap (bool): Whether it's a double swap button.
-        swap_count (int): The number of swaps associated with the button.
-        command (Callable): The function to execute when the button is clicked.
     """
 
     INITIAL_HORIZONTAL_POSITION = 100
@@ -34,7 +28,6 @@ class Button:
             swap_count (int): The number of swaps associated with the button.
             command (Callable): The function to execute when the button is clicked.
         """
-
         self.parent = parent
         self.double_swap = double_swap
         self.swap_count = swap_count
