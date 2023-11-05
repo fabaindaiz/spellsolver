@@ -3,11 +3,15 @@ import sys
 
 
 def resource_path(relative_path: str) -> str:
-    """Obtener la ruta absoluta al recurso en el sistema de archivos."""
-    try:
-        # PyInstaller crea un archivo temporal y lo coloca en _MEIPASS
-        base_path = sys._MEIPASS
-    except Exception:
-        base_path = os.path.abspath(".")
-    
+    """
+    Get the absolute path to a resource file located relative to the application executable.
+
+    Args:
+        relative_path (str): The relative path to the resource file.
+
+    Returns:
+        str: The absolute path to the resource file.
+    """
+    base_path = getattr(sys, "_MEIPASS", os.path.abspath("."))
+
     return os.path.join(base_path, relative_path)
