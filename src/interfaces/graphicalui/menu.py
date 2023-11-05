@@ -3,7 +3,7 @@ import tkinter as tk
 from src.utils.utils import aux_to_indices
 
 
-class BoardMenu:
+class Menu:
     """Represents the contextual menu in GUI"""
 
     def __init__(self, board, aux_cord: int) -> None:

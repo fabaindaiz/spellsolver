@@ -3,7 +3,7 @@ import tkinter as tk
 from src.utils.utils import aux_to_indices
 
 
-class BoardEntry:
+class Entry:
     """Represents a square tile in the board"""
 
     def __init__(self, board, menu, stringvar: tk.StringVar, aux_cord: int) -> None:

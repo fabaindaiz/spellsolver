@@ -2,10 +2,10 @@ from typing import List, Tuple, Dict
 
 from src.config import SWAP
 from src.interfaces.baseui import BaseUI
-from src.interfaces.graphicalui.boardbutton import BoardButton
-from src.interfaces.graphicalui.boardlabel import BoardLabel
-from src.interfaces.graphicalui.boardtile import BoardTile
-from src.interfaces.graphicalui.multhandler import MenuHandler
+from src.interfaces.graphicalui.button import Button
+from src.interfaces.graphicalui.label import Label
+from src.interfaces.graphicalui.tile import Tile
+from src.interfaces.graphicalui.menu_handler import MenuHandler
 from src.modules.gameboard.resultword import ResultWord
 from src.utils.utils import aux_to_indices
 
@@ -20,10 +20,10 @@ class Board:
     Attributes:
         app (BaseUI): The parent application's user interface.
         double_swap (bool): A boolean indicating if double swapping is allowed.
-        buttons (List[BoardButton]): List of swap buttons for different swap options.
-        timer (BoardLabel): Label to display the elapsed time.
+        buttons (List[Button]): List of swap buttons for different swap options.
+        timer (Label): Label to display the elapsed time.
         labels (List[BoardLabel]): List of labels to display word results.
-        tiles (Dict[Tuple[int, int], BoardTile]): Dictionary of game tiles on the board.
+        tiles (Dict[Tuple[int, int], Tile]): Dictionary of game tiles on the board.
         menu (MenuHandler): Handler for menu options.
     """
 
@@ -31,10 +31,10 @@ class Board:
         self.app: BaseUI = app
         self.double_swap: bool = SWAP >= 2
 
-        self.buttons: List[BoardButton] = []
-        self.timer: BoardLabel = None
-        self.labels: List[BoardLabel] = []
-        self.tiles: Dict[Tuple[int, int], BoardTile] = {}
+        self.buttons: List[Button] = []
+        self.timer: Label = None
+        self.labels: List[Label] = []
+        self.tiles: Dict[Tuple[int, int], Tile] = {}
         self.menu: MenuHandler = MenuHandler(self)
 
         self.initialize_components()
@@ -61,7 +61,7 @@ class Board:
 
             self.buttons.append(button)
 
-    def create_button(self, swap_count: int) -> BoardButton:
+    def create_button(self, swap_count: int) -> Button:
         """
         Create a swap button.
 
@@ -69,9 +69,9 @@ class Board:
             swap_count (int): The number of swaps associated with the button.
 
         Returns:
-            BoardButton: The created swap button.
+            Button: The created swap button.
         """
-        return BoardButton(
+        return Button(
             parent=self.app,
             double_swap=self.double_swap,
             swap_count=swap_count,
@@ -85,16 +85,16 @@ class Board:
         for tile_index in range(25):
             coord_index = aux_to_indices(tile_index)
 
-            self.tiles[coord_index] = BoardTile(self, tile_index)
+            self.tiles[coord_index] = Tile(self, tile_index)
 
     def initialize_labels(self) -> None:
         """
         Initialize labels for displaying word results and the timer.
         """
-        self.timer = BoardLabel(self, 10)
+        self.timer = Label(self, 10)
 
         for label_index in range(10):
-            label = BoardLabel(self, label_index)
+            label = Label(self, label_index)
 
             self.labels.append(label)
 

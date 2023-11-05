@@ -2,7 +2,7 @@ from tkinter import ttk
 from typing import Callable
 
 
-class BoardButton:
+class Button:
     """
     Represents a button on a game board.
 
@@ -26,7 +26,7 @@ class BoardButton:
 
     def __init__(self, parent, double_swap: bool, swap_count: int, command: Callable):
         """
-        Initializes a BoardButton instance.
+        Initializes a Button instance.
 
         Args:
             parent: The parent widget that contains the button.

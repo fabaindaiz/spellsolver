@@ -1,10 +1,10 @@
 import tkinter as tk
 
-from src.interfaces.graphicalui.boardentry import BoardEntry
-from src.interfaces.graphicalui.boardmenu import BoardMenu
+from src.interfaces.graphicalui.entry import Entry
+from src.interfaces.graphicalui.menu import Menu
 
 
-class BoardTile:
+class Tile:
     """Represents a tile from the board with its logic"""
 
     def __init__(self, board, aux_cord):
@@ -14,8 +14,8 @@ class BoardTile:
         self.backup_letter = None
 
         self.stringvar = tk.StringVar(app.window, value="")
-        self.menu = BoardMenu(self.board, aux_cord)
-        self.entry = BoardEntry(self.board, self.menu, self.stringvar, aux_cord)
+        self.menu = Menu(self.board, aux_cord)
+        self.entry = Entry(self.board, self.menu, self.stringvar, aux_cord)
 
         self.entry.entry.configure(
             highlightbackground="black",

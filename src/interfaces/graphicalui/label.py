@@ -5,7 +5,7 @@ from typing import List
 from src.modules.gameboard.gametile import GameTile
 
 
-class BoardLabel:
+class Label:
     """Represents a result label"""
 
     def __init__(self, board, num: int, text: str = "") -> None:
@@ -40,9 +40,9 @@ class BoardLabel:
 class LabelHover:
     """Represent a hover event handler for result labels"""
 
-    def __init__(self, board, label: BoardLabel, path: List[GameTile]) -> None:
+    def __init__(self, board, label: Label, path: List[GameTile]) -> None:
         self.board = board
-        self.label: BoardLabel = label
+        self.label: Label = label
         self.path: List[GameTile] = path
 
         self.label.label.bind("<Enter>", lambda _: self._hover())
