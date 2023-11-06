@@ -19,7 +19,7 @@ GEMS_MULT = 3
 
 # Spellsolver settings
 TRIE = "MARISA"
-SWAP = 2
+SWAP = 1
 
 # Make sure you have enough ram memory (and patience) for the selected trie and swap mode
 

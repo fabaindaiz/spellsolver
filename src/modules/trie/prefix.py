@@ -1,8 +1,8 @@
 from typing import Any, Dict, Generator, List, Tuple
 
-from src.modules.trie.base import Trie, TrieQuery
-from src.modules.validate.wordlist import WordList
 from src.modules.trie.loader import word_iter
+from src.modules.trie.trie import Trie, TrieQuery
+from src.modules.validate.wordlist import WordList
 
 
 class PrefixNode:
@@ -43,11 +43,11 @@ class PrefixNode:
             for node in self.childs.values():
                 words += node.get_leaf(recursive=True)
         return words
-    
+
     def merge_tries(self, trie: "PrefixNode") -> None:
         """Merge other_trie into main_trie"""
         self.words += trie.words
-        
+
         for letter, child in trie.childs.items():
             if letter in self.childs:
                 self.childs[letter].merge_tries(child)
@@ -61,13 +61,13 @@ class PrefixTrie(Trie):
     def __init__(self) -> None:
         self.node: PrefixNode = PrefixNode()
 
-    def insert_trie(self, loader: WordList, swap: int) -> None:
+    def insert(self, loader: WordList, swap: int) -> None:
         """Insert the words from the loader into the trie"""
         for word in loader.get_words():
             for iword in word_iter(word, swap):
                 self.node.insert(iword, word)
-    
-    def query_trie(self) -> "PrefixTrieQuery":
+
+    def query(self) -> "PrefixTrieQuery":
         """Obtains an object that allows queries to be made to the trie"""
         return PrefixTrieQuery(self)
 
@@ -77,7 +77,7 @@ class PrefixTrieQuery(TrieQuery):
 
     def __init__(self, trie: Trie) -> None:
         self.trie: PrefixTrie = trie
-    
+
     def get_root(self) -> PrefixNode:
         """Obtains a representation of the base node of the trie"""
         return self.trie.node

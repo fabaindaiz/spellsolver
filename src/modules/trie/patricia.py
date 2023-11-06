@@ -1,8 +1,8 @@
 from typing import Any, Dict, Generator, List, Tuple
 
-from src.modules.trie.base import Trie, TrieQuery
-from src.modules.validate.wordlist import WordList
 from src.modules.trie.loader import word_iter
+from src.modules.trie.trie import Trie, TrieQuery
+from src.modules.validate.wordlist import WordList
 
 
 class PatriciaNode:
@@ -17,9 +17,12 @@ class PatriciaNode:
         if not iter_word:
             return self.words.append(word)
 
-        common_prefix = next((prefix for prefix in self.childs.keys() if iter_word.startswith(prefix)), None)
+        common_prefix = next(
+            (prefix for prefix in self.childs.keys() if iter_word.startswith(prefix)),
+            None,
+        )
         if common_prefix:
-            next_word = iter_word[len(common_prefix):]
+            next_word = iter_word[len(common_prefix) :]
             child = self.childs[common_prefix]
         else:
             common_prefix = iter_word[0]
@@ -39,7 +42,7 @@ class PatriciaNode:
             if not prefix:
                 return None
             node = node.childs[prefix]
-            word = word[len(prefix):]
+            word = word[len(prefix) :]
         return node
 
     def get_leaf(self, recursive=False) -> Any:
@@ -49,7 +52,7 @@ class PatriciaNode:
             for node in self.childs.values():
                 words += node.get_leaf(recursive=True)
         return words
-    
+
     def merge_tries(self, trie: "PatriciaNode") -> None:
         """Merge other_trie into main_trie"""
         self.words += trie.words
@@ -67,23 +70,23 @@ class PatriciaTrie(Trie):
     def __init__(self) -> None:
         self.node: PatriciaNode = PatriciaNode()
 
-    def insert_trie(self, loader: WordList, swap: int) -> None:
+    def insert(self, loader: WordList, swap: int) -> None:
         """Insert the words from the loader into the trie"""
         for word in loader.get_words():
             for iword in word_iter(word, swap):
                 self.node.insert(iword, word)
-    
-    def query_trie(self) -> "TrieQuery":
+
+    def query(self) -> "TrieQuery":
         """Obtains an object that allows queries to be made to the trie"""
         return PatriciaTrieQuery(self)
-    
+
 
 class PatriciaTrieQuery(TrieQuery):
     """Represents a Patricia Trie Query"""
 
     def __init__(self, trie: Trie) -> None:
         self.trie: PatriciaTrie = trie
-    
+
     def get_root(self) -> PatriciaNode:
         """Obtains a representation of the base node of the trie"""
         return self.trie.node

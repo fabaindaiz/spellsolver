@@ -12,6 +12,6 @@ class Validate(unittest.TestCase):
 
     def test_(self) -> None:
         """"""
-        trie = self.validate.trie.query_trie()
+        trie = self.validate.trie.query()
         self.assertTrue(trie.get_key("epidemic"))
         self.assertFalse(trie.get_key("abcdefg"))

@@ -1,30 +1,29 @@
-from marisa_trie import RecordTrie
 from typing import Any, Generator, List, Tuple
 
-from src.modules.trie.base import Trie, TrieQuery
-from src.modules.validate.wordlist import WordList
+from marisa_trie import RecordTrie
+
 from src.modules.trie.loader import pair_iter
+from src.modules.trie.trie import Trie, TrieQuery
+from src.modules.validate.wordlist import WordList
 
 
 class MarisaTrie(Trie):
-
     def __init__(self) -> None:
         self.trie: RecordTrie = None
         self.words: List[str] = []
 
-    def insert_trie(self, loader: WordList, swap: int) -> None:
+    def insert(self, loader: WordList, swap: int) -> None:
         self.words = list(loader.get_words())
         self.trie = RecordTrie("<i", pair_iter(self.words, swap))
-    
-    def query_trie(self) -> TrieQuery:
+
+    def query(self) -> TrieQuery:
         return MarisaTrieQuery(self)
 
 
 class MarisaTrieQuery(TrieQuery):
-
     def __init__(self, trie: Trie) -> None:
         self.trie: MarisaTrie = trie
-    
+
     def get_root(self) -> str:
         return ""
 
