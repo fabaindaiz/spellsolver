@@ -1,6 +1,5 @@
 import tkinter as tk
-
-from src.utils import aux_to_indices
+from src.utils.utils import aux_to_indices
 
 
 class Menu:

@@ -1,6 +1,6 @@
 import tkinter as tk
-
-from src.interfaces.graphicalui import Entry, Menu
+from src.interfaces.graphicalui.entry import Entry
+from src.interfaces.graphicalui.menu import Menu
 
 
 class Tile:

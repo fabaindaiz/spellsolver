@@ -1,9 +1,11 @@
 import unittest
 
-from src.modules.validate import WordValidate
+from src.modules.wordlist.validate import WordValidate
 
 
 class Validate(unittest.TestCase):
+    """"""
+
     def setUp(self) -> None:
         self.validate: WordValidate = WordValidate()
         self.validate.init_trie()

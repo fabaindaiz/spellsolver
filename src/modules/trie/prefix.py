@@ -1,7 +1,8 @@
 from typing import Any, Dict, Generator, List, Tuple
 
-from src.modules.trie import Trie, TrieQuery, word_iter
-from src.modules.validate import WordList
+from src.modules.trie.loader import word_iter
+from src.modules.trie.trie import Trie, TrieQuery
+from src.modules.validate.wordlist import WordList
 
 
 class PrefixNode:

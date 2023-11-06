@@ -1,10 +1,13 @@
 from typing import List, Tuple, Dict
 
 from src.config import SWAP
-from src.interfaces import BaseUI
-from src.interfaces.graphicalui import Button, Label, MenuHandler, Tile
-from src.modules.gameboard import ResultWord
-from src.utils import aux_to_indices
+from src.interfaces.baseui import BaseUI
+from src.interfaces.graphicalui.button import Button
+from src.interfaces.graphicalui.label import Label
+from src.interfaces.graphicalui.tile import Tile
+from src.interfaces.graphicalui.menu_handler import MenuHandler
+from src.modules.gameboard.resultword import ResultWord
+from src.utils.utils import aux_to_indices
 
 
 class Board:

@@ -1,6 +1,6 @@
 from src.config import TRIE
-from src.modules.trie import Trie, TrieQuery
-from src.modules.validate import WordList
+from src.modules.trie.trie import Trie, TrieQuery
+from src.modules.validate.wordlist import WordList
 
 if TRIE == "MARISA":
     from src.modules.trie.marisa import MarisaTrie

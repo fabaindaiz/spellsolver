@@ -1,6 +1,6 @@
 from typing import Tuple, Dict, List, Generator
 
-from src.utils import get_letter_point_value
+from src.utils.utils import get_letter_point_value
 
 NEIGHBOR_OFFSETS = [
     (x, y) for x in range(-1, 2) for y in range(-1, 2) if (x, y) != (0, 0)
@@ -30,7 +30,7 @@ class GameTile:
 
     def points(self) -> int:
         return self.letter_points * self.letter_mult
-
+    
     def gems(self) -> int:
         return self.letter_gems
 
@@ -45,6 +45,6 @@ class GameTile:
 
     def suggest_tile(self, path: List["GameTile"]) -> Generator["GameTile", None, None]:
         return (tile for tile in self.neighbors if tile not in path)
-
+    
     def __str__(self) -> str:
         return f"({self.letter} {self.cord})"
