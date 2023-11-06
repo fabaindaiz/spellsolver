@@ -1,0 +1,1 @@
+from spellsolver import SpellSolver

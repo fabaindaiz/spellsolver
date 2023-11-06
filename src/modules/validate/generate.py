@@ -1,13 +1,14 @@
 import os
 from typing import Callable, Generator
 
-from src.utils.utils import is_valid_word
+from src.utils import is_valid_word
 
 
 class WordGenerate:
-
     @staticmethod
-    def fetch_single_file(path: str, validate: Callable[[str], bool]) -> Generator[str, None, None]:
+    def fetch_single_file(
+        path: str, validate: Callable[[str], bool]
+    ) -> Generator[str, None, None]:
         """
         Fetch valid words from a source file.
 
@@ -37,11 +38,15 @@ class WordGenerate:
         words = set()
         for file in os.listdir(path):
             full_path = os.path.join(path, file)
-            words.update(WordGenerate.fetch_single_file(path=full_path, validate=is_valid_word))
+            words.update(
+                WordGenerate.fetch_single_file(path=full_path, validate=is_valid_word)
+            )
         yield from words
 
     @staticmethod
-    def write_words_to_file(path: str, words: Generator[str, None, None], sort=False) -> None:
+    def write_words_to_file(
+        path: str, words: Generator[str, None, None], sort=False
+    ) -> None:
         """
         Sort and write a set of valid words to a destination file.
         Args:

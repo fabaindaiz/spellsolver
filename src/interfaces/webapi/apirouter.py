@@ -1,8 +1,7 @@
 from typing import Any, Dict
 
-from src.interfaces.webapi.interfaces import Response, SolverData
-from src.interfaces.webapi.baseapi import BaseRouter
 from src.interfaces.baseui import BaseUI
+from src.interfaces.webapi import Response, SolverData, BaseRouter
 
 
 class SolverRouter(BaseRouter):
@@ -37,9 +36,7 @@ class SolverRouter(BaseRouter):
                 TL_cord = (int(data.TL[0]), int(data.TL[1]))
                 solver.gameboard.set_mult_letter(TL_cord, 3)
             if data.gems:
-                gem_cord = tuple(
-                    (int(gem[0]), int(gem[1])) for gem in data.gems
-                )
+                gem_cord = tuple((int(gem[0]), int(gem[1])) for gem in data.gems)
                 solver.gameboard.set_gems(gem_cord)
 
             results = solver.solve(data.swap)
