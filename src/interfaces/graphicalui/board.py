@@ -4,8 +4,8 @@ from src.config import SWAP
 from src.interfaces.baseui import BaseUI
 from src.interfaces.graphicalui.button import Button
 from src.interfaces.graphicalui.label import Label
-from src.interfaces.graphicalui.tile import Tile
 from src.interfaces.graphicalui.menu_handler import MenuHandler
+from src.interfaces.graphicalui.tile import Tile
 from src.modules.gameboard.resultword import ResultWord
 from src.utils.utils import aux_to_indices
 
@@ -38,6 +38,7 @@ class Board:
         self.menu: MenuHandler = MenuHandler(self)
 
         self.initialize_components()
+        self.tiles[(0, 0)].entry.focus()
 
     def initialize_components(self) -> None:
         """
