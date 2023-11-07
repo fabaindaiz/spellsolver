@@ -2,9 +2,9 @@ from typing import Any, Generator, List, Tuple
 
 from marisa_trie import RecordTrie
 
-from src.modules.trie.loader import pair_iter
-from src.modules.trie.trie import Trie, TrieQuery
 from src.modules.validate.wordlist import WordList
+from .loader import pair_iter
+from .trie import Trie, TrieQuery
 
 
 class MarisaTrie(Trie):

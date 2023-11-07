@@ -1,10 +1,10 @@
 import tkinter as tk
 from typing import Tuple
 
-from src.config import SWAP, VERSION
-from src.interfaces.baseui import BaseUI
-from src.interfaces.graphicalui.board import Board
-from src.utils.resources import resource_path
+from src import SWAP, VERSION
+from src.interfaces import BaseUI
+from src.interfaces.graphicalui import Board
+from src.utils import resource_path
 
 
 class GraphicalUI(BaseUI):

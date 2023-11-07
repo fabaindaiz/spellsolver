@@ -1,9 +1,9 @@
 import os
 from typing import Generator, TextIO
 
-from src.config import SOURCES, WORDLIST
-from src.modules.validate.generate import WordGenerate
-from src.utils.resources import resource_path
+from src import SOURCES, WORDLIST
+from src.utils import resource_path
+from .generate import WordGenerate
 
 
 class WordList:

@@ -2,7 +2,7 @@ import unittest
 from datetime import datetime
 from unittest.mock import patch
 
-from timer import Timer
+from .timer import Timer
 
 
 class TestTimer(unittest.TestCase):

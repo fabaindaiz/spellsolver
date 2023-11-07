@@ -1,10 +1,10 @@
 from typing import Dict, Tuple
 
-from src.modules.gameboard.gametile import GameTile
-from src.utils.utils import (
+from src.utils import (
     aux_to_indices,
     is_valid_word,
 )
+from .gametile import GameTile
 
 
 class GameBoard:

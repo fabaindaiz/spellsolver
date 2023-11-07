@@ -1,8 +1,8 @@
 from typing import Any, Dict
 
-from src.interfaces.baseui import BaseUI
-from src.interfaces.webapi.baseapi import BaseRouter
-from src.interfaces.webapi.interfaces import Response, SolverData
+from src.interfaces import BaseUI
+from .baseapi import BaseRouter
+from .interfaces import Response, SolverData
 
 
 class SolverRouter(BaseRouter):

@@ -1,8 +1,8 @@
 from typing import Any, Dict, Generator, List, Tuple
 
-from src.config import CONSOLE
-from src.modules.gameboard.resultword import ResultWord
-from src.utils.timer import Timer
+from src import CONSOLE
+from src.utils import Timer
+from .resultword import ResultWord
 
 
 class ResultList:

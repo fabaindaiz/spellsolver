@@ -1,6 +1,6 @@
 import unittest
 
-from src.modules.wordlist.validate import WordValidate
+from src.modules.validate import WordValidate
 
 
 class Validate(unittest.TestCase):

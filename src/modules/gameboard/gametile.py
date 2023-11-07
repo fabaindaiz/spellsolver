@@ -1,6 +1,6 @@
 from typing import Tuple, Dict, List, Generator
 
-from src.utils.utils import get_letter_point_value
+from src.utils import get_letter_point_value
 
 NEIGHBOR_OFFSETS = [
     (x, y) for x in range(-1, 2) for y in range(-1, 2) if (x, y) != (0, 0)

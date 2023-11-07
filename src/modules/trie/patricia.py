@@ -1,8 +1,8 @@
 from typing import Any, Dict, Generator, List, Tuple
 
-from src.modules.trie.loader import word_iter
-from src.modules.trie.trie import Trie, TrieQuery
 from src.modules.validate.wordlist import WordList
+from .loader import word_iter
+from .trie import Trie, TrieQuery
 
 
 class PatriciaNode:

@@ -1,9 +1,8 @@
-from src.config import CONSOLE, SWAP, VERSION
-from src.modules.gameboard.gameboard import GameBoard
-from src.modules.gameboard.resultlist import ResultList
-from src.modules.spellsolver import SpellSolver
-from src.modules.validate.validate import WordValidate
-from src.utils.timer import Timer
+from src import CONSOLE, SWAP, VERSION
+from src.modules import SpellSolver
+from src.modules.gameboard import GameBoard, ResultList
+from src.modules.validate import WordValidate
+from src.utils import Timer
 
 
 class GameSolver:

@@ -1,7 +1,7 @@
 import os
 from typing import Callable, Generator
 
-from src.utils.utils import is_valid_word
+from src.utils import is_valid_word
 
 
 class WordGenerate:

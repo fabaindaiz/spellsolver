@@ -1,13 +1,9 @@
 from typing import Any, Generator, List, Tuple
 
-from src.config import SWAP
-from src.modules.gameboard.gameboard import GameBoard
-from src.modules.gameboard.gametile import GameTile
-from src.modules.gameboard.path import Path
-from src.modules.gameboard.resultlist import ResultList
-from src.modules.gameboard.resultword import ResultWord
-from src.modules.validate.validate import WordValidate
-from src.utils.timer import Timer
+from src import SWAP
+from src.modules.gameboard import GameTile, GameBoard, Path, ResultList, ResultWord
+from src.modules.validate import WordValidate
+from src.utils import Timer
 
 
 class SpellSolver:

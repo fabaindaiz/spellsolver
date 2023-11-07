@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
-from src.modules.trie.trie_query import TrieQuery
 from src.modules.validate.wordlist import WordList
+from .trie_query import TrieQuery
 
 
 class Trie(ABC):

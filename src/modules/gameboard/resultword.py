@@ -1,7 +1,7 @@
 from typing import Any, Dict, Generator, Tuple
 
-from src.config import DEBUG, GEMS_MULT, WORD_MULT
-from src.modules.gameboard.gameboard import GameTile
+from src import DEBUG, GEMS_MULT, WORD_MULT
+from .gametile import GameTile
 
 
 class ResultWord:

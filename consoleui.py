@@ -1,8 +1,8 @@
 from argparse import ArgumentParser, Namespace
 
-from src.config import SWAP
-from src.interfaces.baseui import BaseUI
-from src.modules.gameboard.resultlist import ResultList
+from src import SWAP
+from src.interfaces import BaseUI
+from src.modules.gameboard import ResultList
 
 
 class ConsoleUI(BaseUI):
