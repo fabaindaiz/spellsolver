@@ -30,7 +30,7 @@ class GameTile:
 
     def points(self) -> int:
         return self.letter_points * self.letter_mult
-    
+
     def gems(self) -> int:
         return self.letter_gems
 
@@ -45,6 +45,6 @@ class GameTile:
 
     def suggest_tile(self, path: List["GameTile"]) -> Generator["GameTile", None, None]:
         return (tile for tile in self.neighbors if tile not in path)
-    
+
     def __str__(self) -> str:
         return f"({self.letter} {self.cord})"

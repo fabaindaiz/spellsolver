@@ -1,8 +1,8 @@
 from argparse import ArgumentParser, Namespace
 
-from src.modules.gameboard.resultlist import ResultList
-from src.interfaces.baseui import BaseUI
 from src.config import SWAP
+from src.interfaces.baseui import BaseUI
+from src.modules.gameboard.resultlist import ResultList
 
 
 class ConsoleUI(BaseUI):
@@ -84,7 +84,7 @@ class ConsoleUI(BaseUI):
             print("Exception:", e)
 
         return True
-    
+
     @staticmethod
     def print_results(results: ResultList) -> None:
         """Print results to console"""

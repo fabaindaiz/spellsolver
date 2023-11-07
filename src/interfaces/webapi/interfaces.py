@@ -1,4 +1,5 @@
 from typing import Any, Optional, Tuple
+
 from pydantic import BaseModel
 
 
@@ -8,6 +9,7 @@ class Response(BaseModel):
     successful: bool
     message: str
     data: Any
+
 
 class SolverData(BaseModel):
     """Data model for spellsolver_solve endpoint"""

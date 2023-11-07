@@ -1,21 +1,26 @@
 from typing import Any, Dict, Generator, Tuple
 
+from src.config import DEBUG, GEMS_MULT, WORD_MULT
 from src.modules.gameboard.gameboard import GameTile
-from src.config import CONSOLE, DEBUG, GEMS_MULT, WORD_MULT
 
 
 class ResultWord:
     """Represents a spellsolver result"""
 
     def __init__(
-        self, points: int, gems: int, word: str, path: Tuple[GameTile, ...], swaps: Tuple[int] = []
+        self,
+        points: int,
+        gems: int,
+        word: str,
+        path: Tuple[GameTile, ...],
+        swaps: Tuple[int] = [],
     ) -> None:
         self.points: int = points
         self.gems: int = gems
         self.word: str = word
         self.path: Tuple[GameTile, ...] = path
         self.swaps: Tuple[int] = swaps
-    
+
     def order(self) -> int:
         """Order result by points & gems"""
         return self.points * WORD_MULT + self.gems * GEMS_MULT
@@ -26,11 +31,11 @@ class ResultWord:
 
         if DEBUG:
             yield str([tile.__str__() for tile in self.path])
-    
+
     def label(self) -> str:
         """Get label representation of result"""
         return f"{self.word.ljust(12)} {self.points}★ {self.gems}💎"
-    
+
     def text(self) -> str:
         """Get text representation of result"""
         return f"({' | '.join(self._str())})"

@@ -1,7 +1,8 @@
 from typing import Any
+
 from fastapi import APIRouter, status
-from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
+from fastapi.responses import JSONResponse
 
 
 class BaseRouter:

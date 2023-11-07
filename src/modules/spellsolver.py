@@ -1,13 +1,13 @@
 from typing import Any, Generator, List, Tuple
 
-from src.modules.validate.validate import WordValidate
+from src.config import SWAP
 from src.modules.gameboard.gameboard import GameBoard
 from src.modules.gameboard.gametile import GameTile
+from src.modules.gameboard.path import Path
 from src.modules.gameboard.resultlist import ResultList
 from src.modules.gameboard.resultword import ResultWord
-from src.modules.gameboard.path import Path
+from src.modules.validate.validate import WordValidate
 from src.utils.timer import Timer
-from src.config import SWAP
 
 
 class SpellSolver:
@@ -65,7 +65,7 @@ class SpellSolver:
     def process_gameboard(self, swap: int) -> Generator[ResultWord, None, None]:
         """Iterate over all the squares on the board to start processing the paths"""
         base_tile = self.gameboard.get_base_tile()
-        base_node=self.validate.get_trie().get_root()
+        base_node = self.validate.get_trie().get_root()
         yield from self.process_path(
             tile=base_tile, node=base_node, word="", path=[], swap=swap
         )

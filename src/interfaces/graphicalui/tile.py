@@ -1,4 +1,5 @@
 import tkinter as tk
+
 from src.interfaces.graphicalui.entry import Entry
 from src.interfaces.graphicalui.menu import Menu
 
