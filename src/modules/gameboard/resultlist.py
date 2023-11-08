@@ -1,4 +1,5 @@
-from typing import Any, Dict, Generator, List, Tuple
+from collections.abc import Generator
+from typing import Any
 
 from src import CONSOLE
 from src.utils import Timer
@@ -6,42 +7,41 @@ from .resultword import ResultWord
 
 
 class ResultList:
-    """Represents a result list"""
-
     def __init__(self, timer: Timer = None) -> None:
-        self.data: Dict[Tuple[int, str], ResultWord] = {}
+        self.data: dict[tuple[int, str], ResultWord] = {}
         self.timer: Timer = timer
 
     def update(self, results: Generator[ResultWord, None, None]) -> None:
-        """Update result list"""
-        for res in results:
-            self.data[(res.points, res.word)] = res
+        for result in results:
+            self.data[(result.points, result.word)] = result
 
     def print_timer(self) -> None:
-        """Print elapsed time"""
+        elapsed_time = self.timer.elapsed_millis()
+
         print(
-            f"The following words have been found (elapsed time: {self.timer.elapsed_millis()} milliseconds)"
+            f"The following words have been found (elapsed time: {elapsed_time} milliseconds)"
         )
 
-    def sorted_words(self, console: bool = False) -> List[ResultWord]:
-        """Return sorted list with result words"""
+    @property
+    def sorted_words(self) -> list[ResultWord]:
         sorted_words = sorted(self.data.values(), reverse=True, key=self.sort_tile)
-        if CONSOLE or console:
+
+        if CONSOLE:
             self.print_timer()
-            print(f"[{self.words_to_text(sorted_words[:10])}]")
+            words = sorted_words[:10]
+            word_list = self.words_to_text(words)
+            print(f"[{word_list}]")
+
         return sorted_words
 
     @staticmethod
-    def words_to_text(sorted_words: List[ResultWord]) -> str:
-        """Return result list sorted by points"""
-        return ", ".join(word.text() for word in sorted_words[:10])
+    def words_to_text(sorted_words: list[ResultWord]) -> str:
+        return ", ".join(word.text for word in sorted_words)
 
     @staticmethod
-    def words_to_dict(sorted_words: List[ResultWord]) -> List[Dict[str, Any]]:
-        """Return result list sorted by points"""
-        return [word.dict() for word in sorted_words[:10]]
+    def words_to_dict(sorted_words: list[ResultWord]) -> list[dict[str, Any]]:
+        return [word.dict() for word in sorted_words]
 
     @staticmethod
     def sort_tile(tile: ResultWord) -> int:
-        """Sort tiles by gems & points"""
-        return tile.order()
+        return tile.order

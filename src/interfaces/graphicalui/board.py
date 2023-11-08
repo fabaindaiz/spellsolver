@@ -142,7 +142,7 @@ class Board:
             word_list (List[ResultWord]): List of word results to display.
         """
         for label, result in zip(self.labels, word_list):
-            text = result.label()
+            text = result.label
             path = result.path
 
             label.set_hover(text, path)
@@ -167,6 +167,6 @@ class Board:
             self.app.game_board.set_gems(self.menu.letter_gems)
 
         results = self.app.solve(swap)
-        sorted_words = results.sorted_words()
+        sorted_words = results.sorted_words
         self.set_timer(results.timer.elapsed_millis())
         self.set_results(sorted_words[:10])

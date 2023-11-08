@@ -57,7 +57,7 @@ class Label:
             path: The path information.
         """
         for tile in path:
-            self.board.tiles[tile.cord].hover(tile.letter, tile.swap)
+            self.board.tiles[tile.coordinates].hover(tile.letter, tile.is_swapped)
         self.label.focus_set()
 
     def _on_unhover(self, path) -> None:
@@ -68,7 +68,7 @@ class Label:
             path: The path information.
         """
         for tile in path:
-            self.board.tiles[tile.cord].unhover()
+            self.board.tiles[tile.coordinates].unhover()
 
     def bind_events(self, path) -> None:
         """

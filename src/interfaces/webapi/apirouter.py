@@ -41,7 +41,7 @@ class SolverRouter(BaseRouter):
                 solver.gameboard.set_gems(gem_cord)
 
             results = solver.solve(data.swap)
-            sorted_words = results.sorted_words()
+            sorted_words = results.sorted_words
             sorted_dict = results.words_to_dict(sorted_words[:10])
             response = {
                 "elapsed": results.timer.elapsed_millis(),

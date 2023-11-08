@@ -84,9 +84,9 @@ WordValidate successfully initialized (elapsed time: 4.8 seconds)
 
 ```bash
 Insert a gameboard: rslesrotvegifovxqmbabaaif
-Insert 2x cord: 23
-Insert DL cord: 23
-Insert TL cord: 
+Insert 2x coordinates: 23
+Insert DL coordinates: 23
+Insert TL coordinates: 
 Use swap?: 1
 The following words have been found (elapsed time: 295.0 milliseconds)
 [(66 zoftig (2, 3) | z (2, 3)), (58 vomitory (4, 2) | y (0, 2)), (58 vomitous (4, 2) | u (0, 1)), (58 comfits (3, 3) | c (3, 3)), (58 jabots (2, 3) | j (2, 3)), (58 faqirs (2, 3) | f (2, 3)), (54 fimbria (2, 2) | r (4, 4)), (54 setiform (4, 0) | r (3, 3)), (54 comfit (3, 3) | c (3, 3)), (54 maxing (2, 3) | n (0, 1))]
