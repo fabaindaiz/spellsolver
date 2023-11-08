@@ -1,3 +1,6 @@
+from src.entities import Coordinates
+
+
 class MenuHandler:
     def __init__(self, board) -> None:
         """
@@ -8,89 +11,89 @@ class MenuHandler:
         """
         self.board = board
 
-        self.word_cord: tuple[int, int] = None
-        self.letter_cord: tuple[int, int] = None
+        self.word_coord: Coordinates = None
+        self.letter_coord: Coordinates = None
         self.letter_mult: int = None
 
-        self.letter_gems: list[tuple[int, int]] = []
+        self.letter_gems: list[Coordinates] = []
 
-    def set_mult_word(self, cord: tuple) -> None:
+    def set_mult_word(self, coordinates: Coordinates) -> None:
         """
         Set a word multiplier at the specified coordinate.
 
         Args:
-            cord (tuple): The coordinate for setting the word multiplier.
+            coordinates (tuple): The coordinate for setting the word multiplier.
         """
-        self.remove_mult_cord(cord)
-        if self.word_cord is not None:
-            self.board.tiles[self.word_cord].multiplier("black")
+        self.remove_mult_cord(coordinates)
+        if self.word_coord is not None:
+            self.board.tiles[self.word_coord].multiplier("black")
 
-        self.word_cord = cord
-        self.board.tiles[cord].multiplier("deep pink")
+        self.word_coord = coordinates
+        self.board.tiles[coordinates].multiplier("deep pink")
 
-    def set_mult_letter(self, cord: tuple, mult: int) -> None:
+    def set_mult_letter(self, coordinates: Coordinates, mult: int) -> None:
         """
         Set a letter multiplier at the specified coordinate with a specified multiplier.
 
         Args:
-            cord (tuple): The coordinate for setting the letter multiplier.
+            coordinates (tuple): The coordinate for setting the letter multiplier.
             mult (int): The multiplier value.
         """
-        self.remove_mult_cord(cord)
-        if self.letter_cord is not None:
-            self.board.tiles[self.letter_cord].multiplier("black")
+        self.remove_mult_cord(coordinates)
+        if self.letter_coord is not None:
+            self.board.tiles[self.letter_coord].multiplier("black")
 
         self.letter_mult = mult
-        self.letter_cord = cord
-        self.board.tiles[cord].multiplier("gold")
+        self.letter_coord = coordinates
+        self.board.tiles[coordinates].multiplier("gold")
 
-    def remove_mult_cord(self, cord: tuple) -> None:
+    def remove_mult_cord(self, coordinates: Coordinates) -> None:
         """
         Remove any multipliers set at the specified coordinate.
 
         Args:
-            cord (tuple): The coordinate for removing multipliers.
+            coordinates (tuple): The coordinate for removing multipliers.
         """
-        if self.word_cord == cord:
-            self.board.tiles[cord].multiplier("black")
-            self.word_cord = None
-        if self.letter_cord == cord:
-            self.board.tiles[cord].multiplier("black")
-            self.letter_cord = None
+        if self.word_coord == coordinates:
+            self.board.tiles[coordinates].multiplier("black")
+            self.word_coord = None
+        if self.letter_coord == coordinates:
+            self.board.tiles[coordinates].multiplier("black")
+            self.letter_coord = None
 
     def remove_mult_all(self) -> None:
         """
         Remove all multipliers set on the board.
         """
-        if self.word_cord is not None:
-            self.board.tiles[self.word_cord].multiplier("black")
-            self.word_cord = None
-        if self.letter_cord is not None:
-            self.board.tiles[self.letter_cord].multiplier("black")
-            self.letter_cord = None
+        if self.word_coord is not None:
+            self.board.tiles[self.word_coord].multiplier("black")
+            self.word_coord = None
+        if self.letter_coord is not None:
+            self.board.tiles[self.letter_coord].multiplier("black")
+            self.letter_coord = None
 
-    def set_gem_letter(self, cord: tuple) -> None:
+    def set_gem_letter(self, coordinates: Coordinates) -> None:
         """
         Set a gem letter at the specified coordinate.
 
         Args:
-            cord (tuple): The coordinate for setting a gem letter.
+            coordinates (tuple): The coordinate for setting a gem letter.
         """
-        self.remove_mult_cord(cord)
+        self.remove_mult_cord(coordinates)
 
-        self.letter_gems.append(cord)
-        self.board.tiles[cord].multiplier("blue")
+        self.letter_gems.append(coordinates)
+        self.board.tiles[coordinates].multiplier("blue")
 
-    def remove_gem_cord(self, cord: tuple) -> None:
+    def remove_gem_cord(self, coordinates: Coordinates) -> None:
         """
         Remove a gem letter at the specified coordinate.
 
         Args:
-            cord (tuple): The coordinate for removing a gem letter.
+            coordinates (tuple): The coordinate for removing a gem letter.
         """
-        if cord in self.letter_gems:
-            self.letter_gems.remove(cord)
-            self.board.tiles[cord].multiplier("black")
+        if coordinates in self.letter_gems:
+            self.letter_gems.remove(coordinates)
+            self.board.tiles[coordinates].multiplier("black")
 
     def remove_gem_all(self) -> None:
         """
@@ -104,9 +107,9 @@ class MenuHandler:
         """
         Unhover all tiles with multipliers set.
         """
-        if self.word_cord is not None:
-            self.board.tiles[self.word_cord].multiplier("deep pink")
-        if self.letter_cord is not None:
-            self.board.tiles[self.letter_cord].multiplier("gold")
+        if self.word_coord is not None:
+            self.board.tiles[self.word_coord].multiplier("deep pink")
+        if self.letter_coord is not None:
+            self.board.tiles[self.letter_coord].multiplier("gold")
         for tile in self.letter_gems:
             self.board.tiles[tile].multiplier("blue")

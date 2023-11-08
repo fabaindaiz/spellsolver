@@ -1,5 +1,6 @@
 import os
-from typing import Generator, TextIO
+from collections.abc import Generator
+from typing import TextIO
 
 from src import SOURCES, WORDLIST
 from src.utils import resource_path

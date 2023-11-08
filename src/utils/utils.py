@@ -1,3 +1,5 @@
+from src.entities import Coordinates
+
 CHARS = set("abcdefghijklmnopqrstuvwxyz")
 
 POINTS = {
@@ -30,19 +32,19 @@ POINTS = {
 }
 
 
-def aux_to_indices(coordination: int) -> tuple[int, int]:
+def aux_to_indices(coordinate: int) -> Coordinates:
     """
     Converts an auxiliary coordinate to a tuple of row and column indices.
 
     Args:
-        coordination (int): The auxiliary coordinate to convert.
+        coordinate (int): The auxiliary coordinate to convert.
 
     Returns:
-        Tuple[int, int]: A tuple containing row and column indices.
+        Coordinates: A coordinate object containing the row and column indices.
     """
-    coordination = coordination % 25
+    coordinate = coordinate % 25
 
-    return coordination % 5, coordination // 5
+    return Coordinates(coordinate % 5, coordinate // 5)
 
 
 def is_valid_word(word: str) -> bool:

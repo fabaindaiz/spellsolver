@@ -6,8 +6,7 @@ from .button import Button
 from .label import Label
 from .menu_handler import MenuHandler
 from .tile import Tile
-
-Coordinates = tuple[int, int]
+from ...entities import Coordinates
 
 
 class Board:
@@ -38,7 +37,9 @@ class Board:
         self.menu: MenuHandler = MenuHandler(self)
 
         self.initialize_components()
-        self.tiles[(0, 0)].entry.focus()
+
+        first_tile_coordinates = Coordinates(0, 0)
+        self.tiles[first_tile_coordinates].entry.focus()
 
     def initialize_components(self) -> None:
         """
@@ -157,11 +158,11 @@ class Board:
         game_board_string = "".join(tile.letter for tile in self.tiles.values())
         self.app.game_board.load(game_board_string)
 
-        if self.menu.word_cord is not None:
-            self.app.game_board.set_mult_word(self.menu.word_cord)
-        if self.menu.letter_cord is not None:
+        if self.menu.word_coord is not None:
+            self.app.game_board.set_mult_word(self.menu.word_coord)
+        if self.menu.letter_coord is not None:
             self.app.game_board.set_mult_letter(
-                self.menu.letter_cord, self.menu.letter_mult
+                self.menu.letter_coord, self.menu.letter_mult
             )
         if self.menu.letter_gems is not None:
             self.app.game_board.set_gems(self.menu.letter_gems)

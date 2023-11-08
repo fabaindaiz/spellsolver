@@ -1,6 +1,5 @@
+from src.entities import Coordinates
 from src.utils import get_letter_point_value
-
-Coordinates = tuple[int, int]
 
 
 class GameTile:
@@ -47,7 +46,7 @@ class GameTile:
         grid_size = 5
 
         neighbor_coordinates = [
-            (x + dx, y + dy)
+            Coordinates(x + dx, y + dy)
             for dx in range(-1, 2)
             for dy in range(-1, 2)
             if (0 <= x + dx < grid_size)

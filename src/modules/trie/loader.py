@@ -1,5 +1,6 @@
+from collections.abc import Generator
 from itertools import combinations
-from typing import Generator, Iterable
+from typing import Iterable
 
 
 def _iter(word, num):

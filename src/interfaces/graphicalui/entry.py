@@ -1,5 +1,6 @@
 import tkinter as tk
 
+from src.entities import Coordinates
 from src.utils import aux_to_indices
 
 
@@ -74,7 +75,7 @@ class Entry:
             height=40,
         )
 
-    def calculate_coordinates(self) -> tuple:
+    def calculate_coordinates(self) -> tuple[Coordinates, Coordinates]:
         """
         Calculate the current and next (x, y) coordinates based on aux_coord.
 
@@ -130,12 +131,12 @@ class Entry:
 
         return True
 
-    def focus_on_tile(self, coordinates: tuple[int, int]) -> None:
+    def focus_on_tile(self, coordinates: Coordinates) -> None:
         """
         Set focus to the Entry of the tile at the specified coordinates.
 
         Args:
-            coordinates (tuple[int, int]): The (x, y) coordinates of the target tile.
+            coordinates (Coordinates): The (x, y) coordinates of the target tile.
         """
         self.board.tiles[coordinates].entry.focus()
 

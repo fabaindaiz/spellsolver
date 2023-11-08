@@ -1,7 +1,6 @@
+from src.entities import Coordinates
 from src.utils import aux_to_indices, is_valid_word
 from .gametile import GameTile
-
-Coordinates = tuple[int, int]
 
 
 class GameBoard:
@@ -10,15 +9,15 @@ class GameBoard:
 
     def _initialize_tiles(self, game_board_input: str) -> None:
         for aux, letter in enumerate(game_board_input):
-            cord = aux_to_indices(aux)
-            self.tiles[cord] = GameTile(letter, cord)
+            coordinates = aux_to_indices(aux)
+            self.tiles[coordinates] = GameTile(letter, coordinates)
 
     def _initialize_neighbors(self) -> None:
         for node in self.tiles.values():
             node.init_neighbors(self.tiles)
 
     def get_base_tile(self) -> GameTile:
-        base_tile = GameTile("0", (-1, -1))
+        base_tile = GameTile("0", Coordinates(-1, -1))
         tile_values = list(self.tiles.values())
         base_tile.neighbors = tile_values
 

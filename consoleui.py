@@ -1,8 +1,8 @@
 from argparse import ArgumentParser, Namespace
 
-from src import SWAP
-from src.interfaces import BaseUI
-from src.modules.gameboard import ResultList
+from src.config import SWAP
+from src.interfaces.baseui import BaseUI
+from src.modules.gameboard.resultlist import ResultList
 
 
 class ConsoleUI(BaseUI):
@@ -87,10 +87,11 @@ class ConsoleUI(BaseUI):
 
     @staticmethod
     def print_results(results: ResultList) -> None:
-        """Print  to console"""
-        printer = ResultListPrinter(results)
-        printer.print_timer()
-        printer.print_result_list(console=True)
+        """Print results to console"""
+        sorted_words = results.sorted_words
+        sorted_text = results.words_to_text(sorted_words[:10])
+        results.print_timer()
+        print(f"[{sorted_text}]")
 
 
 if __name__ == "__main__":

@@ -1,5 +1,6 @@
 import os
-from typing import Callable, Generator
+from collections.abc import Generator
+from typing import Callable
 
 from src.utils import is_valid_word
 
