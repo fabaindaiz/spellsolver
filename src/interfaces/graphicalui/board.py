@@ -7,6 +7,8 @@ from .label import Label
 from .menu_handler import MenuHandler
 from .tile import Tile
 
+Coordinates = tuple[int, int]
+
 
 class Board:
     """
@@ -32,7 +34,7 @@ class Board:
         self.buttons: list[Button] = []
         self.timer: Label = None
         self.labels: list[Label] = []
-        self.tiles: dict[tuple[int, int], Tile] = {}
+        self.tiles: dict[Coordinates, Tile] = {}
         self.menu: MenuHandler = MenuHandler(self)
 
         self.initialize_components()
