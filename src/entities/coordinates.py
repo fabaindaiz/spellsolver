@@ -4,17 +4,18 @@ from typing import Iterator
 
 @dataclass
 class Coordinates:
-    def __init__(self, x_coordinate: int, y_coordinate: int) -> None:
-        self.x_coordinate = x_coordinate
-        self.y_coordinate = y_coordinate
+    x_coordinate: int
+    y_coordinate: int
 
-        self._coordinates = (self.x_coordinate, self.y_coordinate)
+    @property
+    def _as_tuple(self) -> tuple[int, int]:
+        return self.x_coordinate, self.y_coordinate
 
     def __hash__(self) -> int:
-        return hash(self._coordinates)
+        return hash(self._as_tuple)
 
     def __iter__(self) -> Iterator[int]:
-        return iter(self._coordinates)
+        return iter(self._as_tuple)
 
     def __str__(self) -> str:
-        return f"{self._coordinates}"
+        return f"{self._as_tuple}"
