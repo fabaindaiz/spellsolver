@@ -1,5 +1,3 @@
-from typing import List, Tuple, Dict
-
 from src import SWAP
 from src.interfaces import BaseUI
 from src.modules.gameboard import ResultWord
@@ -31,10 +29,10 @@ class Board:
         self.app: BaseUI = app
         self.double_swap: bool = SWAP >= 2
 
-        self.buttons: List[Button] = []
+        self.buttons: list[Button] = []
         self.timer: Label = None
-        self.labels: List[Label] = []
-        self.tiles: Dict[Tuple[int, int], Tile] = {}
+        self.labels: list[Label] = []
+        self.tiles: dict[tuple[int, int], Tile] = {}
         self.menu: MenuHandler = MenuHandler(self)
 
         self.initialize_components()
@@ -108,7 +106,7 @@ class Board:
         """
         self.update_timer(elapsed_millis)
 
-    def set_results(self, word_list: List[ResultWord]) -> None:
+    def set_results(self, word_list: list[ResultWord]) -> None:
         """
         Set and update the word result labels.
 
@@ -134,7 +132,7 @@ class Board:
         """
         self.timer.set_text(f"elapsed time: {elapsed_millis} ms")
 
-    def update_labels(self, word_list: List[ResultWord]) -> None:
+    def update_labels(self, word_list: list[ResultWord]) -> None:
         """
         Update word result labels with word text and paths.
 

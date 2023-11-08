@@ -1,9 +1,7 @@
-from typing import List, Tuple
-
 from src.utils import aux_to_indices, is_valid_word
 from .gametile import GameTile
 
-Coordinates = Tuple[int, int]
+Coordinates = tuple[int, int]
 
 
 class GameBoard:
@@ -35,7 +33,7 @@ class GameBoard:
         self._initialize_tiles(game_board_input)
         self._initialize_neighbors()
 
-    def set_gems(self, gem_coordinates: List[Coordinates]) -> None:
+    def set_gems(self, gem_coordinates: list[Coordinates]) -> None:
         for coordinate in gem_coordinates:
             self.tiles[coordinate].has_gem = True
 

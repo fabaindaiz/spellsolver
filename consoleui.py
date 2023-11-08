@@ -2,7 +2,7 @@ from argparse import ArgumentParser, Namespace
 
 from src import SWAP
 from src.interfaces import BaseUI
-from src.modules.gameboard import ResultListPrinter, ResultList
+from src.modules.gameboard import ResultList
 
 
 class ConsoleUI(BaseUI):

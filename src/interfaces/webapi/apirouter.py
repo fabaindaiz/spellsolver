@@ -1,4 +1,4 @@
-from typing import Any, Dict
+from typing import Any
 
 from src.interfaces import BaseUI
 from .baseapi import BaseRouter
@@ -21,7 +21,7 @@ class SolverRouter(BaseRouter):
                 return self.error(response)
             return response
 
-    def solve(self, data: SolverData) -> Dict[str, Any]:
+    def solve(self, data: SolverData) -> dict[str, Any]:
         """Solve a spellsolver game"""
         try:
             solver = self.app.safesolver()

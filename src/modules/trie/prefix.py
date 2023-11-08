@@ -1,4 +1,4 @@
-from typing import Any, Dict, Generator, List, Tuple
+from typing import Any, Generator
 
 from src.modules.validate.wordlist import WordList
 from .loader import word_iter
@@ -9,8 +9,8 @@ class PrefixNode:
     """Represents a node of a Patricia Trie"""
 
     def __init__(self) -> None:
-        self.childs: Dict[str, PrefixNode] = {}
-        self.words: List[str] = []
+        self.childs: dict[str, PrefixNode] = {}
+        self.words: list[str] = []
 
     def insert(self, iter_word: str, word: str) -> None:
         """Insert a word recursively in the trie"""
@@ -82,7 +82,7 @@ class PrefixTrieQuery(TrieQuery):
         """Obtains a representation of the base node of the trie"""
         return self.trie.node
 
-    def get_key(self, node: PrefixNode, letter: str) -> Tuple[Any, str]:
+    def get_key(self, node: PrefixNode, letter: str) -> tuple[Any, str]:
         """Obtains the key associated with a letter from a node"""
         child_key = node.get_key(letter)
         return node.childs[child_key] if child_key else None, child_key

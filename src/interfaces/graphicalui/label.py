@@ -1,6 +1,5 @@
 from tkinter import ttk
 from tkinter.font import Font
-from typing import List
 
 from src.modules.gameboard import GameTile
 
@@ -95,7 +94,7 @@ class Label:
         """
         self.label["text"] = str(text)
 
-    def set_hover(self, text: str, path: List[GameTile]) -> None:
+    def set_hover(self, text: str, path: list[GameTile]) -> None:
         """
         Set the label's text and bind hover/unhover events.
 

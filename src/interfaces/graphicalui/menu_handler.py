@@ -1,6 +1,3 @@
-from typing import List, Tuple
-
-
 class MenuHandler:
     def __init__(self, board) -> None:
         """
@@ -11,11 +8,11 @@ class MenuHandler:
         """
         self.board = board
 
-        self.word_cord: Tuple[int, int] = None
-        self.letter_cord: Tuple[int, int] = None
+        self.word_cord: tuple[int, int] = None
+        self.letter_cord: tuple[int, int] = None
         self.letter_mult: int = None
 
-        self.letter_gems: List[Tuple[int, int]] = []
+        self.letter_gems: list[tuple[int, int]] = []
 
     def set_mult_word(self, cord: tuple) -> None:
         """

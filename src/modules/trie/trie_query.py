@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Any, Tuple, Generator
+from typing import Any, Generator
 
 
 class TrieQuery(ABC):
@@ -17,7 +17,7 @@ class TrieQuery(ABC):
         pass
 
     @abstractmethod
-    def get_key(self, node: Any, letter: str) -> Tuple[Any, str]:
+    def get_key(self, node: Any, letter: str) -> tuple[Any, str]:
         """
         Get the child node and corresponding-edge label for a given letter from a Trie node.
 

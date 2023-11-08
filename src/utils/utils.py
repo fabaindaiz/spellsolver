@@ -1,5 +1,3 @@
-from typing import Tuple
-
 CHARS = set("abcdefghijklmnopqrstuvwxyz")
 
 POINTS = {
@@ -32,7 +30,7 @@ POINTS = {
 }
 
 
-def aux_to_indices(coordination: int) -> Tuple[int, int]:
+def aux_to_indices(coordination: int) -> tuple[int, int]:
     """
     Converts an auxiliary coordinate to a tuple of row and column indices.
 

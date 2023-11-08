@@ -1,4 +1,4 @@
-from typing import Any, Generator, List, Tuple
+from typing import Any, Generator
 
 from marisa_trie import RecordTrie
 
@@ -10,7 +10,7 @@ from .trie import Trie, TrieQuery
 class MarisaTrie(Trie):
     def __init__(self) -> None:
         self.trie: RecordTrie = None
-        self.words: List[str] = []
+        self.words: list[str] = []
 
     def insert(self, loader: WordList, swap: int) -> None:
         self.words = list(loader.get_words())
@@ -27,7 +27,7 @@ class MarisaTrieQuery(TrieQuery):
     def get_root(self) -> str:
         return ""
 
-    def get_key(self, node: str, letter: str) -> Tuple[Any, str]:
+    def get_key(self, node: str, letter: str) -> tuple[Any, str]:
         word = node + letter
         return word, letter if self.trie.trie.has_keys_with_prefix(word) else None
 

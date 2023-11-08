@@ -1,4 +1,4 @@
-from typing import Any, Generator, List, Tuple
+from typing import Any, Generator
 
 from src import SWAP
 from src.modules.gameboard import GameTile, GameBoard, Path, ResultList, ResultWord
@@ -12,7 +12,7 @@ class SpellSolver:
         self.validate: WordValidate = validate
 
     def process_node(
-        self, node: Any, word: str, path: Tuple[GameTile, ...]
+        self, node: Any, word: str, path: tuple[GameTile, ...]
     ) -> Generator[ResultWord, None, None]:
         swaps = tuple(i for i, letter in enumerate(word) if letter == "0")
 
@@ -31,7 +31,7 @@ class SpellSolver:
         tile: GameTile,
         node: Any,
         word: str,
-        path: List[GameTile],
+        path: list[GameTile],
         swap: int,
         letter: str,
     ) -> Generator[ResultWord, None, None]:
@@ -43,7 +43,7 @@ class SpellSolver:
             yield from self.process_path(tile, actual_node, actual_word, path, swap)
 
     def process_path(
-        self, tile: GameTile, node: Any, word: str, path: List[GameTile], swap: int
+        self, tile: GameTile, node: Any, word: str, path: list[GameTile], swap: int
     ) -> Generator[ResultWord, None, None]:
         for actual_tile in tile.suggest_tile(path):
             actual_path = path + [actual_tile]

@@ -1,5 +1,5 @@
 from itertools import combinations
-from typing import Generator, Iterable, Tuple
+from typing import Generator, Iterable
 
 
 def _iter(word, num):
@@ -21,7 +21,7 @@ def word_iter(words: Generator[str, None, None], swap) -> Generator[str, None, N
 
 def pair_iter(
     words: Iterable[str], swap
-) -> Generator[Tuple[str, Tuple[int]], None, None]:
+) -> Generator[tuple[str, tuple[int]], None, None]:
     """Insert a pair of words into the trie and return it"""
     for i, word in enumerate(words):
         for iword in swap_iter(word, swap):
