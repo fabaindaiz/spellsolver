@@ -34,7 +34,7 @@ class GraphicalUI(BaseUI):
         return f"{self.WINDOW_WIDTH}x{self.WINDOW_HEIGHT}"
 
     def _icon_initialize(self) -> None:
-        icon_path = resource_path("assets/icon.png")
+        icon_path = resource_path("assets/spellsolver.png")
         photo_image = PhotoImage(file=icon_path)
 
         self.window.iconphoto(True, photo_image)
