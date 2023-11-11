@@ -65,8 +65,8 @@ class Entry:
         Place the Entry widget on the board.
         """
         x, y = self.current_coord
-        horizontal_padding = self.app.HORIZONTAL_PADDING
-        vertical_padding = self.app.VERTICAL_PADDING
+        horizontal_padding = 25
+        vertical_padding = 25
 
         self.entry.place(
             x=horizontal_padding + 40 * x,

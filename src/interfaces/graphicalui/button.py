@@ -123,8 +123,8 @@ class Button:
         Returns:
             Tuple[int, int]: The horizontal and vertical padding.
         """
-        horizontal_padding = self.parent.HORIZONTAL_PADDING
-        vertical_padding = self.parent.VERTICAL_PADDING
+        horizontal_padding = 25
+        vertical_padding = 25
 
         return horizontal_padding, vertical_padding
 
