@@ -2,7 +2,7 @@ from collections.abc import Generator
 from typing import Any
 
 try:
-    from marisa_trie import RecordTrie
+    import marisa_trie # type: ignore
 except ImportError:
     print("Marisa Trie is not installed. Please install it with `pip install marisa-trie`")
 
@@ -13,12 +13,12 @@ from .trie import Trie, TrieQuery
 
 class MarisaTrie(Trie):
     def __init__(self) -> None:
-        self.trie: RecordTrie = None
+        self.trie: marisa_trie.RecordTrie = None
         self.words: list[str] = []
 
     def insert(self, loader: WordList, swap: int) -> None:
         self.words = list(loader.get_words())
-        self.trie = RecordTrie("<i", pair_iter(self.words, swap))
+        self.trie = marisa_trie.RecordTrie("<i", pair_iter(self.words, swap))
 
     def query(self) -> TrieQuery:
         return MarisaTrieQuery(self)
