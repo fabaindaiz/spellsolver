@@ -21,7 +21,7 @@ class WebAPI(BaseUI):
         )
         self.server: uvicorn.Server = uvicorn.Server(config=self.webconfig)
 
-        self.solver: BaseRouter = SolverRouter(self, tags=["spellsolver"])
+        self.solver: BaseRouter = SolverRouter(self, tags={"spellsolver": "true"})
         self.api.include_router(self.solver.router)
 
     def mainloop(self) -> bool:

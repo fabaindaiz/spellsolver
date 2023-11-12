@@ -2,7 +2,7 @@ from collections.abc import Generator
 from typing import Any, Optional
 
 from src.modules.validate.wordlist import WordList
-from .loader import word_iter
+from .loader import swap_iter
 from .trie import Trie, TrieQuery
 
 
@@ -23,19 +23,19 @@ class PrefixNode:
         child = self.childs.setdefault(next_letter, PrefixNode())
         child.insert(next_word, word)
 
-    def get_key(self, letter: str) -> str | None:
+    def get_key(self, letter: str) -> Optional[str]:
         """Get node representing a letter in the trie"""
         if letter in self.childs:
             return letter
         return None
 
-    def get_node(self, word: str) -> "PrefixNode":
+    def get_node(self, word: str) -> Optional["PrefixNode"]:
         """Get node representing a word in the trie"""
-        node: PrefixNode = self
+        node: PrefixNode | None = self
         for letter in word:
-            node = node.childs.get(letter)
             if not node:
                 return None
+            node = node.childs.get(letter)
         return node
 
     def get_leaf(self, recursive=False) -> Any:
@@ -66,7 +66,7 @@ class PrefixTrie(Trie):
     def insert(self, loader: WordList, swap: int) -> None:
         """Insert the words from the loader into the trie"""
         for word in loader.get_words():
-            for iword in word_iter(word, swap):
+            for iword in swap_iter(word, swap):
                 self.node.insert(iword, word)
 
     def query(self) -> "PrefixTrieQuery":
@@ -84,7 +84,7 @@ class PrefixTrieQuery(TrieQuery):
         """Obtains a representation of the base node of the trie"""
         return self.trie.node
 
-    def get_key(self, node: PrefixNode, letter: str) -> tuple[Any, PrefixNode | None]:
+    def get_key(self, node: PrefixNode, letter: str) -> tuple[Any | None, str | None]:
         """Obtains the key associated with a letter from a node"""
         child_key = node.get_key(letter)
         return node.childs[child_key] if child_key else None, child_key

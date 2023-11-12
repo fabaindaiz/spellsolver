@@ -1,7 +1,10 @@
 from collections.abc import Generator
 from typing import Any
 
-from marisa_trie import RecordTrie
+try:
+    from marisa_trie import RecordTrie
+except ImportError:
+    print("Marisa Trie is not installed. Please install it with `pip install marisa-trie`")
 
 from src.modules.validate.wordlist import WordList
 from .loader import pair_iter
