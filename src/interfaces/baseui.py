@@ -56,7 +56,7 @@ class BaseUI:
         self.timer.reset_timer()
         self.validate.init_trie(swap=swap)
 
-        elapsed_seconds = self.timer.elapsed_seconds()
+        elapsed_seconds = self.timer.elapsed_seconds
         if CONSOLE:
             print(
                 f"WordValidate successfully initialized (elapsed time: {elapsed_seconds} seconds)"
