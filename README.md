@@ -24,7 +24,7 @@ WordValidate successfully initialized (elapsed time: 4.8 seconds)
 
 ### Requirements
 
-- python3 (3.6 or later)
+- python3 (**3.9 or later**)
 - marisa-trie (for store words)
 - tk (tkinter for graphicui.py)
 - fastapi (for webapi.py)
@@ -34,11 +34,6 @@ WordValidate successfully initialized (elapsed time: 4.8 seconds)
 
 - Add some spellsolver tests to avoid accidentally introducing new bugs
 - Document new changes to the spellsolver algorithm, improvements and bug fixes
-
-### Notices for contributors
-
-- Thank you for your interest in contributing to spellsolver, any improvement will be welcome
-- Please keep using typing types to maintain compatibility with python 3.6
 
 ## instructions for use
 
