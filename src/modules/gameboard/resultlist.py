@@ -16,7 +16,7 @@ class ResultList:
             self.data[(result.points, result.word)] = result
 
     def print_timer(self) -> None:
-        elapsed_time = self.timer.elapsed_millis()
+        elapsed_time = self.timer.elapsed_millis
 
         print(
             f"The following words have been found (elapsed time: {elapsed_time} milliseconds)"
