@@ -1,50 +1,66 @@
-from typing import Tuple, Dict, List, Generator
-
-from src.utils.utils import get_letter_point_value
-
-NEIGHBOR_OFFSETS = [
-    (x, y) for x in range(-1, 2) for y in range(-1, 2) if (x, y) != (0, 0)
-]
+from src.entities import Coordinates
+from src.utils import get_letter_point_value
 
 
 class GameTile:
-    def __init__(self, letter: str, cord: Tuple[int, int]) -> None:
+    def __init__(self, letter: str, coordinates: Coordinates) -> None:
+        self.coordinates: Coordinates = coordinates
+        self.neighbors: list["GameTile"] = []
+
+        self._has_gem: bool = False
         self.letter: str = letter
-        self.cord: Tuple[int, int] = cord
-        self.swap: bool = False
+        self.letter_multiplier: int = 1
+        self.word_multiplier: int = 1
 
-        self.letter_points: int = get_letter_point_value(letter)
-        self.letter_gems: int = 0
-        self.letter_mult: int = 1
-        self.word_mult: int = 1
+        self.is_swapped: bool = False
 
-        self.neighbors: List[GameTile] = []
+    def __str__(self) -> str:
+        return f"({self.letter} {self.coordinates})"
+
+    @property
+    def has_gem(self) -> bool:
+        return self._has_gem
+
+    @has_gem.setter
+    def has_gem(self, value: bool) -> None:
+        self._has_gem = value
+
+    @property
+    def letter_points(self) -> int:
+        return get_letter_point_value(self.letter)
+
+    @property
+    def points(self) -> int:
+        return self.letter_points * self.letter_multiplier
 
     def copy(self, letter: str) -> "GameTile":
-        node = GameTile(letter, self.cord)
-        node.swap = True
+        node = GameTile(letter, self.coordinates)
+        node.letter_multiplier = self.letter_multiplier
+        node.word_multiplier = self.word_multiplier
+        node.is_swapped = True
 
-        node.letter_mult = self.letter_mult
-        node.word_mult = self.word_mult
         return node
 
-    def points(self) -> int:
-        return self.letter_points * self.letter_mult
-    
-    def gems(self) -> int:
-        return self.letter_gems
+    def init_neighbors(self, tiles: dict[Coordinates, "GameTile"]) -> None:
+        x, y = self.coordinates
+        grid_size = 5
 
-    def init_neighbors(self, tiles: Dict[Tuple[int, int], "GameTile"]) -> None:
-        x, y = self.cord
-        neighbors_cords = (
-            (x + dx, y + dy)
-            for dx, dy in NEIGHBOR_OFFSETS
-            if 0 <= x + dx < 5 and 0 <= y + dy < 5
-        )
-        self.neighbors.extend(tiles[cord] for cord in neighbors_cords)
+        neighbor_coordinates = [
+            Coordinates(x + dx, y + dy)
+            for dx in range(-1, 2)
+            for dy in range(-1, 2)
+            if (0 <= x + dx < grid_size)
+            and (0 <= y + dy < grid_size)
+            and (dx, dy) != (0, 0)
+        ]
 
-    def suggest_tile(self, path: List["GameTile"]) -> Generator["GameTile", None, None]:
-        return (tile for tile in self.neighbors if tile not in path)
-    
-    def __str__(self) -> str:
-        return f"({self.letter} {self.cord})"
+        for coordinate in neighbor_coordinates:
+            tile = tiles.get(coordinate)
+
+            if tile:
+                self.neighbors.append(tile)
+
+    def suggest_tile(self, path):
+        suggested_tiles = [tile for tile in self.neighbors if tile not in path]
+
+        yield from suggested_tiles

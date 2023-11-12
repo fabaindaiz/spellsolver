@@ -26,7 +26,7 @@ class Timer:
         """
         self._start_time = datetime.now()
 
-    def _elapsed_time(self, time_unit):
+    def _calculate_elapsed_time(self, time_unit) -> float:
         """Calculate elapsed time in the specified time unit.
 
         Args:
@@ -38,20 +38,22 @@ class Timer:
         """
         return (datetime.now() - self._start_time) / timedelta(**time_unit)
 
+    @property
     def elapsed_seconds(self) -> float:
         """Get the elapsed time in seconds.
 
         Returns:
             float: The elapsed time in seconds, rounded to 2 decimal places.
         """
-        elapsed_time = self._elapsed_time({"seconds": 1})
+        elapsed_time = self._calculate_elapsed_time({"seconds": 1})
         return round(elapsed_time, 2)
 
+    @property
     def elapsed_millis(self) -> float:
         """Get the elapsed time in milliseconds.
 
         Returns:
             float: The elapsed time in milliseconds, rounded to the nearest integer.
         """
-        elapsed_time = self._elapsed_time({"milliseconds": 1})
+        elapsed_time = self._calculate_elapsed_time({"milliseconds": 1})
         return round(elapsed_time, 0)

@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from src.interfaces.webapi.baserouter import BaseRouter
+from .baserouter import BaseRouter
 
 
 class BaseAPI:

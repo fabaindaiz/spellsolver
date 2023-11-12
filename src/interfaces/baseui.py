@@ -1,9 +1,8 @@
-from src.modules.validate.validate import WordValidate
-from src.modules.gameboard.resultlist import ResultList
-from src.modules.gameboard.gameboard import GameBoard
-from src.modules.spellsolver import SpellSolver
-from src.utils.timer import Timer
-from src.config import CONSOLE, SWAP, VERSION
+from src import CONSOLE, SWAP, VERSION
+from src.modules import SpellSolver
+from src.modules.gameboard import GameBoard, ResultList
+from src.modules.validate import WordValidate
+from src.utils import Timer
 
 
 class GameSolver:
@@ -57,7 +56,7 @@ class BaseUI:
         self.timer.reset_timer()
         self.validate.init_trie(swap=swap)
 
-        elapsed_seconds = self.timer.elapsed_seconds()
+        elapsed_seconds = self.timer.elapsed_seconds
         if CONSOLE:
             print(
                 f"WordValidate successfully initialized (elapsed time: {elapsed_seconds} seconds)"

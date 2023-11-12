@@ -1,9 +1,10 @@
 import os
-from typing import Generator, TextIO
+from collections.abc import Generator
+from typing import TextIO
 
-from src.modules.validate.generate import WordGenerate
-from src.utils.resources import resource_path
-from src.config import SOURCES, WORDLIST
+from src import SOURCES, WORDLIST
+from src.utils import resource_path
+from .generate import WordGenerate
 
 
 class WordList:
@@ -30,9 +31,11 @@ class WordList:
             TextIO: A file object representing the opened wordlist file.
         """
         if not os.path.exists(self.destination):
-            WordGenerate.generate_wordlist(source=self.source, destination=self.destination)
+            WordGenerate.generate_wordlist(
+                source=self.source, destination=self.destination
+            )
         return open(self.destination, "r")
-    
+
     def get_words(self) -> Generator[str, None, None]:
         """
         Get the next word from the wordlist file.

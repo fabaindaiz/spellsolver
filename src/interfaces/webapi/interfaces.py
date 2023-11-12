@@ -1,4 +1,5 @@
-from typing import Any, Optional, Tuple
+from typing import Any, Optional
+
 from pydantic import BaseModel
 
 
@@ -9,6 +10,7 @@ class Response(BaseModel):
     message: str
     data: Any
 
+
 class SolverData(BaseModel):
     """Data model for spellsolver_solve endpoint"""
 
@@ -17,4 +19,4 @@ class SolverData(BaseModel):
     DL: Optional[str] = None
     TL: Optional[str] = None
     swap: Optional[int] = None
-    gems: Optional[Tuple[str, ...]] = None
+    gems: Optional[tuple[str, ...]] = None
