@@ -1,4 +1,5 @@
 import tkinter as tk
+from typing import Optional
 
 from .entry import Entry
 from .menu import Menu
@@ -10,7 +11,7 @@ class Tile:
     def __init__(self, parent, aux_cord: int):
         self.parent = parent
 
-        self.backup_letter = None
+        self.backup_letter: Optional[str] = None
 
         self.string_var = tk.StringVar(master=self.parent.window, value="")
         self.menu = Menu(self.parent, aux_cord)
@@ -59,5 +60,6 @@ class Tile:
 
     def unhover(self) -> None:
         self._configure_style()
-        self.string_var.set(self.backup_letter)
+        if self.backup_letter:
+            self.string_var.set(self.backup_letter)
         self.parent.menu.unhover_tiles()

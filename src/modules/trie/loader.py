@@ -14,7 +14,7 @@ def swap_iter(word: str, swap: int) -> Generator[str, None, None]:
             yield iword
 
 
-def word_iter(words: Generator[str, None, None], swap) -> Generator[str, None, None]:
+def word_iter(words: list[str], swap) -> Generator[str, None, None]:
     """Insert a chunk of words into the trie and return it"""
     for word in words:
         yield from swap_iter(word, swap)

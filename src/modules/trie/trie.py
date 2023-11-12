@@ -6,7 +6,7 @@ from .trie_query import TrieQuery
 
 class Trie(ABC):
     @abstractmethod
-    def insert(self, loader: WordList, swap: int = 2) -> None:
+    def insert(self, loader: WordList, swap: int) -> None:
         """
         Insert a wordlist into the trie structure.
 

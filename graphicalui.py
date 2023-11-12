@@ -20,7 +20,7 @@ class GraphicalUI(BaseUI):
 
         self.double_swap: bool = SWAP >= 2
         self.buttons: list[Button] = []
-        self.label: Label = None
+        self.label: Label = Label(self, 10)
         self.labels: list[Label] = []
         self.tiles: dict[Coordinates, Tile] = {}
         self.menu: MenuHandler = MenuHandler(self)
@@ -107,8 +107,6 @@ class GraphicalUI(BaseUI):
             self.tiles[coord_index] = Tile(self, tile_index)
 
     def initialize_labels(self) -> None:
-        self.label = Label(self, 10)
-
         for label_index in range(10):
             label = Label(self, label_index)
             self.labels.append(label)

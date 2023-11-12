@@ -12,13 +12,13 @@ class ResultWord:
         gems: int,
         word: str,
         path: tuple[GameTile, ...],
-        swaps: tuple[int] = [],
+        swaps: tuple[int, ...],
     ) -> None:
         self.points: int = points
         self.gems: int = gems
         self.word: str = word
         self.path: tuple[GameTile, ...] = path
-        self.swaps: tuple[int] = swaps
+        self.swaps: tuple[int, ...] = swaps
 
     @property
     def order(self) -> int:

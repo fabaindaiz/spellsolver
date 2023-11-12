@@ -25,7 +25,7 @@ class Path:
 
     @staticmethod
     def update_path(
-        original_path: GameTileTuple, word: str, swapped_indices: list[int]
+        original_path: GameTileTuple, word: str, swapped_indices: tuple[int, ...]
     ) -> GameTileTuple:
         if not swapped_indices:
             return original_path

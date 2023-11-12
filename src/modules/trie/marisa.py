@@ -22,13 +22,13 @@ class MarisaTrie(Trie):
 
 
 class MarisaTrieQuery(TrieQuery):
-    def __init__(self, trie: Trie) -> None:
+    def __init__(self, trie: MarisaTrie) -> None:
         self.trie: MarisaTrie = trie
 
     def get_root(self) -> str:
         return ""
 
-    def get_key(self, node: str, letter: str) -> tuple[Any, str]:
+    def get_key(self, node: str, letter: str) -> tuple[Any, str | None]:
         word = node + letter
         return word, letter if self.trie.trie.has_keys_with_prefix(word) else None
 

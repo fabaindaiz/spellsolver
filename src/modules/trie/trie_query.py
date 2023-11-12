@@ -18,7 +18,7 @@ class TrieQuery(ABC):
         pass
 
     @abstractmethod
-    def get_key(self, node: Any, letter: str) -> tuple[Any, str]:
+    def get_key(self, node: Any, letter: str) -> tuple[Any, Any | None]:
         """
         Get the child node and corresponding-edge label for a given letter from a Trie node.
 

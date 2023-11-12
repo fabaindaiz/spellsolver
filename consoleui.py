@@ -41,15 +41,15 @@ class ConsoleUI(BaseUI):
         """Set values for multipliers"""
         if mult_string != "":
             mult_cord = (int(mult_string[0]), int(mult_string[1]))
-            self.gameboard.set_mult_word(mult_cord)
+            self.game_board.set_mult_word(mult_cord)
 
         if DL_string != "":
             DL_cord = (int(DL_string[0]), int(DL_string[1]))
-            self.gameboard.set_mult_letter(DL_cord, 2)
+            self.game_board.set_mult_letter(DL_cord, 2)
 
         if TL_string != "":
             TL_cord = (int(TL_string[0]), int(TL_string[1]))
-            self.gameboard.set_mult_letter(TL_cord, 3)
+            self.game_board.set_mult_letter(TL_cord, 3)
 
     def mainargs(self, opt: Namespace) -> None:
         """Main loop of the Console UI using arguments"""
@@ -69,7 +69,7 @@ class ConsoleUI(BaseUI):
         self.set_multipliers(mult_string, DL_string, TL_string)
 
         swap = input("Use swap?: ")
-        results = self.solve(swap)
+        results = self.solve(int(swap))
         self.print_results(results)
 
     def mainloop(self) -> bool:

@@ -1,5 +1,5 @@
 from collections.abc import Generator
-from typing import Any
+from typing import Any, Optional
 
 from src.modules.validate.wordlist import WordList
 from .loader import word_iter
@@ -23,14 +23,15 @@ class PrefixNode:
         child = self.childs.setdefault(next_letter, PrefixNode())
         child.insert(next_word, word)
 
-    def get_key(self, letter: str) -> "PrefixNode":
+    def get_key(self, letter: str) -> str | None:
         """Get node representing a letter in the trie"""
         if letter in self.childs:
             return letter
+        return None
 
     def get_node(self, word: str) -> "PrefixNode":
         """Get node representing a word in the trie"""
-        node = self
+        node: PrefixNode = self
         for letter in word:
             node = node.childs.get(letter)
             if not node:
@@ -76,14 +77,14 @@ class PrefixTrie(Trie):
 class PrefixTrieQuery(TrieQuery):
     """Represents a Patricia Trie Query"""
 
-    def __init__(self, trie: Trie) -> None:
+    def __init__(self, trie: PrefixTrie) -> None:
         self.trie: PrefixTrie = trie
 
     def get_root(self) -> PrefixNode:
         """Obtains a representation of the base node of the trie"""
         return self.trie.node
 
-    def get_key(self, node: PrefixNode, letter: str) -> tuple[Any, str]:
+    def get_key(self, node: PrefixNode, letter: str) -> tuple[Any, PrefixNode | None]:
         """Obtains the key associated with a letter from a node"""
         child_key = node.get_key(letter)
         return node.childs[child_key] if child_key else None, child_key

@@ -2,6 +2,7 @@ from src import TRIE
 from src.modules.trie import Trie, TrieQuery
 from .wordlist import WordList
 
+trie: Trie
 if TRIE == "MARISA":
     from src.modules.trie.marisa import MarisaTrie
 
