@@ -1,5 +1,6 @@
-tk
-pyinstaller
-marisa-trie
 fastapi
+marisa-trie
+pydantic
+pyinstaller
+tk
 uvicorn
