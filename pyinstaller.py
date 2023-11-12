@@ -1,6 +1,8 @@
-import PyInstaller.__main__
-from src.config import SCRIPT
 import os
+
+import PyInstaller.__main__
+
+from src import SCRIPT
 
 
 def run_pyinstaller(script_path):

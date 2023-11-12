@@ -1,8 +1,8 @@
-from typing import Any, Dict
+from typing import Any
 
-from src.interfaces.webapi.interfaces import Response, SolverData
-from src.interfaces.webapi.baseapi import BaseRouter
-from src.interfaces.baseui import BaseUI
+from src.interfaces import BaseUI
+from .baseapi import BaseRouter
+from .interfaces import Response, SolverData
 
 
 class SolverRouter(BaseRouter):
@@ -21,7 +21,7 @@ class SolverRouter(BaseRouter):
                 return self.error(response)
             return response
 
-    def solve(self, data: SolverData) -> Dict[str, Any]:
+    def solve(self, data: SolverData) -> dict[str, Any]:
         """Solve a spellsolver game"""
         try:
             solver = self.app.safesolver()
@@ -37,16 +37,14 @@ class SolverRouter(BaseRouter):
                 TL_cord = (int(data.TL[0]), int(data.TL[1]))
                 solver.gameboard.set_mult_letter(TL_cord, 3)
             if data.gems:
-                gem_cord = tuple(
-                    (int(gem[0]), int(gem[1])) for gem in data.gems
-                )
+                gem_cord = tuple((int(gem[0]), int(gem[1])) for gem in data.gems)
                 solver.gameboard.set_gems(gem_cord)
 
             results = solver.solve(data.swap)
-            sorted_words = results.sorted_words()
+            sorted_words = results.sorted_words
             sorted_dict = results.words_to_dict(sorted_words[:10])
             response = {
-                "elapsed": results.timer.elapsed_millis(),
+                "elapsed": results.timer.elapsed_millis,
                 "results": sorted_dict,
             }
             return {

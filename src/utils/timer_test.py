@@ -2,7 +2,7 @@ import unittest
 from datetime import datetime
 from unittest.mock import patch
 
-from timer import Timer
+from .timer import Timer
 
 
 class TestTimer(unittest.TestCase):
@@ -23,7 +23,7 @@ class TestTimer(unittest.TestCase):
         mock_datetime.now.side_effect = [mock_start_time, mock_current_time]
 
         timer = Timer()
-        elapsed_seconds = timer.elapsed_seconds()
+        elapsed_seconds = timer.elapsed_seconds
 
         self.assertEqual(elapsed_seconds, 10.00)
 
@@ -36,7 +36,7 @@ class TestTimer(unittest.TestCase):
         mock_datetime.now.side_effect = [mock_start_time, mock_current_time]
 
         timer = Timer()
-        elapsed_millis = timer.elapsed_millis()
+        elapsed_millis = timer.elapsed_millis
 
         self.assertEqual(elapsed_millis, 500.0)
 

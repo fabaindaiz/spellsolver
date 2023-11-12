@@ -1,16 +1,17 @@
-from typing import Any, Dict, Generator, List, Tuple
+from collections.abc import Generator
+from typing import Any
 
-from src.modules.trie.base import Trie, TrieQuery
 from src.modules.validate.wordlist import WordList
-from src.modules.trie.loader import word_iter
+from .loader import word_iter
+from .trie import Trie, TrieQuery
 
 
 class PrefixNode:
     """Represents a node of a Patricia Trie"""
 
     def __init__(self) -> None:
-        self.childs: Dict[str, PrefixNode] = {}
-        self.words: List[str] = []
+        self.childs: dict[str, PrefixNode] = {}
+        self.words: list[str] = []
 
     def insert(self, iter_word: str, word: str) -> None:
         """Insert a word recursively in the trie"""
@@ -43,11 +44,11 @@ class PrefixNode:
             for node in self.childs.values():
                 words += node.get_leaf(recursive=True)
         return words
-    
+
     def merge_tries(self, trie: "PrefixNode") -> None:
         """Merge other_trie into main_trie"""
         self.words += trie.words
-        
+
         for letter, child in trie.childs.items():
             if letter in self.childs:
                 self.childs[letter].merge_tries(child)
@@ -61,13 +62,13 @@ class PrefixTrie(Trie):
     def __init__(self) -> None:
         self.node: PrefixNode = PrefixNode()
 
-    def insert_trie(self, loader: WordList, swap: int) -> None:
+    def insert(self, loader: WordList, swap: int) -> None:
         """Insert the words from the loader into the trie"""
         for word in loader.get_words():
             for iword in word_iter(word, swap):
                 self.node.insert(iword, word)
-    
-    def query_trie(self) -> "PrefixTrieQuery":
+
+    def query(self) -> "PrefixTrieQuery":
         """Obtains an object that allows queries to be made to the trie"""
         return PrefixTrieQuery(self)
 
@@ -77,12 +78,12 @@ class PrefixTrieQuery(TrieQuery):
 
     def __init__(self, trie: Trie) -> None:
         self.trie: PrefixTrie = trie
-    
+
     def get_root(self) -> PrefixNode:
         """Obtains a representation of the base node of the trie"""
         return self.trie.node
 
-    def get_key(self, node: PrefixNode, letter: str) -> Tuple[Any, str]:
+    def get_key(self, node: PrefixNode, letter: str) -> tuple[Any, str]:
         """Obtains the key associated with a letter from a node"""
         child_key = node.get_key(letter)
         return node.childs[child_key] if child_key else None, child_key

@@ -1,30 +1,43 @@
-from typing import List, Tuple
+from .gametile import GameTile
 
-from src.modules.gameboard.gameboard import GameTile
+GameTileTuple = tuple[GameTile, ...]
 
 
 class Path:
-
     @staticmethod
-    def word_points(path: Tuple[GameTile, ...]) -> int:
-        """Get points value of actual word"""
-        word_points = sum(node.points() for node in path)
-        word_bonus = 10 if len(path) >= 6 else 0
-        word_mult = 1
+    def calculate_points(path: GameTileTuple) -> int:
+        points_list = [node.points for node in path]
+        word_points = sum(points_list)
+
+        long_word_bonus = 10
+        min_bonus_length = 6
+        word_multiplier = 1
+        word_bonus = long_word_bonus if len(path) >= min_bonus_length else 0
 
         for node in path:
-            word_mult *= node.word_mult
-        return word_points * word_mult + word_bonus
+            word_multiplier *= node.word_multiplier
+
+        return word_points * word_multiplier + word_bonus
 
     @staticmethod
-    def word_gems(path: Tuple[GameTile, ...]) -> int:
-        """Get points value of actual word"""
-        return sum(node.gems() for node in path)
+    def calculate_gems(path: GameTileTuple) -> int:
+        return sum(node.has_gem for node in path)
 
     @staticmethod
-    def get_path(path: Tuple[GameTile, ...], word: str, swaps: List[int]) -> Tuple[GameTile, ...]:
-        """Get a new path with swap nodes replaced"""
-        if not swaps:
-            return path
+    def update_path(
+        original_path: GameTileTuple, word: str, swapped_indices: list[int]
+    ) -> GameTileTuple:
+        if not swapped_indices:
+            return original_path
 
-        return tuple((node.copy(word[i]) if i in swaps else node) for i, node in enumerate(path))
+        new_path = []
+
+        for index, tile in enumerate(original_path):
+            if index in swapped_indices:
+                letter = word[index]
+                new_tile = tile.copy(letter)
+                new_path.append(new_tile)
+            else:
+                new_path.append(tile)
+
+        return tuple(new_path)

@@ -1,8 +1,8 @@
 from argparse import ArgumentParser, Namespace
 
-from src.modules.gameboard.resultlist import ResultList
-from src.interfaces.baseui import BaseUI
 from src.config import SWAP
+from src.interfaces.baseui import BaseUI
+from src.modules.gameboard.resultlist import ResultList
 
 
 class ConsoleUI(BaseUI):
@@ -63,9 +63,9 @@ class ConsoleUI(BaseUI):
         gameboard_string = input("Insert a gameboard: ")
         self.load(gameboard_string)
 
-        mult_string = input("Insert 2x cord: ")
-        DL_string = input("Insert DL cord: ")
-        TL_string = input("Insert TL cord: ")
+        mult_string = input("Insert 2x coordinates: ")
+        DL_string = input("Insert DL coordinates: ")
+        TL_string = input("Insert TL coordinates: ")
         self.set_multipliers(mult_string, DL_string, TL_string)
 
         swap = input("Use swap?: ")
@@ -84,11 +84,14 @@ class ConsoleUI(BaseUI):
             print("Exception:", e)
 
         return True
-    
+
     @staticmethod
     def print_results(results: ResultList) -> None:
         """Print results to console"""
-        results.sorted_words(console=True)
+        sorted_words = results.sorted_words
+        sorted_text = results.words_to_text(sorted_words[:10])
+        results.print_timer()
+        print(f"[{sorted_text}]")
 
 
 if __name__ == "__main__":
