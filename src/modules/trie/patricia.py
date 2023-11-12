@@ -1,8 +1,8 @@
 from collections.abc import Generator
-from typing import Any
+from typing import Any, Optional
 
 from src.modules.validate.wordlist import WordList
-from .loader import word_iter
+from .loader import swap_iter
 from .trie import Trie, TrieQuery
 
 
@@ -32,10 +32,10 @@ class PatriciaNode:
 
         child.insert(next_word, word)
 
-    def get_key(self, letter: str) -> "PatriciaNode":
+    def get_key(self, letter: str) -> Optional[str]:
         return next((key for key in self.childs if key.startswith(letter)), None)
 
-    def get_node(self, word: str) -> "PatriciaNode":
+    def get_node(self, word: str) -> Optional["PatriciaNode"]:
         """Get node representing a word in the trie"""
         node = self
         while word:
@@ -74,7 +74,7 @@ class PatriciaTrie(Trie):
     def insert(self, loader: WordList, swap: int) -> None:
         """Insert the words from the loader into the trie"""
         for word in loader.get_words():
-            for iword in word_iter(word, swap):
+            for iword in swap_iter(word, swap):
                 self.node.insert(iword, word)
 
     def query(self) -> "TrieQuery":
@@ -85,14 +85,14 @@ class PatriciaTrie(Trie):
 class PatriciaTrieQuery(TrieQuery):
     """Represents a Patricia Trie Query"""
 
-    def __init__(self, trie: Trie) -> None:
+    def __init__(self, trie: PatriciaTrie) -> None:
         self.trie: PatriciaTrie = trie
 
     def get_root(self) -> PatriciaNode:
         """Obtains a representation of the base node of the trie"""
         return self.trie.node
 
-    def get_key(self, node: PatriciaNode, letter: str) -> tuple[Any, str]:
+    def get_key(self, node: PatriciaNode, letter: str) -> tuple[Optional[Any], Optional[str]]:
         """Obtains the key associated with a letter from a node"""
         child_key = node.get_key(letter)
         return node.childs[child_key] if child_key else None, child_key

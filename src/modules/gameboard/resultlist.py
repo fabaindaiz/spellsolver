@@ -7,9 +7,9 @@ from .resultword import ResultWord
 
 
 class ResultList:
-    def __init__(self, timer: Timer = None) -> None:
+    def __init__(self, timer: Timer) -> None:
         self.data: dict[tuple[int, str], ResultWord] = {}
-        self.timer: Timer = timer
+        self.timer: Timer = timer or Timer()
 
     def update(self, results: Generator[ResultWord, None, None]) -> None:
         for result in results:

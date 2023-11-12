@@ -45,6 +45,6 @@ class Label:
     def set_text(self, text: str) -> None:
         self.label["text"] = str(text)
 
-    def set_hover(self, text: str, path: list[GameTile]) -> None:
+    def set_hover(self, text: str, path: tuple[GameTile, ...]) -> None:
         self.bind_events(path)
         self.label["text"] = str(text)

@@ -1,6 +1,7 @@
 from argparse import ArgumentParser, Namespace
 
 from src.config import SWAP
+from src.entities import Coordinates
 from src.interfaces.baseui import BaseUI
 from src.modules.gameboard.resultlist import ResultList
 
@@ -40,16 +41,16 @@ class ConsoleUI(BaseUI):
     def set_multipliers(self, mult_string: str, DL_string: str, TL_string: str) -> None:
         """Set values for multipliers"""
         if mult_string != "":
-            mult_cord = (int(mult_string[0]), int(mult_string[1]))
-            self.gameboard.set_mult_word(mult_cord)
+            mult_cord = Coordinates(int(mult_string[0]), int(mult_string[1]))
+            self.game_board.set_mult_word(mult_cord)
 
         if DL_string != "":
-            DL_cord = (int(DL_string[0]), int(DL_string[1]))
-            self.gameboard.set_mult_letter(DL_cord, 2)
+            DL_cord = Coordinates(int(DL_string[0]), int(DL_string[1]))
+            self.game_board.set_mult_letter(DL_cord, 2)
 
         if TL_string != "":
-            TL_cord = (int(TL_string[0]), int(TL_string[1]))
-            self.gameboard.set_mult_letter(TL_cord, 3)
+            TL_cord = Coordinates(int(TL_string[0]), int(TL_string[1]))
+            self.game_board.set_mult_letter(TL_cord, 3)
 
     def mainargs(self, opt: Namespace) -> None:
         """Main loop of the Console UI using arguments"""
@@ -68,8 +69,8 @@ class ConsoleUI(BaseUI):
         TL_string = input("Insert TL coordinates: ")
         self.set_multipliers(mult_string, DL_string, TL_string)
 
-        swap = input("Use swap?: ")
-        results = self.solve(swap)
+        swap = int(input("Use swap?: "))
+        results = self.solve(swap=swap)
         self.print_results(results)
 
     def mainloop(self) -> bool:

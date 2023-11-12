@@ -1,7 +1,10 @@
 from collections.abc import Generator
 from typing import Any
 
-from marisa_trie import RecordTrie
+try:
+    from marisa_trie import RecordTrie
+except ImportError:
+    print("Marisa Trie is not installed. Please install it with `pip install marisa-trie`")
 
 from src.modules.validate.wordlist import WordList
 from .loader import pair_iter
@@ -22,13 +25,13 @@ class MarisaTrie(Trie):
 
 
 class MarisaTrieQuery(TrieQuery):
-    def __init__(self, trie: Trie) -> None:
+    def __init__(self, trie: MarisaTrie) -> None:
         self.trie: MarisaTrie = trie
 
     def get_root(self) -> str:
         return ""
 
-    def get_key(self, node: str, letter: str) -> tuple[Any, str]:
+    def get_key(self, node: str, letter: str) -> tuple[Any, str | None]:
         word = node + letter
         return word, letter if self.trie.trie.has_keys_with_prefix(word) else None
 

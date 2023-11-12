@@ -66,7 +66,7 @@ class SpellSolver:
             tile=base_tile, node=base_node, word="", path=[], swap=swap
         )
 
-    def word_list(self, swap: int, timer: Timer = None) -> ResultList:
+    def word_list(self, swap: int, timer: Timer) -> ResultList:
         results = ResultList(timer=timer)
         results.update(self.process_gameboard(swap=min(swap, SWAP)))
 

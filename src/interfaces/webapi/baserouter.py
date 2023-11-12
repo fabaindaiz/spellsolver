@@ -8,7 +8,7 @@ from fastapi.responses import JSONResponse
 class BaseRouter:
     """Represents a abstract fastapi router"""
 
-    def __init__(self, **kwargs: dict) -> None:
+    def __init__(self, **kwargs) -> None:
         self.router: APIRouter = APIRouter(**kwargs)
 
     def error(self, response: Any) -> JSONResponse:

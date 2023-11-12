@@ -1,3 +1,5 @@
+from typing import Optional
+
 from src.entities import Coordinates
 
 
@@ -5,9 +7,9 @@ class MenuHandler:
     def __init__(self, parent) -> None:
         self.parent = parent
 
-        self.word_coord: Coordinates = None
-        self.letter_coord: Coordinates = None
-        self.letter_mult: int = None
+        self.word_coord: Optional[Coordinates] = None
+        self.letter_coord: Optional[Coordinates] = None
+        self.letter_mult: Optional[int] = None
 
         self.letter_gems: list[Coordinates] = []
 

@@ -36,7 +36,7 @@ class WordGenerate:
         Yields:
             Generator[str, None, None]: A generator yielding valid words from source files.
         """
-        words = set()
+        words: set[str] = set()
         for file in os.listdir(path):
             full_path = os.path.join(path, file)
             words.update(
@@ -54,9 +54,9 @@ class WordGenerate:
             path (str): The path to the destination file.
             words (set): A set of valid words to be written to the file.
         """
-        words = sorted(words) if sort else words
+        sorted_words = sorted(words) if sort else words
         with open(path, "w") as file:
-            file.writelines(f"{word}\n" for word in words)
+            file.writelines(f"{word}\n" for word in sorted_words)
 
     @staticmethod
     def generate_wordlist(source: str, destination: str) -> None:

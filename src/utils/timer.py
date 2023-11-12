@@ -16,8 +16,7 @@ class Timer:
 
         Sets the initial starting time of the timer to the current time.
         """
-        self._start_time = None
-        self.reset_timer()
+        self._start_time: datetime = datetime.now()
 
     def reset_timer(self) -> None:
         """Reset the timer's starting time.
