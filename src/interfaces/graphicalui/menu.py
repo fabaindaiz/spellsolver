@@ -3,8 +3,10 @@ import tkinter as tk
 from src.utils import aux_to_indices
 
 
-class Menu:
+class Menu(tk.Menu):
     def __init__(self, parent, aux_cord: int) -> None:
+        super().__init__(parent.window)
+
         self.parent = parent
         self.aux_cord = aux_cord
         self.menu: tk.Menu = tk.Menu(self.parent.window, tearoff=0)

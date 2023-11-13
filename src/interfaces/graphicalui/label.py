@@ -4,8 +4,10 @@ from tkinter.font import Font
 from src.modules.gameboard import GameTile
 
 
-class Label:
+class Label(ttk.Label):
     def __init__(self, parent, order: int, text: str = "") -> None:
+        super().__init__(parent.window)
+
         self.parent = parent
 
         self.text: str = text

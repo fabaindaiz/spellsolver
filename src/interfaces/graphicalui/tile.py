@@ -1,14 +1,17 @@
 import tkinter as tk
+from tkinter import ttk
 from typing import Optional
 
 from .entry import Entry
 from .menu import Menu
 
 
-class Tile:
+class Tile(ttk.Frame):
     FONT_HOVER = ("Roboto", 24, tk.font.BOLD)
 
     def __init__(self, parent, aux_cord: int):
+        super().__init__(parent.window)
+
         self.parent = parent
 
         self.backup_letter: Optional[str] = None
