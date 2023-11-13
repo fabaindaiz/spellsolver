@@ -1,21 +1,16 @@
 # Discord Spellcast Helper
 
-#### By fabaindaiz
-
 Spellsolver is a software that helps to search for the best possible word in Spellcast discord activity. Spellsolver
 uses a trie to store the valid words, and then iteratively tries all the possible combinations of letters on the board,
 discarding the ones that don't make valid words and keeping the ones that do.
 
-- Initialization of the trie structure to store valid words in single swap mode take 20 seconds, uses approximately 650
-  MB of ram memory and allows almost all single swap queries to be executed in less than a second and almost all double
-  swap queries in less than 10 seconds.
-- In case the wordlist.txt file does not exist, a new file will be automatically generated from the sources folder when
-  starting spellsolver using any interface
+- Initialization of the trie in single swap mode takes 5 seconds and uses 150 MB of ram memory.
+- Once initialized, spellsolver runs almost all single swap queries in less than a second.
 
 A message like this will be printed on the screen while Spellsolver starts
 
 ```bash
-Spellsolver v1.14 - fabaindaiz
+Spellsolver v1.14
 WordValidate is being initialized, this will take several seconds
 WordValidate successfully initialized (elapsed time: 4.8 seconds)
 ```
