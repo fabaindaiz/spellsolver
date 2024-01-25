@@ -51,7 +51,7 @@ class BaseUI:
             swap (int, optional): The swap value.
         """
         if CONSOLE:
-            print(f"Spellsolver {VERSION} - fabaindaiz")
+            print(f"Spellsolver {VERSION}")
             print("WordValidate is being initialized, this will take several seconds")
         self.timer.reset_timer()
         self.validate.init_trie(swap=swap)
