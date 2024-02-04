@@ -20,3 +20,4 @@ class SolverData(BaseModel):
     TL: Optional[str] = None
     swap: Optional[int] = None
     gems: Optional[tuple[str, ...]] = None
+    ices: Optional[tuple[str, ...]] = None

@@ -41,6 +41,9 @@ class SolverRouter(BaseRouter):
             if data.gems:
                 gem_cord = list(Coordinates(int(gem[0]), int(gem[1])) for gem in data.gems)
                 solver.game_board.set_gems(gem_cord)
+            if data.ices:
+                ice_cord = list(Coordinates(int(ice[0]), int(ice[1])) for ice in data.ices)
+                solver.game_board.set_ices(ice_cord)
 
             swap = data.swap if data.swap else 1
             results = solver.solve(swap=swap)

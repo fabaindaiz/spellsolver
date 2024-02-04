@@ -121,6 +121,7 @@ class GraphicalUI(BaseUI):
         self.set_mult_word()
         self.set_mult_letter()
         self.set_gems()
+        self.set_ices()
 
     def set_mult_word(self) -> None:
         if self.menu.word_coord is not None:
@@ -135,6 +136,10 @@ class GraphicalUI(BaseUI):
     def set_gems(self) -> None:
         if self.menu.letter_gems is not None:
             self.game_board.set_gems(self.menu.letter_gems)
+    
+    def set_ices(self) -> None:
+        if self.menu.letter_ices is not None:
+            self.game_board.set_ices(self.menu.letter_ices)
 
     def update_results(self, results) -> None:
         sorted_words = results.sorted_words

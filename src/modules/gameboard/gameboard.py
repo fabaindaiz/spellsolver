@@ -35,6 +35,10 @@ class GameBoard:
     def set_gems(self, gem_coordinates: list[Coordinates]) -> None:
         for coordinate in gem_coordinates:
             self.tiles[coordinate].has_gem = True
+    
+    def set_ices(self, ice_coordinates: list[Coordinates]) -> None:
+        for coordinate in ice_coordinates:
+            self.tiles[coordinate].has_ice = True
 
     def set_mult_letter(
         self, multiplier_coordinates: Coordinates, multiplier: int
