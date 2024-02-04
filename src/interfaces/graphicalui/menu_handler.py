@@ -12,6 +12,7 @@ class MenuHandler:
         self.letter_mult: Optional[int] = None
 
         self.letter_gems: list[Coordinates] = []
+        self.letter_ices: list[Coordinates] = []
 
     def set_mult_word(self, coordinates: Coordinates) -> None:
         self.remove_mult_cord(coordinates)
@@ -58,9 +59,25 @@ class MenuHandler:
             self.parent.tiles[coordinates].multiplier("black")
 
     def remove_gem_all(self) -> None:
-        self.letter_gems = []
         for tile in self.letter_gems:
             self.parent.tiles[tile].multiplier("black")
+        self.letter_gems = []
+    
+    def set_ice_letter(self, coordinates: Coordinates) -> None:
+        self.remove_mult_cord(coordinates)
+
+        self.letter_ices.append(coordinates)
+        self.parent.tiles[coordinates].multiplier("violet")
+    
+    def remove_ice_cord(self, coordinates: Coordinates) -> None:
+        if coordinates in self.letter_ices:
+            self.letter_ices.remove(coordinates)
+            self.parent.tiles[coordinates].multiplier("black")
+        
+    def remove_ice_all(self) -> None:
+        for tile in self.letter_ices:
+            self.parent.tiles[tile].multiplier("black")
+        self.letter_ices = []
 
     def unhover_tiles(self) -> None:
         if self.word_coord is not None:

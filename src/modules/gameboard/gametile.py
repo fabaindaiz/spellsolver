@@ -8,6 +8,7 @@ class GameTile:
         self.neighbors: list["GameTile"] = []
 
         self._has_gem: bool = False
+        self._has_ice: bool = False
         self.letter: str = letter
         self.letter_multiplier: int = 1
         self.word_multiplier: int = 1
@@ -24,6 +25,14 @@ class GameTile:
     @has_gem.setter
     def has_gem(self, value: bool) -> None:
         self._has_gem = value
+
+    @property
+    def has_ice(self) -> bool:
+        return self._has_ice
+    
+    @has_ice.setter
+    def has_ice(self, value: bool) -> None:
+        self._has_ice = value
 
     @property
     def letter_points(self) -> int:
@@ -59,8 +68,10 @@ class GameTile:
 
             if tile:
                 self.neighbors.append(tile)
+    
+    def is_valid_move(self, path: list["GameTile"]) -> bool:
+        return (self not in path) and (not self.has_ice)
 
     def suggest_tile(self, path):
-        suggested_tiles = [tile for tile in self.neighbors if tile not in path]
-
+        suggested_tiles = [tile for tile in self.neighbors if tile.is_valid_move(path)]
         yield from suggested_tiles

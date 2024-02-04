@@ -19,12 +19,14 @@ class Menu:
         cord = aux_to_indices(self.aux_cord)
 
         self.add_menu_item("Gem", lambda: self.parent.menu.set_gem_letter(cord))
+        self.add_menu_item("Ice", lambda: self.parent.menu.set_ice_letter(cord))
         self.add_menu_item("2X", lambda: self.parent.menu.set_mult_word(cord))
         self.add_menu_item("DL", lambda: self.parent.menu.set_mult_letter(cord, 2))
         self.add_menu_item("TL", lambda: self.parent.menu.set_mult_letter(cord, 3))
 
     def add_remove_menus(self):
         self.add_menu_item("Remove gems", self.parent.menu.remove_gem_all)
+        self.add_menu_item("Remove ices", self.parent.menu.remove_ice_all)
         self.add_menu_item("Remove bonus", self.parent.menu.remove_mult_all)
 
     def add_separator(self):
