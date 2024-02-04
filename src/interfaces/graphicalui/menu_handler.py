@@ -20,15 +20,19 @@ class MenuHandler:
     def set_mult_word(self, coordinates: Coordinates) -> None:
         """Set the word multiplier for the tile"""
         self.remove_mult_cord(coordinates)
+        self.remove_gem_cord(coordinates)
+        self.remove_ice_cord(coordinates)
         if self.word_coord is not None:
             self.parent.tiles[self.word_coord].multiplier("black")
-
+        
         self.word_coord = coordinates
         self.parent.tiles[coordinates].multiplier("deep pink")
 
     def set_mult_letter(self, coordinates: Coordinates, mult: int) -> None:
         """Set the letter multiplier for the tile"""
         self.remove_mult_cord(coordinates)
+        self.remove_gem_cord(coordinates)
+        self.remove_ice_cord(coordinates)
         if self.letter_coord is not None:
             self.parent.tiles[self.letter_coord].multiplier("black")
 
@@ -57,6 +61,8 @@ class MenuHandler:
     def set_gem_letter(self, coordinates: Coordinates) -> None:
         """Set the gem on the tile at the given coordinates"""
         self.remove_mult_cord(coordinates)
+        self.remove_ice_cord(coordinates)
+
         self.letter_gems.append(coordinates)
         self.parent.tiles[coordinates].multiplier("violet")
 
@@ -75,6 +81,8 @@ class MenuHandler:
     def set_ice_letter(self, coordinates: Coordinates) -> None:
         """Set the ice on the tile at the given coordinates"""
         self.remove_mult_cord(coordinates)
+        self.remove_gem_cord(coordinates)
+
         self.letter_ices.append(coordinates)
         self.parent.tiles[coordinates].multiplier("blue")
     
@@ -96,6 +104,7 @@ class MenuHandler:
             self.parent.tiles[self.word_coord].multiplier("deep pink")
         if self.letter_coord is not None:
             self.parent.tiles[self.letter_coord].multiplier("gold")
+        
         for tile in self.letter_gems:
             self.parent.tiles[tile].multiplier("violet")
         for tile in self.letter_ices:
