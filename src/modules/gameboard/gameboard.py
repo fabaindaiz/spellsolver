@@ -6,47 +6,45 @@ from .gametile import GameTile
 class GameBoard:
     def __init__(self) -> None:
         self.tiles: dict[Coordinates, GameTile] = {}
-
-    def _initialize_tiles(self, game_board_input: str) -> None:
+    
+    def _init_tiles(self, game_board_input: str) -> None:
         for aux, letter in enumerate(game_board_input):
             coordinates = aux_to_indices(aux)
             self.tiles[coordinates] = GameTile(letter, coordinates)
-
-    def _initialize_neighbors(self) -> None:
-        for node in self.tiles.values():
-            node.init_neighbors(self.tiles)
-
-    def get_base_tile(self) -> GameTile:
+    
+    def _init_neighbours(self) -> None:
+        for tile in self.tiles.values():
+            tile.init_neighbors(self.tiles)
+    
+    def init_gameboard(self, game_board_input: str) -> None:
+        game_board_input = game_board_input.lower()
+        if len(game_board_input) != 25 or not is_valid_word(game_board_input):
+            raise ValueError("Invalid game board input")
+    
+        self._init_tiles(game_board_input)
+        self._init_neighbours()
+    
+    @property
+    def base_tile(self) -> GameTile:
         base_tile = GameTile("0", Coordinates(-1, -1))
-        tile_values = list(self.tiles.values())
-        base_tile.neighbors = tile_values
-
+        base_tile.neighbours = list(self.tiles.values())
         return base_tile
 
-    def load(self, game_board_input: str) -> None:
-        game_board_input = game_board_input.lower()
-
-        if not is_valid_word(game_board_input) or len(game_board_input) != 25:
-            raise ValueError("Invalid game board input")
-
-        self._initialize_tiles(game_board_input)
-        self._initialize_neighbors()
-
-    def set_gems(self, gem_coordinates: list[Coordinates]) -> None:
-        for coordinate in gem_coordinates:
-            self.tiles[coordinate].has_gem = True
+    def set_blocked(self, coordinates: list[Coordinates]) -> None:
+        for coordinate in coordinates:
+            self.tiles[coordinate].blocked = True
     
-    def set_ices(self, ice_coordinates: list[Coordinates]) -> None:
-        for coordinate in ice_coordinates:
-            self.tiles[coordinate].has_ice = True
-
-    def set_mult_letter(
-        self, multiplier_coordinates: Coordinates, multiplier: int
-    ) -> None:
-        self.tiles[multiplier_coordinates].letter_multiplier = multiplier
-
-    def set_mult_word(self, multiplier_coordinates: Coordinates) -> None:
-        self.tiles[multiplier_coordinates].word_multiplier = 2
+    def set_gems(self, tiles: dict[Coordinates, int]) -> None:
+        for coordinate, value in tiles.items():
+            self.tiles[coordinate].gems = value
+    
+    def set_tile_mult(self, tiles: dict[Coordinates, int]) -> None:
+        for coordinate, value in tiles.items():
+            self.tiles[coordinate].tile_mult = value
+    
+    def set_word_mult(self, tiles: dict[Coordinates, int]) -> None:
+        for coordinate, value in tiles.items():
+            self.tiles[coordinate].word_mult = value
 
 
 class GameBoardPrinter:
@@ -71,7 +69,7 @@ if __name__ == "__main__":
     game_board = GameBoard()
 
     game_board_string = input("Insert a game board: ")
-    game_board.load(game_board_string)
+    game_board.init_gameboard(game_board_string)
 
     game_board_printer = GameBoardPrinter(game_board)
     print(game_board_printer)

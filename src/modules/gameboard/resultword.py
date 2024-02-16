@@ -20,10 +20,6 @@ class ResultWord:
         self.path: tuple[GameTile, ...] = path
         self.swaps: tuple[int, ...] = swaps
 
-    @property
-    def order(self) -> int:
-        return self.points * WORD_MULT + self.gems * GEMS_MULT
-
     def _str(self) -> Generator[str, None, None]:
         yield f"{self.points} {self.word} {self.path[0].coordinates}"
         yield from (
@@ -32,6 +28,10 @@ class ResultWord:
 
         if DEBUG:
             yield str([tile.__str__() for tile in self.path])
+
+    @property
+    def order(self) -> int:
+        return self.points * WORD_MULT + self.gems * GEMS_MULT
 
     @property
     def label(self) -> str:

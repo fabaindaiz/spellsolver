@@ -31,3 +31,7 @@ class WordValidate:
 
     def get_trie(self) -> TrieQuery:
         return self.trie.query()
+    
+    @property
+    def base_node(self) -> TrieQuery:
+        return self.get_trie().get_root()
