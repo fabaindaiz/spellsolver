@@ -2,7 +2,7 @@ from tkinter import Tk, PhotoImage
 
 from src import SWAP, VERSION
 from src.entities import Coordinates
-from src.interfaces import BaseUI
+from src.interfaces import BaseUI, GameSolver
 from src.interfaces.graphicalui import Button, Label, Tile, MenuHandler
 from src.modules.gameboard import ResultWord
 from src.utils import aux_to_indices, resource_path
@@ -66,7 +66,7 @@ class GraphicalUI(BaseUI):
     def app_initialize(self) -> None:
         self._window_configure()
         self._window_place()
-        self.init_spellsolver()
+        self.init()
 
     def run(self) -> None:
         self.window.mainloop()
@@ -93,12 +93,33 @@ class GraphicalUI(BaseUI):
             swap_count=swap_count,
             command=lambda: self.handle_button_click(swap_count),
         )
+    
+    def _load_game_board(self) -> None:
+        values = self.tiles.values()
+        return "".join(tile.letter for tile in values)
+
+    def _set_bonuses(self, solver: GameSolver) -> None:
+        blocked = [cord for cord in self.menu.ices]
+        solver.game_board.set_blocked(blocked)
+
+        gems = [cord for cord in self.menu.gems]
+        solver.game_board.set_gems(gems)
+
+        x2_mult = {cord: 2 for cord in self.menu.x2_mult}
+        solver.game_board.set_word_mult(x2_mult)
+
+        dl_mult = {cord: 2 for cord in self.menu.dl_mult}
+        solver.game_board.set_tile_mult(dl_mult)
+
+        tl_mult = {cord: 3 for cord in self.menu.tl_mult}
+        solver.game_board.set_tile_mult(tl_mult)
 
     def handle_button_click(self, swap_count: int) -> None:
-        self.load_game_board()
-        self.set_bonuses()
+        game_board_string = self._load_game_board()
+        solver = self.load(game_board_string)
 
-        results = self.solve(swap_count)
+        self._set_bonuses(solver)
+        results = solver.solve(swap_count)
         self.update_results(results)
 
     def initialize_tiles(self) -> None:
@@ -110,36 +131,6 @@ class GraphicalUI(BaseUI):
         for label_index in range(10):
             label = Label(self, label_index)
             self.labels.append(label)
-
-    def load_game_board(self) -> None:
-        values = self.tiles.values()
-        game_board_string = "".join(tile.letter for tile in values)
-
-        self.game_board.load(game_board_string)
-
-    def set_bonuses(self) -> None:
-        self.set_mult_word()
-        self.set_mult_letter()
-        self.set_gems()
-        self.set_ices()
-
-    def set_mult_word(self) -> None:
-        if self.menu.word_coord is not None:
-            self.game_board.set_mult_word(self.menu.word_coord)
-
-    def set_mult_letter(self) -> None:
-        if self.menu.letter_coord is not None:
-            self.game_board.set_mult_letter(
-                self.menu.letter_coord, self.menu.letter_mult
-            )
-
-    def set_gems(self) -> None:
-        if self.menu.letter_gems is not None:
-            self.game_board.set_gems(self.menu.letter_gems)
-    
-    def set_ices(self) -> None:
-        if self.menu.letter_ices is not None:
-            self.game_board.set_ices(self.menu.letter_ices)
 
     def update_results(self, results) -> None:
         sorted_words = results.sorted_words
