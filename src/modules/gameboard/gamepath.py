@@ -21,7 +21,7 @@ class GamePath:
 
     @staticmethod
     def calculate_gems(path: GameTileTuple) -> int:
-        return sum(node.gems for node in path)
+        return sum(node.has_gem for node in path)
 
     @staticmethod
     def update_path(

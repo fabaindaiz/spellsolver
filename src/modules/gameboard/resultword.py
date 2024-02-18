@@ -46,6 +46,6 @@ class ResultWord:
             "points": self.points,
             "gems": self.gems,
             "word": self.word,
-            "path": [node.coordinates for node in self.path],
+            "path": [str(node.coordinates) for node in self.path],
             "swap": self.swaps,
         }

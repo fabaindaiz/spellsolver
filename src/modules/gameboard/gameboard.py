@@ -16,7 +16,7 @@ class GameBoard:
         for tile in self.tiles.values():
             tile.init_neighbors(self.tiles)
     
-    def init_gameboard(self, game_board_input: str) -> None:
+    def init(self, game_board_input: str) -> None:
         game_board_input = game_board_input.lower()
         if len(game_board_input) != 25 or not is_valid_word(game_board_input):
             raise ValueError("Invalid game board input")
@@ -24,19 +24,18 @@ class GameBoard:
         self._init_tiles(game_board_input)
         self._init_neighbours()
     
-    @property
     def base_tile(self) -> GameTile:
         base_tile = GameTile("0", Coordinates(-1, -1))
         base_tile.neighbours = list(self.tiles.values())
         return base_tile
 
-    def set_blocked(self, coordinates: list[Coordinates]) -> None:
-        for coordinate in coordinates:
+    def set_blocked(self, tiles: list[Coordinates]) -> None:
+        for coordinate in tiles:
             self.tiles[coordinate].blocked = True
     
-    def set_gems(self, tiles: dict[Coordinates, int]) -> None:
-        for coordinate, value in tiles.items():
-            self.tiles[coordinate].gems = value
+    def set_gems(self, tiles: list[Coordinates]) -> None:
+        for coordinate in tiles:
+            self.tiles[coordinate].has_gem = True
     
     def set_tile_mult(self, tiles: dict[Coordinates, int]) -> None:
         for coordinate, value in tiles.items():
@@ -69,7 +68,7 @@ if __name__ == "__main__":
     game_board = GameBoard()
 
     game_board_string = input("Insert a game board: ")
-    game_board.init_gameboard(game_board_string)
+    game_board.init(game_board_string)
 
     game_board_printer = GameBoardPrinter(game_board)
     print(game_board_printer)

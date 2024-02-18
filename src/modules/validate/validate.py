@@ -26,12 +26,11 @@ class WordValidate:
         self.wordlist: WordList = WordList()
         self.trie: Trie = trie
 
-    def init_trie(self, swap: int) -> None:
+    def init(self, swap: int) -> None:
         self.trie.insert(self.wordlist, swap)
 
     def get_trie(self) -> TrieQuery:
         return self.trie.query()
     
-    @property
     def base_node(self) -> TrieQuery:
         return self.get_trie().get_root()

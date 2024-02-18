@@ -1,5 +1,4 @@
 from typing import Any, Optional
-
 from pydantic import BaseModel
 
 
@@ -14,10 +13,10 @@ class Response(BaseModel):
 class SolverData(BaseModel):
     """Data model for spellsolver_solve endpoint"""
 
-    gameboard: str
-    mult: Optional[str] = None
-    DL: Optional[str] = None
-    TL: Optional[str] = None
-    swap: Optional[int] = None
-    gems: Optional[tuple[str, ...]] = None
-    ices: Optional[tuple[str, ...]] = None
+    gameboard: str = "rslesrotvegifovxqmbabaaif"
+    swap: Optional[int] = 1
+    blocked: Optional[str] = ""
+    gems: Optional[str] = ""
+    x2_mult: Optional[str] = "23"
+    dl_mult: Optional[str] = "23"
+    tl_mult: Optional[str] = ""

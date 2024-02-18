@@ -2,7 +2,7 @@ from argparse import ArgumentParser, Namespace
 
 from src.config import SWAP
 from src.entities import Coordinates
-from src.interfaces.baseui import BaseUI
+from src.interfaces.baseui import BaseUI, GameSolver
 from src.modules.gameboard.resultlist import ResultList
 
 
@@ -36,41 +36,34 @@ class ConsoleUI(BaseUI):
         self.opt = self.parser.parse_args()
 
         swap = self.opt.swap if self.opt.swap else SWAP
-        self.init_spellsolver(swap=swap)
-
-    def set_multipliers(self, mult_string: str, DL_string: str, TL_string: str) -> None:
-        """Set values for multipliers"""
-        if mult_string != "":
-            mult_cord = Coordinates(int(mult_string[0]), int(mult_string[1]))
-            self.game_board.set_mult_word(mult_cord)
-
-        if DL_string != "":
-            DL_cord = Coordinates(int(DL_string[0]), int(DL_string[1]))
-            self.game_board.set_mult_letter(DL_cord, 2)
-
-        if TL_string != "":
-            TL_cord = Coordinates(int(TL_string[0]), int(TL_string[1]))
-            self.game_board.set_mult_letter(TL_cord, 3)
+        self.init(swap=swap)
 
     def mainargs(self, opt: Namespace) -> None:
         """Main loop of the Console UI using arguments"""
-        self.load(opt.game)
-        self.set_multipliers(opt.x2, opt.dl, opt.tl)
-        results = self.solve(opt.swap)
+        gameboard_string = opt.game
+        solver = self.load(gameboard_string)
+
+        X2_string = opt.x2.replace(".", " ")
+        DL_string = opt.dl.replace(".", " ")
+        TL_string = opt.tl.replace(".", " ")
+        solver.set_multipliers(X2_string, DL_string, TL_string)
+
+        swap = opt.swap if opt.swap else SWAP
+        results = solver.solve(swap=swap)
         self.print_results(results)
 
     def maininput(self) -> None:
         """Main loop of the Console UI using inputs"""
         gameboard_string = input("Insert a gameboard: ")
-        self.load(gameboard_string)
+        solver = self.load(gameboard_string)
 
-        mult_string = input("Insert 2x coordinates: ")
-        DL_string = input("Insert DL coordinates: ")
-        TL_string = input("Insert TL coordinates: ")
-        self.set_multipliers(mult_string, DL_string, TL_string)
+        X2_string = input("Insert 2x coordinates: ").replace(".", " ")
+        DL_string = input("Insert DL coordinates: ").replace(".", " ")
+        TL_string = input("Insert TL coordinates: ").replace(".", " ")
+        solver.set_multipliers(X2_string, DL_string, TL_string)
 
         swap = int(input("Use swap?: "))
-        results = self.solve(swap=swap)
+        results = solver.solve(swap=swap)
         self.print_results(results)
 
     def mainloop(self) -> bool:

@@ -24,7 +24,7 @@ class SpellSolver:
                 gems=GamePath.calculate_gems(actual_path),
                 word=actual_word,
                 path=actual_path,
-                swaps=swaps,
+                swaps=swaps
             )
 
     def process_path_aux(
@@ -59,8 +59,8 @@ class SpellSolver:
                 )
 
     def process_gameboard(self, swap: int) -> Generator[ResultWord, None, None]:
-        base_tile = self.gameboard.base_tile
-        base_node = self.validate.base_node
+        base_tile = self.gameboard.base_tile()
+        base_node = self.validate.base_node()
 
         yield from self.process_path(
             tile=base_tile, node=base_node, word="", path=[], swap=swap

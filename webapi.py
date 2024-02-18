@@ -11,13 +11,16 @@ class WebAPI(BaseUI):
 
     def __init__(self) -> None:
         super().__init__()
-        self.init_spellsolver()
+        self.init()
 
         self.app: BaseAPI = BaseAPI(version=VERSION)
         self.api: FastAPI = self.app.api
 
         self.webconfig: uvicorn.Config = uvicorn.Config(
-            self.api, host=HOST, port=PORT, log_level="info"
+            app = self.api,
+            host = HOST,
+            port = PORT,
+            log_level = "info"
         )
         self.server: uvicorn.Server = uvicorn.Server(config=self.webconfig)
 

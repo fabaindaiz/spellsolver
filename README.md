@@ -10,7 +10,7 @@ discarding the ones that don't make valid words and keeping the ones that do.
 A message like this will be printed on the screen while Spellsolver starts
 
 ```bash
-Spellsolver v1.14
+Spellsolver v1.15
 WordValidate is being initialized, this will take several seconds
 WordValidate successfully initialized (elapsed time: 4.8 seconds)
 ```

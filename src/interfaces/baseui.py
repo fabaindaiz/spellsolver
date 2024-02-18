@@ -1,4 +1,5 @@
 from src import CONSOLE, SWAP, VERSION
+from src.entities import Coordinates
 from src.modules import SpellSolver
 from src.modules.gameboard import GameBoard, ResultList
 from src.modules.validate import WordValidate
@@ -18,6 +19,34 @@ class GameSolver:
         self.validate = validate
         self.game_board = game_board
         self.timer = timer
+
+    def set_modifiers(self, blocked_string: str, gems_string: str) -> None:
+        if blocked_string!= "":
+            cords = blocked_string.split(".")
+            blocked = (Coordinates.from_string(cord) for cord in cords)
+            self.game_board.set_blocked(blocked)
+
+        if gems_string != "":
+            cords = gems_string.split(".")
+            gems = (Coordinates.from_string(cord) for cord in cords)
+            self.game_board.set_gems(gems)
+
+    def set_multipliers(self, X2_string: str, DL_string: str, TL_string: str) -> None:
+        """Set values for multipliers"""
+        if X2_string!= "":
+            cords = X2_string.split(" ")
+            word_mult = {Coordinates.from_string(cord): 2 for cord in cords}
+            self.game_board.set_word_mult(word_mult)
+
+        if DL_string != "":
+            cords = DL_string.split(" ")
+            tile_mult = {Coordinates.from_string(cord): 2 for cord in cords}
+            self.game_board.set_tile_mult(tile_mult)
+
+        if TL_string != "":
+            cords = TL_string.split(" ")
+            tile_mult = {Coordinates.from_string(cord): 3 for cord in cords}
+            self.game_board.set_tile_mult(tile_mult)
 
     def solve(self, swap: int) -> ResultList:
         """
@@ -40,10 +69,9 @@ class BaseUI:
         Initialize a BaseUI for managing the game interface.
         """
         self.timer = Timer()
-        self.game_board = GameBoard()
         self.validate = WordValidate()
 
-    def init_spellsolver(self, swap: int = SWAP):
+    def init(self, swap: int = SWAP):
         """
         Initialize the word validation utility with a specified swap value.
 
@@ -54,7 +82,7 @@ class BaseUI:
             print(f"Spellsolver {VERSION}")
             print("WordValidate is being initialized, this will take several seconds")
         self.timer.reset_timer()
-        self.validate.init_trie(swap=swap)
+        self.validate.init(swap=swap)
 
         elapsed_seconds = self.timer.elapsed_seconds
         if CONSOLE:
@@ -62,35 +90,20 @@ class BaseUI:
                 f"WordValidate successfully initialized (elapsed time: {elapsed_seconds} seconds)"
             )
 
-    def safe_solver(self) -> GameSolver:
+    def load(self, game_board_string: str) -> GameSolver:
         """
-        Create a safe GameSolver instance.
-
-        Returns:
-            GameSolver: A GameSolver instance.
-        """
-        return GameSolver(self.validate, self.game_board, self.timer)
-
-    def load(self, game_board_string: str):
-        """
-        Load a game board from a string representation.
+        Load a game board from a string representation and create a GameSolver instance.
 
         Args:
             game_board_string (str): The string representation of the game board.
-        """
-        self.game_board.load(game_board_string)
-
-    def solve(self, swap: int) -> ResultList:
-        """
-        Solve the game board with a specified swap value.
-
-        Args:
-            swap (int): The swap value.
-
+        
         Returns:
-            ResultList: A list of word combinations.
+            GameSolver: A GameSolver instance.
         """
-        return self.safe_solver().solve(swap)
+        timer = Timer()
+        game_board = GameBoard()
+        game_board.init(game_board_string)
+        return GameSolver(self.validate, game_board, timer)
 
     def mainloop(self) -> bool:
         """
