@@ -68,7 +68,7 @@ class GraphicalUI(BaseUI):
         self._window_place()
         self.init()
 
-    def run(self) -> None:
+    def mainloop(self) -> None:
         self.window.mainloop()
 
     def initialize_components(self) -> None:
@@ -153,4 +153,4 @@ class GraphicalUI(BaseUI):
 
 if __name__ == "__main__":
     application = GraphicalUI()
-    application.run()
+    application.mainloop()

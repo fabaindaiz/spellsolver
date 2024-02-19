@@ -27,15 +27,11 @@ class WebAPI(BaseUI):
         self.solver: BaseRouter = SolverRouter(self, tags={"spellsolver": "true"})
         self.api.include_router(self.solver.router)
 
-    def mainloop(self) -> bool:
+    def mainloop(self) -> None:
         """Mainloop of the WebAPI"""
         self.server.run()
-        return False
 
 
 if __name__ == "__main__":
     app = WebAPI()
-
-    loop = True
-    while loop:
-        loop = app.mainloop()
+    app.mainloop()

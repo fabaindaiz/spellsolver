@@ -38,7 +38,7 @@ class ConsoleUI(BaseUI):
         swap = self.opt.swap if self.opt.swap else SWAP
         self.init(swap=swap)
 
-    def mainargs(self, opt: Namespace) -> None:
+    def _mainargs(self, opt: Namespace) -> None:
         """Main loop of the Console UI using arguments"""
         gameboard_string = opt.game
         solver = self.load(gameboard_string)
@@ -52,7 +52,7 @@ class ConsoleUI(BaseUI):
         results = solver.solve(swap=swap)
         self.print_results(results)
 
-    def maininput(self) -> None:
+    def _maininput(self) -> None:
         """Main loop of the Console UI using inputs"""
         gameboard_string = input("Insert a gameboard: ")
         solver = self.load(gameboard_string)
@@ -66,18 +66,14 @@ class ConsoleUI(BaseUI):
         results = solver.solve(swap=swap)
         self.print_results(results)
 
-    def mainloop(self) -> bool:
+    def mainloop(self) -> None:
         """Main loop of the Console UI"""
         if self.opt.game:
-            self.mainargs(self.opt)
-            return False
-
-        try:
-            self.maininput()
-        except Exception as e:
-            print("Exception:", e)
-
-        return True
+            self._mainargs(self.opt)
+            return
+        
+        while True:
+            self._maininput()
 
     @staticmethod
     def print_results(results: ResultList) -> None:
@@ -88,7 +84,4 @@ class ConsoleUI(BaseUI):
 
 if __name__ == "__main__":
     app = ConsoleUI()
-
-    loop = True
-    while loop:
-        loop = app.mainloop()
+    app.mainloop()
