@@ -24,13 +24,20 @@ class ConsoleUI(BaseUI):
         )
 
         self.parser.add_argument(
-            "--x2", type=str, required=False, help="word multiplier", default=""
+            "--gems", type=str, required=False, help="gem coordinates", default=""
         )
         self.parser.add_argument(
-            "--dl", type=str, required=False, help="double letter", default=""
+            "--ices", type=str, required=False, help="ice coordinates", default=""
+        )
+
+        self.parser.add_argument(
+            "--x2", type=str, required=False, help="x2 coordinates", default=""
         )
         self.parser.add_argument(
-            "--tl", type=str, required=False, help="triple letter", default=""
+            "--dl", type=str, required=False, help="dl coordinates", default=""
+        )
+        self.parser.add_argument(
+            "--tl", type=str, required=False, help="tl coordinates", default=""
         )
 
         self.opt = self.parser.parse_args()
@@ -42,6 +49,10 @@ class ConsoleUI(BaseUI):
         """Main loop of the Console UI using arguments"""
         gameboard_string = opt.game
         solver = self.load(gameboard_string)
+
+        gems_string = opt.gems.replace(".", " ")
+        ices_string = opt.ices.replace(".", " ")
+        solver.set_modifiers(ices_string, gems_string)
 
         X2_string = opt.x2.replace(".", " ")
         DL_string = opt.dl.replace(".", " ")
@@ -56,6 +67,9 @@ class ConsoleUI(BaseUI):
         """Main loop of the Console UI using inputs"""
         gameboard_string = input("Insert a gameboard: ")
         solver = self.load(gameboard_string)
+
+        ices_string = input("Insert ice coordinates: ").replace(".", " ")
+        gems_string = input("Insert gem coordinates: ").replace(".", " ")
 
         X2_string = input("Insert 2x coordinates: ").replace(".", " ")
         DL_string = input("Insert DL coordinates: ").replace(".", " ")

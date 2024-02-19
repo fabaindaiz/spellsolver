@@ -22,12 +22,12 @@ class GameSolver:
 
     def set_modifiers(self, blocked_string: str, gems_string: str) -> None:
         if blocked_string!= "":
-            cords = blocked_string.split(".")
+            cords = blocked_string.split(" ")
             blocked = (Coordinates.from_string(cord) for cord in cords)
             self.game_board.set_blocked(blocked)
 
         if gems_string != "":
-            cords = gems_string.split(".")
+            cords = gems_string.split(" ")
             gems = (Coordinates.from_string(cord) for cord in cords)
             self.game_board.set_gems(gems)
 
