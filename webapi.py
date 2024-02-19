@@ -11,28 +11,27 @@ class WebAPI(BaseUI):
 
     def __init__(self) -> None:
         super().__init__()
-        self.init_spellsolver()
+        self.init()
 
         self.app: BaseAPI = BaseAPI(version=VERSION)
         self.api: FastAPI = self.app.api
 
         self.webconfig: uvicorn.Config = uvicorn.Config(
-            self.api, host=HOST, port=PORT, log_level="info"
+            app = self.api,
+            host = HOST,
+            port = PORT,
+            log_level = "info"
         )
         self.server: uvicorn.Server = uvicorn.Server(config=self.webconfig)
 
         self.solver: BaseRouter = SolverRouter(self, tags={"spellsolver": "true"})
         self.api.include_router(self.solver.router)
 
-    def mainloop(self) -> bool:
+    def mainloop(self) -> None:
         """Mainloop of the WebAPI"""
         self.server.run()
-        return False
 
 
 if __name__ == "__main__":
     app = WebAPI()
-
-    loop = True
-    while loop:
-        loop = app.mainloop()
+    app.mainloop()

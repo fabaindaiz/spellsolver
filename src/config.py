@@ -1,4 +1,4 @@
-VERSION = "v1.14"
+VERSION = "v1.15"
 CONSOLE = True
 DEBUG = False
 

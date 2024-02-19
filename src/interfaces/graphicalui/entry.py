@@ -9,7 +9,14 @@ class Entry:
         self.parent = parent
         self.menu = menu
         self.aux_coord = aux_coord
+
         self.current_coord, self.next_coord = self.calculate_coordinates()
+        self.keys = {
+            "<Up>": aux_to_indices(self.aux_coord - 5),
+            "<Down>": aux_to_indices(self.aux_coord + 5),
+            "<Left>": aux_to_indices(self.aux_coord - 1),
+            "<Right>": aux_to_indices(self.aux_coord + 1),
+        }
 
         self.entry = self.create_entry(string_var)
         self.place_entry()
@@ -51,6 +58,10 @@ class Entry:
 
     def bind_events(self) -> None:
         self.entry.bind("<Button-3>", lambda event: self.menu.popup(event))
+        self.entry.bind("<Up>", lambda event: self.focus_on_tile(self.keys["<Up>"]))
+        self.entry.bind("<Down>", lambda event: self.focus_on_tile(self.keys["<Down>"]))
+        self.entry.bind("<Left>", lambda event: self.focus_on_tile(self.keys["<Left>"]))
+        self.entry.bind("<Right>", lambda event: self.focus_on_tile(self.keys["<Right>"]))
 
     @staticmethod
     def validate_input(user_input: str) -> bool:

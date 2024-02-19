@@ -8,8 +8,8 @@ from .resultword import ResultWord
 
 class ResultList:
     def __init__(self, timer: Timer) -> None:
-        self.data: dict[tuple[int, str], ResultWord] = {}
         self.timer: Timer = timer or Timer()
+        self.data: dict[tuple[int, str], ResultWord] = {}
 
     def update(self, results: Generator[ResultWord, None, None]) -> None:
         for result in results:
@@ -35,13 +35,13 @@ class ResultList:
         return sorted_words
 
     @staticmethod
+    def sort_tile(tile: ResultWord) -> int:
+        return tile.order
+    
+    @staticmethod
     def words_to_text(sorted_words: list[ResultWord]) -> str:
         return ", ".join(word.text for word in sorted_words)
 
     @staticmethod
     def words_to_dict(sorted_words: list[ResultWord]) -> list[dict[str, Any]]:
         return [word.dict() for word in sorted_words]
-
-    @staticmethod
-    def sort_tile(tile: ResultWord) -> int:
-        return tile.order

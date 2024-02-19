@@ -1,55 +1,59 @@
+from typing import Generator
+
 from src.entities import Coordinates
 from src.utils import get_letter_point_value
 
 
 class GameTile:
-    def __init__(self, letter: str, coordinates: Coordinates) -> None:
-        self.coordinates: Coordinates = coordinates
-        self.neighbors: list["GameTile"] = []
-
-        self._has_gem: bool = False
-        self._has_ice: bool = False
+    def __init__(self, letter: str, coordinates: Coordinates):
         self.letter: str = letter
-        self.letter_multiplier: int = 1
-        self.word_multiplier: int = 1
+        self.coordinates: Coordinates = coordinates
+        self.neighbours: list["GameTile"] = []
 
-        self.is_swapped: bool = False
+        self._points: int = get_letter_point_value(letter)
+        self._swapped: bool = False
+        self._blocked: bool = False
+        self._has_gem: bool = False
+
+        self.tile_mult: int = 1
+        self.word_mult: int = 1
 
     def __str__(self) -> str:
         return f"({self.letter} {self.coordinates})"
+    
+    @property
+    def points(self) -> int:
+        return self._points * self.tile_mult
+    
+    @property
+    def swapped(self) -> bool:
+        return self._swapped
+    
+    @property
+    def blocked(self) -> bool:
+        return self._blocked
 
+    @blocked.setter
+    def blocked(self, value: bool) -> None:
+        self._blocked = value
+    
     @property
     def has_gem(self) -> bool:
         return self._has_gem
-
+    
     @has_gem.setter
     def has_gem(self, value: bool) -> None:
         self._has_gem = value
 
-    @property
-    def has_ice(self) -> bool:
-        return self._has_ice
-    
-    @has_ice.setter
-    def has_ice(self, value: bool) -> None:
-        self._has_ice = value
-
-    @property
-    def letter_points(self) -> int:
-        return get_letter_point_value(self.letter)
-
-    @property
-    def points(self) -> int:
-        return self.letter_points * self.letter_multiplier
-
     def copy(self, letter: str) -> "GameTile":
         node = GameTile(letter, self.coordinates)
-        node.letter_multiplier = self.letter_multiplier
-        node.word_multiplier = self.word_multiplier
-        node.is_swapped = True
+        node.tile_mult = self.tile_mult
+        node.word_mult = self.word_mult
 
+        node._has_gem = self._has_gem
+        node._swapped = True
         return node
-
+    
     def init_neighbors(self, tiles: dict[Coordinates, "GameTile"]) -> None:
         x, y = self.coordinates
         grid_size = 5
@@ -63,15 +67,11 @@ class GameTile:
             and (dx, dy) != (0, 0)
         ]
 
-        for coordinate in neighbor_coordinates:
-            tile = tiles.get(coordinate)
-
-            if tile:
-                self.neighbors.append(tile)
+        for coordinates in neighbor_coordinates:
+            self.neighbours.append(tiles[coordinates])
     
-    def is_valid_move(self, path: list["GameTile"]) -> bool:
-        return (self not in path) and (not self.has_ice)
+    def _validate(self, path: list["GameTile"]) -> bool:
+        return (self not in path) and (not self.blocked)
 
-    def suggest_tile(self, path):
-        suggested_tiles = [tile for tile in self.neighbors if tile.is_valid_move(path)]
-        yield from suggested_tiles
+    def suggest_tiles(self, path: list["GameTile"]) -> Generator["GameTile", None, None]:
+        yield from (tile for tile in self.neighbours if tile._validate(path))

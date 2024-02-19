@@ -1,1 +1,1 @@
-from .baseui import BaseUI
+from .baseui import BaseUI, GameSolver
