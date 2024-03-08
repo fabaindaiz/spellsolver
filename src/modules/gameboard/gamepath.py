@@ -3,19 +3,19 @@ from .gametile import GameTile
 GameTileTuple = tuple[GameTile, ...]
 
 
-class Path:
+class GamePath:
+
     @staticmethod
     def calculate_points(path: GameTileTuple) -> int:
-        points_list = [node.points for node in path]
-        word_points = sum(points_list)
-
         long_word_bonus = 10
         min_bonus_length = 6
         word_multiplier = 1
+
+        word_points = sum(node.points for node in path)
         word_bonus = long_word_bonus if len(path) >= min_bonus_length else 0
 
         for node in path:
-            word_multiplier *= node.word_multiplier
+            word_multiplier *= node.word_mult
 
         return word_points * word_multiplier + word_bonus
 

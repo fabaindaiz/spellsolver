@@ -10,7 +10,7 @@ discarding the ones that don't make valid words and keeping the ones that do.
 A message like this will be printed on the screen while Spellsolver starts
 
 ```bash
-Spellsolver v1.14
+Spellsolver v1.15
 WordValidate is being initialized, this will take several seconds
 WordValidate successfully initialized (elapsed time: 4.8 seconds)
 ```
@@ -34,10 +34,8 @@ WordValidate successfully initialized (elapsed time: 4.8 seconds)
 
 - The letters on the board must be written in a single line following the order left -> right and then up -> down with
   no spaces
-- To add a multiplier, the coordinates must be written as two numbers together (eg 34 or 01), otherwise the field must
-  not be included or it must be left empty
-- To activate the swap mode you must put the number of swaps that you want to use (eg 1), otherwise you must use a 0 and
-  the option will not be activated
+- To add a multiplier, the coordinates must be written as two numbers together (eg 34 or 01), multiple coordinates must
+  be separated by a space (in the case of consoleui.py, you must use dots instead of spaces)
 
 ### WebAPI
 
@@ -50,9 +48,11 @@ WordValidate successfully initialized (elapsed time: 4.8 seconds)
 # Example solve request body
 {
   "gameboard": "rslesrotvegifovxqmbabaaif",
-  "mult": "23",
-  "DL": "23",
-  "swap": 1
+  "swap": 1,
+  "gems": "00 01 02 03 04",
+  "x2_mult": "23",
+  "dl_mult": "23",
+  "tl_mult": ""
 }
 ```
 
@@ -93,12 +93,14 @@ positional arguments:
 
 options:
   --swap SWAP  enable swap mode
-  --x2 X2      word multiplier
-  --dl DL      double letter
-  --tl TL      triple letter
+  --gems GEMS  gem coordinates
+  --ices ICES  ice coordinates
+  --x2 X2      X2 coordinates
+  --dl DL      dl coordinates
+  --tl TL      tl coordinates
 
 example:
-  python consoleui.py rslesrotvegifovxqmbabaaif --swap 1 --x2 23 --dl 23
+  python consoleui.py rslesrotvegifovxqmbabaaif --swap 1 --x2 23 --dl 23 --gems 00.01.02.03.04
 ```
 
 ### Run tests

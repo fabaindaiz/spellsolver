@@ -1,6 +1,7 @@
 from typing import Any
 from fastapi.responses import JSONResponse
 
+from src.config import SWAP
 from src.entities import Coordinates
 from src.interfaces import BaseUI
 from .baseapi import BaseRouter
@@ -26,23 +27,11 @@ class SolverRouter(BaseRouter):
     def solve(self, data: SolverData) -> dict[str, Any]:
         """Solve a spellsolver game"""
         try:
-            solver = self.app.safe_solver()
-            solver.game_board.load(data.gameboard)
-
-            if data.mult:
-                mult_cord = Coordinates(int(data.mult[0]), int(data.mult[1]))
-                solver.game_board.set_mult_word(mult_cord)
-            if data.DL:
-                DL_cord = Coordinates(int(data.DL[0]), int(data.DL[1]))
-                solver.game_board.set_mult_letter(DL_cord, 2)
-            if data.TL:
-                TL_cord = Coordinates(int(data.TL[0]), int(data.TL[1]))
-                solver.game_board.set_mult_letter(TL_cord, 3)
-            if data.gems:
-                gem_cord = list(Coordinates(int(gem[0]), int(gem[1])) for gem in data.gems)
-                solver.game_board.set_gems(gem_cord)
-
-            swap = data.swap if data.swap else 1
+            solver = self.app.load(data.gameboard)
+            solver.set_modifiers(data.blocked, data.gems)
+            solver.set_multipliers(data.x2_mult, data.dl_mult, data.tl_mult)
+            
+            swap = data.swap if data.swap else SWAP
             results = solver.solve(swap=swap)
             sorted_words = results.sorted_words
             sorted_dict = results.words_to_dict(sorted_words[:10])
@@ -55,7 +44,7 @@ class SolverRouter(BaseRouter):
                 "message": "Spellsolver successfully found a result",
                 "data": response,
             }
-
+        
         except Exception as e:
             return {
                 "successful": False,

@@ -12,28 +12,27 @@ class Menu(tk.Menu):
         self.menu: tk.Menu = tk.Menu(self.parent.window, tearoff=0)
         self.initialize()
 
-    def initialize(self):
-        self.add_menu_items()
-        self.add_separator()
-        self.add_remove_menus()
-
-    def add_menu_items(self):
+    def _menu_items(self):
         cord = aux_to_indices(self.aux_cord)
 
-        self.add_menu_item("Gem", lambda: self.parent.menu.set_gem_letter(cord))
-        self.add_menu_item("2X", lambda: self.parent.menu.set_mult_word(cord))
-        self.add_menu_item("DL", lambda: self.parent.menu.set_mult_letter(cord, 2))
-        self.add_menu_item("TL", lambda: self.parent.menu.set_mult_letter(cord, 3))
+        self.menu.add_command(label="Gem", command=lambda: self.parent.menu.set_gem(cord))
+        self.menu.add_command(label="Ice", command=lambda: self.parent.menu.set_ice(cord))
+        self.menu.add_command(label="2X", command=lambda: self.parent.menu.set_x2_mult(cord))
+        self.menu.add_command(label="DL", command=lambda: self.parent.menu.set_dl_mult(cord))
+        self.menu.add_command(label="TL", command=lambda: self.parent.menu.set_tl_mult(cord))
 
-    def add_remove_menus(self):
-        self.add_menu_item("Remove gems", self.parent.menu.remove_gem_all)
-        self.add_menu_item("Remove bonus", self.parent.menu.remove_mult_all)
+    def _menu_remove(self):
+        self.menu.add_command(label="Remove gems", command=self.parent.menu.remove_gems)
+        self.menu.add_command(label="Remove ices", command=self.parent.menu.remove_ices)
+        self.menu.add_command(label="Remove bonus", command=self.parent.menu.remove_mults)
 
-    def add_separator(self):
+    def _separator(self):
         self.menu.add_separator()
 
-    def add_menu_item(self, label, command):
-        self.menu.add_command(label=label, command=command)
+    def initialize(self):
+        self._menu_items()
+        self._separator()
+        self._menu_remove()
 
     def popup(self, event) -> None:
         try:

@@ -30,7 +30,7 @@ class Label(ttk.Label):
 
     def _on_hover(self, path) -> None:
         for tile in path:
-            self.parent.tiles[tile.coordinates].hover(tile.letter, tile.is_swapped)
+            self.parent.tiles[tile.coordinates].hover(tile.letter, tile._swapped)
         self.label.focus_set()
 
     def _on_unhover(self, path) -> None:
