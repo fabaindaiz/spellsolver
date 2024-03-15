@@ -63,7 +63,9 @@ class Entry(tk.Entry):
         self.entry.bind("<Up>", lambda event: self.focus_on_tile(self.keys["<Up>"]))
         self.entry.bind("<Down>", lambda event: self.focus_on_tile(self.keys["<Down>"]))
         self.entry.bind("<Left>", lambda event: self.focus_on_tile(self.keys["<Left>"]))
-        self.entry.bind("<Right>", lambda event: self.focus_on_tile(self.keys["<Right>"]))
+        self.entry.bind(
+            "<Right>", lambda event: self.focus_on_tile(self.keys["<Right>"])
+        )
 
     @staticmethod
     def validate_input(user_input: str) -> bool:

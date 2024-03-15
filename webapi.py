@@ -17,10 +17,7 @@ class WebAPI(BaseUI):
         self.api: FastAPI = self.app.api
 
         self.webconfig: uvicorn.Config = uvicorn.Config(
-            app = self.api,
-            host = HOST,
-            port = PORT,
-            log_level = "info"
+            app=self.api, host=HOST, port=PORT, log_level="info"
         )
         self.server: uvicorn.Server = uvicorn.Server(config=self.webconfig)
 

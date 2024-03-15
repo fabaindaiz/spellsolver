@@ -37,7 +37,7 @@ class ResultList:
     @staticmethod
     def sort_tile(tile: ResultWord) -> int:
         return tile.order
-    
+
     @staticmethod
     def words_to_text(sorted_words: list[ResultWord]) -> str:
         return ", ".join(word.text for word in sorted_words)

@@ -1,8 +1,8 @@
 from typing import Any
+
 from fastapi.responses import JSONResponse
 
 from src.config import SWAP
-from src.entities import Coordinates
 from src.interfaces import BaseUI
 from .baseapi import BaseRouter
 from .interfaces import SolverData
@@ -30,7 +30,7 @@ class SolverRouter(BaseRouter):
             solver = self.app.load(data.gameboard)
             solver.set_modifiers(data.blocked, data.gems)
             solver.set_multipliers(data.x2_mult, data.dl_mult, data.tl_mult)
-            
+
             swap = data.swap if data.swap else SWAP
             results = solver.solve(swap=swap)
             sorted_words = results.sorted_words
@@ -44,7 +44,7 @@ class SolverRouter(BaseRouter):
                 "message": "Spellsolver successfully found a result",
                 "data": response,
             }
-        
+
         except Exception as e:
             return {
                 "successful": False,

@@ -11,7 +11,7 @@ class Coordinates:
     def from_string(cls, coordinates: str) -> "Coordinates":
         x, y = coordinates
         return cls(int(x), int(y))
-    
+
     @property
     def _as_tuple(self) -> tuple[int, int]:
         return self.x_coordinate, self.y_coordinate

@@ -92,7 +92,9 @@ class PatriciaTrieQuery(TrieQuery):
         """Obtains a representation of the base node of the trie"""
         return self.trie.node
 
-    def get_key(self, node: PatriciaNode, letter: str) -> tuple[Optional[Any], Optional[str]]:
+    def get_key(
+        self, node: PatriciaNode, letter: str
+    ) -> tuple[Optional[Any], Optional[str]]:
         """Obtains the key associated with a letter from a node"""
         child_key = node.get_key(letter)
         return node.childs[child_key] if child_key else None, child_key

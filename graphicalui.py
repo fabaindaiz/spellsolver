@@ -93,7 +93,7 @@ class GraphicalUI(BaseUI):
             swap_count=swap_count,
             command=lambda: self.handle_button_click(swap_count),
         )
-    
+
     def _load_game_board(self) -> None:
         values = self.tiles.values()
         return "".join(tile.letter for tile in values)

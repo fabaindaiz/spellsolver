@@ -24,7 +24,7 @@ class SpellSolver:
                 gems=GamePath.calculate_gems(actual_path),
                 word=actual_word,
                 path=actual_path,
-                swaps=swaps
+                swaps=swaps,
             )
 
     def process_path_aux(

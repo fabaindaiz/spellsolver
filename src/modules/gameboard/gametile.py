@@ -20,15 +20,15 @@ class GameTile:
 
     def __str__(self) -> str:
         return f"({self.letter} {self.coordinates})"
-    
+
     @property
     def points(self) -> int:
         return self._points * self.tile_mult
-    
+
     @property
     def swapped(self) -> bool:
         return self._swapped
-    
+
     @property
     def blocked(self) -> bool:
         return self._blocked
@@ -36,11 +36,11 @@ class GameTile:
     @blocked.setter
     def blocked(self, value: bool) -> None:
         self._blocked = value
-    
+
     @property
     def has_gem(self) -> bool:
         return self._has_gem
-    
+
     @has_gem.setter
     def has_gem(self, value: bool) -> None:
         self._has_gem = value
@@ -53,7 +53,7 @@ class GameTile:
         node._has_gem = self._has_gem
         node._swapped = True
         return node
-    
+
     def init_neighbors(self, tiles: dict[Coordinates, "GameTile"]) -> None:
         x, y = self.coordinates
         grid_size = 5
@@ -69,9 +69,11 @@ class GameTile:
 
         for coordinates in neighbor_coordinates:
             self.neighbours.append(tiles[coordinates])
-    
+
     def _validate(self, path: list["GameTile"]) -> bool:
         return (self not in path) and (not self.blocked)
 
-    def suggest_tiles(self, path: list["GameTile"]) -> Generator["GameTile", None, None]:
+    def suggest_tiles(
+        self, path: list["GameTile"]
+    ) -> Generator["GameTile", None, None]:
         yield from (tile for tile in self.neighbours if tile._validate(path))

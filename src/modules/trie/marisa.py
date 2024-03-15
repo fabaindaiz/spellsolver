@@ -2,9 +2,11 @@ from collections.abc import Generator
 from typing import Any
 
 try:
-    import marisa_trie # type: ignore
+    import marisa_trie  # type: ignore
 except ImportError:
-    print("Marisa Trie is not installed. Please install it with `pip install marisa-trie`")
+    print(
+        "Marisa Trie is not installed. Please install it with `pip install marisa-trie`"
+    )
 
 from src.modules.validate.wordlist import WordList
 from .loader import pair_iter
