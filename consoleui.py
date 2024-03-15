@@ -1,8 +1,7 @@
 from argparse import ArgumentParser, Namespace
 
 from src.config import SWAP
-from src.entities import Coordinates
-from src.interfaces.baseui import BaseUI, GameSolver
+from src.interfaces.baseui import BaseUI
 from src.modules.gameboard.resultlist import ResultList
 
 
@@ -54,10 +53,10 @@ class ConsoleUI(BaseUI):
         ices_string = opt.ices.replace(".", " ")
         solver.set_modifiers(ices_string, gems_string)
 
-        X2_string = opt.x2.replace(".", " ")
-        DL_string = opt.dl.replace(".", " ")
-        TL_string = opt.tl.replace(".", " ")
-        solver.set_multipliers(X2_string, DL_string, TL_string)
+        x2_string = opt.x2.replace(".", " ")
+        dl_string = opt.dl.replace(".", " ")
+        tl_string = opt.tl.replace(".", " ")
+        solver.set_multipliers(x2_string, dl_string, tl_string)
 
         swap = opt.swap if opt.swap else SWAP
         results = solver.solve(swap=swap)
@@ -71,10 +70,10 @@ class ConsoleUI(BaseUI):
         ices_string = input("Insert ice coordinates: ").replace(".", " ")
         gems_string = input("Insert gem coordinates: ").replace(".", " ")
 
-        X2_string = input("Insert 2x coordinates: ").replace(".", " ")
-        DL_string = input("Insert DL coordinates: ").replace(".", " ")
-        TL_string = input("Insert TL coordinates: ").replace(".", " ")
-        solver.set_multipliers(X2_string, DL_string, TL_string)
+        x2_string = input("Insert 2x coordinates: ").replace(".", " ")
+        dl_string = input("Insert DL coordinates: ").replace(".", " ")
+        tl_string = input("Insert TL coordinates: ").replace(".", " ")
+        solver.set_multipliers(x2_string, dl_string, tl_string)
 
         swap = int(input("Use swap?: "))
         results = solver.solve(swap=swap)
@@ -85,7 +84,7 @@ class ConsoleUI(BaseUI):
         if self.opt.game:
             self._mainargs(self.opt)
             return
-        
+
         while True:
             self._maininput()
 

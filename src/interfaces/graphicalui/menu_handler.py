@@ -1,10 +1,9 @@
-from typing import Optional
-
 from src.entities import Coordinates
 
 
 class MenuHandler:
     """Class to handle the menu options for the game board tiles"""
+
     # TODO: Refactor this class
 
     def __init__(self, parent) -> None:
@@ -20,7 +19,7 @@ class MenuHandler:
     def set_gem(self, coordinates: Coordinates) -> None:
         self.gems.append(coordinates)
         self.parent.tiles[coordinates].multiplier("violet")
-    
+
     def set_ice(self, coordinates: Coordinates) -> None:
         self.ices.append(coordinates)
         self.parent.tiles[coordinates].multiplier("blue")
@@ -32,19 +31,19 @@ class MenuHandler:
     def set_dl_mult(self, coordinates: Coordinates) -> None:
         self.dl_mult.append(coordinates)
         self.parent.tiles[coordinates].multiplier("gold")
-    
+
     def set_tl_mult(self, coordinates: Coordinates) -> None:
         self.tl_mult.append(coordinates)
         self.parent.tiles[coordinates].multiplier("gold")
 
     def remove_gems(self) -> None:
         self.gems = []
-        self.unhover_tiles()    
-    
+        self.unhover_tiles()
+
     def remove_ices(self) -> None:
         self.ices = []
         self.unhover_tiles()
-    
+
     def remove_mults(self) -> None:
         self.x2_mult = []
         self.dl_mult = []
