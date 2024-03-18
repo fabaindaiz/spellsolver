@@ -36,7 +36,7 @@ class GameSolver:
     def solve(self, swap: int) -> ResultList:
         self.timer.reset_timer()
         spellsolver = SpellSolver(self.validate, self.game_board)
-        return spellsolver.word_list(swap=swap, timer=self.timer)
+        return spellsolver.word_list(remaining_swaps=swap, timer=self.timer)
 
 
 class BaseUI:

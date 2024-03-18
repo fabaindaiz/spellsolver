@@ -1,30 +1,11 @@
-from src import TRIE
-from src.modules.trie import Trie, TrieQuery
+from src.modules.trie import Trie, TrieQuery, MarisaTrie
 from .wordlist import WordList
-
-trie: Trie
-if TRIE == "MARISA":
-    from src.modules.trie.marisa import MarisaTrie
-
-    trie = MarisaTrie()
-elif TRIE == "PREFIX":
-    from src.modules.trie.prefix import PrefixTrie
-
-    trie = PrefixTrie()
-elif TRIE == "PATRICIA":
-    from src.modules.trie.patricia import PatriciaTrie
-
-    trie = PatriciaTrie()
-else:
-    raise NotImplementedError()
 
 
 class WordValidate:
-    """Validate a word using a trie"""
-
     def __init__(self) -> None:
         self.wordlist: WordList = WordList()
-        self.trie: Trie = trie
+        self.trie: Trie = MarisaTrie()
 
     def init(self, swap: int) -> None:
         self.trie.insert(self.wordlist, swap)
