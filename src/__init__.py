@@ -9,6 +9,5 @@ from .config import (
     PORT,
     WORD_MULT,
     GEMS_MULT,
-    TRIE,
     SWAP,
 )
