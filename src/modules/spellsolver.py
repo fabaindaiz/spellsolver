@@ -54,7 +54,7 @@ class SpellSolver:
 
     def explore_paths_auxiliary(self, paths: Exploratory) -> WordGenerator:
         tile, node, current_word, current_path, remaining_swaps, letter = paths
-        trie = self.word_validator.get_trie()
+        trie = self.word_validator.trie
         actual_node, child_key = trie.get_key(node, letter)
 
         if not child_key:

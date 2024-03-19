@@ -14,6 +14,7 @@ class WordGenerate:
         with open(path) as file:
             for line in file:
                 word = line.strip().lower()
+
                 if validator(word):
                     yield word
 
@@ -31,13 +32,18 @@ class WordGenerate:
 
     @staticmethod
     def write_words_to_file(path: str, words: WordGenerator, sort=False) -> None:
-        sorted_words = sorted(words) if sort else words
+        if sort:
+            sorted_words = sorted(words)
+        else:
+            sorted_words = words
 
         with open(path, "w") as file:
-            file.writelines(f"{word}\n" for word in sorted_words)
+            for word in sorted_words:
+                file.write(f"{word}\n")
 
     @staticmethod
     def generate_wordlist(source: str, destination: str) -> None:
         words = WordGenerate.fetch_multiple_files(path=source)
+
         WordGenerate.write_words_to_file(path=destination, words=words, sort=True)
         print("Wordlist file successfully generated from sources")

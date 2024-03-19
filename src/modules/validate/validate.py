@@ -10,8 +10,5 @@ class WordValidate:
     def init(self, swap: int) -> None:
         self.trie.insert(self.wordlist, swap)
 
-    def get_trie(self) -> Trie:
-        return self.trie
-
     def base_node(self) -> Trie:
         return self.trie.get_root()
