@@ -5,13 +5,15 @@ from src import CONSOLE
 from src.utils import Timer
 from .resultword import ResultWord
 
+type WordGenerator = Generator[ResultWord, None, None]
+
 
 class ResultList:
     def __init__(self, timer: Timer = Timer()) -> None:
         self.timer: Timer = timer
         self.data: dict[tuple[int, str], ResultWord] = {}
 
-    def update(self, results: Generator[ResultWord, None, None]) -> None:
+    def update(self, results: WordGenerator) -> None:
         for result in results:
             self.data[(result.points, result.word)] = result
 

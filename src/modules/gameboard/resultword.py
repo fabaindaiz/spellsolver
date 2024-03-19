@@ -2,25 +2,24 @@ from collections.abc import Generator
 from typing import Any
 
 from src import DEBUG, GEMS_MULT, WORD_MULT
+from .gamepath import GamePath
 from .gametile import GameTile
 
-StringGenerator = Generator[str, None, None]
+type StringGenerator = Generator[str, None, None]
 
 
 # TODO: Refactor this class to use a dataclass
 class ResultWord:
     def __init__(
         self,
-        points: int,
-        gems: int,
         word: str,
         path: tuple[GameTile, ...],
         swaps: tuple[int, ...],
     ) -> None:
-        self.points: int = points
-        self.gems: int = gems
         self.word: str = word
         self.path: tuple[GameTile, ...] = path
+        self.gems: int = GamePath.calculate_gems(self.path)
+        self.points: int = GamePath.calculate_points(self.path)
         self.swaps: tuple[int, ...] = swaps
 
     def _str(self) -> StringGenerator:

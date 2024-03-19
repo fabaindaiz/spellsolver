@@ -1,6 +1,6 @@
 from .gametile import GameTile
 
-GameTileTuple = tuple[GameTile, ...]
+type GameTileTuple = tuple[GameTile, ...]
 
 
 class GamePath:
