@@ -25,20 +25,20 @@ class ResultList:
 
     @property
     def sorted_words(self) -> list[ResultWord]:
-        data_values = self.data.values()
-        sorted_words = sorted(data_values, reverse=True, key=self.sort_tile)
+        def sort_tile(tile: ResultWord) -> int:
+            return tile.total_value
 
+        data_values = self.data.values()
+        sorted_words = sorted(data_values, reverse=True, key=sort_tile)
+
+        # TODO: Separate this into a different method
         if CONSOLE:
             self.print_timer()
             top_words = sorted_words[:10]
             word_list = self.words_to_text(top_words)
-            print(f"{word_list}")
+            print(word_list)
 
         return sorted_words
-
-    @staticmethod
-    def sort_tile(tile: ResultWord) -> int:
-        return tile.order
 
     @staticmethod
     def words_to_text(sorted_words: list[ResultWord]) -> str:

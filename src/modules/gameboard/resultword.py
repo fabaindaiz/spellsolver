@@ -7,6 +7,7 @@ from .gametile import GameTile
 StringGenerator = Generator[str, None, None]
 
 
+# TODO: Refactor this class to use a dataclass
 class ResultWord:
     def __init__(
         self,
@@ -55,7 +56,7 @@ class ResultWord:
         return str(debug_info)
 
     @property
-    def order(self) -> int:
+    def total_value(self) -> int:
         points_component = self.points * WORD_MULT
         gems_component = self.gems * GEMS_MULT
 
