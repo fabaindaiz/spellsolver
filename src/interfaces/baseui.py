@@ -1,3 +1,5 @@
+from collections.abc import Callable
+
 from src import CONSOLE, SWAP, VERSION
 from src.entities import Coordinates
 from src.modules import SpellSolver
@@ -12,7 +14,7 @@ class GameSolver:
         self.game_board = game_board
         self.timer = timer
 
-    def set_modifier(self, cords_str: str, modifier_setter: callable):
+    def set_modifier(self, cords_str: str, modifier_setter: Callable):
         if cords_str:
             cords = cords_str.split(" ")
             modifiers = (Coordinates.from_string(cord) for cord in cords)
@@ -36,6 +38,7 @@ class GameSolver:
     def solve(self, swap: int) -> ResultList:
         self.timer.reset_timer()
         spellsolver = SpellSolver(self.validate, self.game_board)
+
         return spellsolver.word_list(remaining_swaps=swap, timer=self.timer)
 
 

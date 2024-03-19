@@ -42,7 +42,7 @@ class SpellSolver:
             index for index, letter in enumerate(current_word) if letter == "0"
         )
 
-        for actual_word in self.word_validator.get_trie().get_leaf(node):
+        for actual_word in self.word_validator.trie.get_leaf(node):
             actual_path = GamePath.update_path(
                 current_path, actual_word, blank_positions
             )
@@ -54,7 +54,8 @@ class SpellSolver:
 
     def explore_paths_auxiliary(self, paths: Exploratory) -> WordGenerator:
         tile, node, current_word, current_path, remaining_swaps, letter = paths
-        actual_node, child_key = self.word_validator.get_trie().get_key(node, letter)
+        trie = self.word_validator.get_trie()
+        actual_node, child_key = trie.get_key(node, letter)
 
         if not child_key:
             return

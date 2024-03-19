@@ -1,4 +1,4 @@
-from src.modules.trie import MarisaTrie, Trie, TrieQuery
+from src.modules.trie import MarisaTrie, Trie
 from .wordlist import WordList
 
 
@@ -10,8 +10,8 @@ class WordValidate:
     def init(self, swap: int) -> None:
         self.trie.insert(self.wordlist, swap)
 
-    def get_trie(self) -> TrieQuery:
-        return self.trie.query()
+    def get_trie(self) -> Trie:
+        return self.trie
 
-    def base_node(self) -> TrieQuery:
-        return self.get_trie().get_root()
+    def base_node(self) -> Trie:
+        return self.trie.get_root()
