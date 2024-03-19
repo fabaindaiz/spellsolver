@@ -2,7 +2,7 @@ from collections.abc import Generator
 from typing import Any
 
 from src import SWAP
-from src.modules.gameboard import GameTile, GamePath, GameBoard, ResultList, ResultWord
+from src.modules.gameboard import GameBoard, GamePath, GameTile, ResultList, ResultWord
 from src.modules.validate import WordValidate
 from src.utils import Timer
 

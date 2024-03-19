@@ -45,22 +45,19 @@ class BaseUI:
         self.validate = WordValidate()
 
     def init(self, swap: int = SWAP):
-        if CONSOLE:
+        if not CONSOLE:
+            pass
+        else:
             print(f"Spellsolver {VERSION}")
-            print("WordValidate is being initialized, this will take several seconds")
+
         self.timer.reset_timer()
         self.validate.init(swap=swap)
-
-        elapsed_seconds = self.timer.elapsed_seconds
-        if CONSOLE:
-            print(
-                f"WordValidate successfully initialized (elapsed time: {elapsed_seconds} seconds)"
-            )
 
     def load(self, game_board_string: str) -> GameSolver:
         timer = Timer()
         game_board = GameBoard()
         game_board.init(game_board_string)
+
         return GameSolver(self.validate, game_board, timer)
 
     def mainloop(self) -> bool:

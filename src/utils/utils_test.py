@@ -1,6 +1,6 @@
 import unittest
 
-from .utils import aux_to_indices, is_valid_word, get_letter_point_value
+from .utils import aux_to_indices, get_letter_point_value, is_valid_word
 
 
 class TestFunctions(unittest.TestCase):

@@ -1,4 +1,4 @@
-from src.modules.trie import Trie, TrieQuery, MarisaTrie
+from src.modules.trie import MarisaTrie, Trie, TrieQuery
 from .wordlist import WordList
 
 
