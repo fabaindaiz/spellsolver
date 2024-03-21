@@ -45,14 +45,9 @@ class GameTile:
     def has_gem(self, value: bool) -> None:
         self._has_gem = value
 
-    def copy(self, letter: str) -> "GameTile":
-        node = GameTile(letter, self.coordinates)
-        node.tile_mult = self.tile_mult
-        node.word_mult = self.word_mult
-
-        node._has_gem = self._has_gem
-        node._swapped = True
-        return node
+    @swapped.setter
+    def swapped(self, value: bool) -> None:
+        self._swapped = value
 
     def init_neighbors(self, tiles: dict[Coordinates, "GameTile"]) -> None:
         x, y = self.coordinates

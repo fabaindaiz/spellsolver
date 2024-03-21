@@ -30,14 +30,14 @@ class GamePath:
         if not swapped_indices:
             return original_path
 
-        new_path = []
+        updated_path = []
 
         for index, tile in enumerate(original_path):
             if index in swapped_indices:
-                letter = word[index]
-                new_tile = tile.copy(letter)
-                new_path.append(new_tile)
+                updated_tile = GameTile(word[index], tile.coordinates)
+                updated_tile.swapped = True
+                updated_path.append(updated_tile)
             else:
-                new_path.append(tile)
+                updated_path.append(tile)
 
-        return tuple(new_path)
+        return tuple(updated_path)
