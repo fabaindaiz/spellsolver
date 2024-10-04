@@ -1,9 +1,9 @@
-from tkinter import Tk, PhotoImage
+from tkinter import PhotoImage, Tk
 
 from src import SWAP, VERSION
 from src.entities import Coordinates
 from src.interfaces import BaseUI, GameSolver
-from src.interfaces.graphicalui import Button, Label, Tile, MenuHandler
+from src.interfaces.graphicalui import Button, Label, MenuHandler, Tile
 from src.modules.gameboard import ResultWord
 from src.utils import aux_to_indices, resource_path
 
@@ -93,7 +93,7 @@ class GraphicalUI(BaseUI):
             swap_count=swap_count,
             command=lambda: self.handle_button_click(swap_count),
         )
-    
+
     def _load_game_board(self) -> None:
         values = self.tiles.values()
         return "".join(tile.letter for tile in values)

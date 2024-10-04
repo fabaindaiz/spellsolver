@@ -6,24 +6,24 @@ from .gametile import GameTile
 class GameBoard:
     def __init__(self) -> None:
         self.tiles: dict[Coordinates, GameTile] = {}
-    
+
     def _init_tiles(self, game_board_input: str) -> None:
         for aux, letter in enumerate(game_board_input):
             coordinates = aux_to_indices(aux)
             self.tiles[coordinates] = GameTile(letter, coordinates)
-    
+
     def _init_neighbours(self) -> None:
         for tile in self.tiles.values():
             tile.init_neighbors(self.tiles)
-    
+
     def init(self, game_board_input: str) -> None:
         game_board_input = game_board_input.lower()
         if len(game_board_input) != 25 or not is_valid_word(game_board_input):
             raise ValueError("Invalid game board input")
-    
+
         self._init_tiles(game_board_input)
         self._init_neighbours()
-    
+
     def base_tile(self) -> GameTile:
         base_tile = GameTile("0", Coordinates(-1, -1))
         base_tile.neighbours = list(self.tiles.values())
@@ -32,15 +32,15 @@ class GameBoard:
     def set_blocked(self, tiles: list[Coordinates]) -> None:
         for coordinate in tiles:
             self.tiles[coordinate].blocked = True
-    
+
     def set_gems(self, tiles: list[Coordinates]) -> None:
         for coordinate in tiles:
             self.tiles[coordinate].has_gem = True
-    
+
     def set_tile_mult(self, tiles: dict[Coordinates, int]) -> None:
         for coordinate, value in tiles.items():
             self.tiles[coordinate].tile_mult = value
-    
+
     def set_word_mult(self, tiles: dict[Coordinates, int]) -> None:
         for coordinate, value in tiles.items():
             self.tiles[coordinate].word_mult = value

@@ -2,13 +2,15 @@ from tkinter import ttk
 from typing import Callable
 
 
-class Button:
+class Button(ttk.Button):
     INITIAL_HORIZONTAL_POSITION = 100
     INITIAL_VERTICAL_POSITION = 210
     DOUBLE_SWAP_HORIZONTAL_POSITION = 67
     BUTTON_HEIGHT = 30
 
     def __init__(self, parent, double_swap: bool, swap_count: int, command: Callable):
+        super().__init__(parent.window)
+
         self.parent = parent.window
         self.double_swap = double_swap
         self.swap_count = swap_count

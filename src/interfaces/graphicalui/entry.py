@@ -4,8 +4,10 @@ from src.entities import Coordinates
 from src.utils import aux_to_indices
 
 
-class Entry:
+class Entry(tk.Entry):
     def __init__(self, parent, menu, string_var: tk.StringVar, aux_coord: int) -> None:
+        super().__init__(parent.window)
+
         self.parent = parent
         self.menu = menu
         self.aux_coord = aux_coord
@@ -61,7 +63,9 @@ class Entry:
         self.entry.bind("<Up>", lambda event: self.focus_on_tile(self.keys["<Up>"]))
         self.entry.bind("<Down>", lambda event: self.focus_on_tile(self.keys["<Down>"]))
         self.entry.bind("<Left>", lambda event: self.focus_on_tile(self.keys["<Left>"]))
-        self.entry.bind("<Right>", lambda event: self.focus_on_tile(self.keys["<Right>"]))
+        self.entry.bind(
+            "<Right>", lambda event: self.focus_on_tile(self.keys["<Right>"])
+        )
 
     @staticmethod
     def validate_input(user_input: str) -> bool:
